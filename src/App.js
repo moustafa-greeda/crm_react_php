@@ -5,13 +5,10 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import { Routes, Route } from "react-router";
 import Home from "./components/Home";
+import Tasks from "./pages/Tasks/Tasks";
 function App() {
   return (
     <div className="App">
-      {/* <Routes>
-        <Route path="tasks" element={<DragAndDropColumns />} />
-      </Routes> */}
-
       <Header />
       <Grid container spacing={2}>
         <Grid size={2}>
@@ -22,7 +19,7 @@ function App() {
           <Routes>
             <Route path="dashboard" element={<Dashboard />}>
               <Route index element={<Home />} />
-              {/* <Route path="settings" element={<Settings />} /> */}
+              <Route path="tasks" element={<Tasks />} />
             </Route>
           </Routes>
         </Grid>
