@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Grid from "@mui/material/Grid2";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
+import Users from "./components/Users/Users";
 import { Routes, Route } from "react-router";
 import Home from "./components/Home";
 function App() {
@@ -22,8 +23,12 @@ function App() {
           <Routes>
             <Route path="dashboard" element={<Dashboard />}>
               <Route index element={<Home />} />
-              {/* <Route path="settings" element={<Settings />} /> */}
+              {/* <Route path="/users" element={<Users />} /> */}
+              {/* <Route index element={<Home />} /> */}
+
+              
             </Route>
+            <Route path="/users" element={<Users />} />
           </Routes>
         </Grid>
       </Grid>
