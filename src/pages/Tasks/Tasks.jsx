@@ -300,9 +300,9 @@ function DragAndDropColumns() {
                           <strong>Description:</strong>{" "}
                           {item.description || "N/A"}
                           <br />
-                          <strong>Project Size:</strong>{" "}
+                          {/* <strong>Project Size:</strong>{" "}
                           {item.projectSize || "N/A"}
-                          <br />
+                          <br /> */}
                           <strong>Date:</strong> {item.creationDate}
                           <br />
                           <strong>Status:</strong> {item.status}
