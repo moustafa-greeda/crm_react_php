@@ -5,6 +5,7 @@ export default function Dashboard() {
     <div>
       <h1>Dashboard moustafa 133</h1>
       <h1>Dashboard ehab</h1>
+      <h1>Dashboard adam </h1>
 
       {/* will either be <Home/> or <Settings/> */}
       <Outlet />
