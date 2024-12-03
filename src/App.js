@@ -6,6 +6,9 @@ import Dashboard from "./components/Dashboard";
 import Users from "./components/Users/Users";
 import { Routes, Route } from "react-router";
 import Home from "./components/Home";
+
+
+
 function App() {
   return (
     <div className="App">
@@ -25,10 +28,8 @@ function App() {
               <Route index element={<Home />} />
               {/* <Route path="/users" element={<Users />} /> */}
               {/* <Route index element={<Home />} /> */}
-
-              
             </Route>
-            <Route path="/users" element={<Users />} />
+            {/* <Route path="/users" element={<Users />} /> */}
           </Routes>
         </Grid>
       </Grid>

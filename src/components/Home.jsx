@@ -12,12 +12,10 @@ import {
   TableHead,
   TableRow,
   Avatar,
-  LinearProgress,
   Grid
 } from "@mui/material";
-import { Home } from "@mui/icons-material";
 
-const Dashboard = () => {
+const Home = () => {
   const users = [
     { name: "Name 1", email: "olivia@untitledui.com" },
     { name: "Name 2", email: "phoenix@untitledui.com" },

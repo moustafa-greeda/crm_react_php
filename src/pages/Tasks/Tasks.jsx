@@ -34,7 +34,7 @@ const columnNames = {
   column4: "Completed"
 };
 
-function DragAndDropColumns() {
+function Tasks() {
   const [columns, setColumns] = useState(() => {
     const savedColumns = localStorage.getItem("columns");
     return savedColumns ? JSON.parse(savedColumns) : initialData;
@@ -125,7 +125,7 @@ function DragAndDropColumns() {
         <DialogContent>
           <Box
             sx={{
-              width: "500px",
+              width: "400px",
               padding: "20px",
               gap: "15px",
               display: "flex",
@@ -345,4 +345,4 @@ function DragAndDropColumns() {
   );
 }
 
-export default DragAndDropColumns;
+export default Tasks;
