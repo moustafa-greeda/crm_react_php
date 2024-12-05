@@ -1,22 +1,18 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [inputs, setInputs] = useState({});
 
-  function getUsers() {
-    axios
-      .get("http://localhost/chatapi/fetch_users.php")
-      .then(function (response) {
-        console.log(response.data);
-        setUsers(response.data);
-      });
-  }
+  const getdata = async () => {
+    const reqdata = await fetch("http://localhost/backend/fetch_users.php");
+    const resdata = await reqdata.json();
+    setUsers(resdata);
+  };
 
   useEffect(() => {
-    getUsers();
+    getdata();
   }, []);
 
   const handleChange = (event) => {
@@ -25,11 +21,45 @@ const Users = () => {
 
     setInputs((values) => ({ ...values, [name]: value }));
   };
+  const handleDelete = async (userId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost/backend/delete_user.php?id=${userId}`
+      );
+      console.log("User deleted", response.data);
 
-  const handleSubmit = (event) => {
+      // إزالة المستخدم المحذوف من الحالة (users)
+      setUsers(users.filter((user) => user.id !== userId));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    axios.post("http://localhost/chatapi/add_user.php", inputs);
-    console.log(inputs);
+    try {
+      const response = await axios.post(
+        "http://localhost/backend/add_user.php",
+        inputs,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      console.log(response.data);
+
+      // إضافة المستخدم الجديد إلى القائمة محليًا بدون الحاجة لإعادة تحميل البيانات من الخادم
+      setUsers((prevUsers) => [
+        ...prevUsers,
+        { ...inputs, id: response.data.id } // افترض أن الاستجابة تحتوي على id للمستخدم
+      ]);
+
+      // مسح المدخلات بعد الإضافة
+      setInputs({});
+    } catch (error) {
+      console.error("Error adding user:", error);
+    }
   };
 
   return (
@@ -80,6 +110,7 @@ const Users = () => {
                           className="form-control"
                           id="recipient-name"
                           name="name"
+                          value={inputs.name || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -95,6 +126,7 @@ const Users = () => {
                           className="form-control"
                           id="recipient-name"
                           name="email"
+                          value={inputs.email || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -110,6 +142,7 @@ const Users = () => {
                           className="form-control"
                           id="recipient-name"
                           name="password"
+                          value={inputs.password || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -125,10 +158,14 @@ const Users = () => {
                           className="form-control"
                           id="recipient-name"
                           name="phone"
+                          value={inputs.phone || ""}
                           onChange={handleChange}
                         />
                       </div>
-                      <button className="btn btn-primary">
+                      <button
+                        className="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
                         Add
                       </button>
                     </form>
@@ -148,8 +185,9 @@ const Users = () => {
           </div>
         </div>
       </div>
-      <table className="table table-bordered ">
-        <thead className="">
+
+      <table className="table table-bordered">
+        <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
@@ -160,8 +198,8 @@ const Users = () => {
         </thead>
         <tbody>
           {users.map((user, index) => (
-            <tr>
-              <th scope="row">{index}</th>
+            <tr key={user.id}>
+              <th scope="row">{index + 1}</th>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.phone}</td>
@@ -177,27 +215,29 @@ const Users = () => {
                   </button>
                   <ul className="dropdown-menu">
                     <li>
-                      <a className="dropdown-item" href="#">
+                      <a className="dropdown-item" href="/#">
                         Edit
                       </a>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="#">
+                      <button
+                        onClick={() => handleDelete(user.id)}
+                        className="btn dropdown-item"
+                      >
                         Delete
-                      </a>
+                      </button>
                     </li>
                     <li>
                       <hr className="dropdown-divider" />
                     </li>
                     <li>
-                      <a className="dropdown-item" href="#">
+                      <a className="dropdown-item" href="/#">
                         Add Project
                       </a>
                     </li>
-
                     <li>
-                      <a className="dropdown-item" href="#">
-                        Add Contarct
+                      <a className="dropdown-item" href="/#">
+                        Add Contract
                       </a>
                     </li>
                   </ul>
