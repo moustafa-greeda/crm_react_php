@@ -6,6 +6,7 @@ import Dashboard from "./components/Dashboard";
 import { Routes, Route } from "react-router";
 import Home from "./components/Home";
 import Users from "./components/User/User";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           {/* <DragAndDropColumns /> */}
           <Users />
           <Routes>
-            <Route path="dashboard" element={<Dashboard />}>
+            <Route path="/" element={<Login />}>
               {/* <Route index element={<Home />} /> */}
               {/* <Route path="/users" element={<Users />} /> */}
               {/* <Route index element={<Home />} /> */}
