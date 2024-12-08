@@ -20,7 +20,7 @@ function App() {
           <Sidebar />
         </Grid>
         <Grid size={10}>
-          {/* <DragAndDropColumns /> */}
+          <DragAndDropColumns />
           <Users />
           <Routes>
             <Route path="dashboard" element={<Dashboard />}>

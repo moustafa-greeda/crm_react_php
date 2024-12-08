@@ -109,7 +109,7 @@ function Tasks() {
         sx={{
           margin: "20px 0",
           padding: "10px 30px",
-          fontSize: "20px",
+          fontSize: "18px",
           textTransform: "capitalize"
         }}
       >
@@ -118,7 +118,7 @@ function Tasks() {
 
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>
-          <Typography variant="h5" align="center">
+          <Typography variant="h6" align="center">
             Add New Task
           </Typography>
         </DialogTitle>
@@ -127,6 +127,7 @@ function Tasks() {
             sx={{
               width: "400px",
               padding: "20px",
+              fontSize: "16px",
               gap: "15px",
               display: "flex",
               flexDirection: "column"
@@ -310,7 +311,7 @@ function Tasks() {
                       }
                       sx={{
                         "& .MuiListItemText-primary": {
-                          fontSize: "1.2rem",
+                          // fontSize: "1.2rem",
                           fontWeight: "bold"
                         },
                         "& .MuiListItemText-primary .parent_logo": {
@@ -328,9 +329,9 @@ function Tasks() {
                           borderRadius: "40%"
                         },
                         "& .MuiListItemText-secondary": {
-                          fontSize: "1rem",
+                          // fontSize: "1rem",
                           color: "#555",
-                          lineHeight: "40px"
+                          lineHeight: "30px"
                         }
                       }}
                     />
