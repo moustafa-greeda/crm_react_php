@@ -6,6 +6,7 @@ import axios from 'axios';
 
 
 const Login = () => {
+
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -68,6 +69,8 @@ const loginSubmit = async () => {
         
       });
       const result = response.data;
+
+      // console.log(result[0]);
       
 
       if (result[0].result === "Invalid username!" || result[0].result === "Invalid password!") {
@@ -78,7 +81,7 @@ const loginSubmit = async () => {
         setTimeout(function () {
           localStorage.setItem("login", true);
           localStorage.setItem("user", user);
-          // localStorage.setItem("id", id);
+          localStorage.setItem("id", result[0].id);
           naviget("/dashboard");
         }, 3000);
       }
