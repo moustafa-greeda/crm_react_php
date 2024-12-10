@@ -10,7 +10,7 @@ export default function Dashboard() {
     naviget("/");
   }
   const user = localStorage.getItem("user");
-  // const id = localStorage.getItem("id");
+  const id = localStorage.getItem("id");
   // console.log(id);
 
   return (
@@ -18,9 +18,10 @@ export default function Dashboard() {
       <Header />
       <Sidebar />
       <h1>Welcome to Dashboard {user}</h1>
+      <h2>Your ID is: {id}</h2>
 
       
-
+      <button onClick={logoutSubmit}>Logout</button>
     </div>
   );
 }
