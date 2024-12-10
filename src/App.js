@@ -65,7 +65,7 @@ import {
   createBrowserRouter,
   RouterProvider,
   createHashRouter
-} from "react-router-dom";
+} from "react-router";
 import Root from './components/Root/Root';
 import Login from './components/Auth/Login/Login';
 import Register from './components/Auth/Register/Register';

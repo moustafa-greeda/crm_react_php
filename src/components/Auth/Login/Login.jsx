@@ -5,7 +5,9 @@ import * as Yup from 'yup'
 import style from '../Login/Login.module.css'
 import img from '../../images/image 1.png'
 import { Link, useNavigate } from 'react-router-dom';
+
 export default function Login() {
+  
   let navigate = useNavigate();
   let validateSchema = Yup.object({
   
