@@ -28,7 +28,7 @@ export default function Register() {
     validationSchema: validateSchema,
     onSubmit: function Signin(values) {
       console.log(values);
-      navigate("/dashboard");
+      navigate("/home");
 
     }
 

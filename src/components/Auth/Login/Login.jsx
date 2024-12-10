@@ -40,8 +40,8 @@ export default function Login() {
           <div className="row justify-content-center align-items-center">
             <div className=" col-md-6">
               <div className={`  p-4 ${style.box}`}>
-                <h1 className='text-center fw-bold'>Sign Up</h1>
-                <p className='text-center'> Sign up now to keep track of your work.</p>
+                <h1 className='text-center fw-bold'>Login</h1>
+                <p className='text-center'> Enter Your email and password</p>
                 <form className={`mx-1 mx-md-4  `} onSubmit={formik.handleSubmit}>
 
                  
@@ -62,7 +62,7 @@ export default function Login() {
                    
                  
 
-                  <p className="text-center fw-bold  text-muted mt-2 mb-0">Have  account ? <Link to="/reg"
+                  <p className="text-center fw-bold  text-muted mt-2 mb-0">Don't Have an account ? <Link to="/"
                     className="fw-bold text-dark "><u>SignUp here</u></Link></p>
                 </form>
               </div>
