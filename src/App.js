@@ -73,30 +73,28 @@ import Home from './components/Home/Home'
 import Dashboard from './components/Dashboard/Dashboard';
  import Settings from './components/Settings/Settings';
 function App() {
-//   const router =createHashRouter([{
-//     path:'/',element:<Root/>,children:[
-//       // {path:"home",element:<Home/>},
-//       {path:"/dashboard",element:<Dashboard/>},
-//       {path:"/settings",element:<Settings/>}
-//     ]    
-// },
-// {
-//   path: '/login',
-//   element: <Login />,
-// },
-// {
-//   index:true,
-//   element: <Register />,
-// },
-// ])
+  const router = createHashRouter([
+    {
+      path: "/",
+      element: <Root />,
+      children: [
+        // {path:"home",element:<Home/>},
+        { path: "/dashboard", element: <Dashboard /> },
+        { path: "/settings", element: <Settings /> }
+      ]
+    },
+    {
+      path: "/login",
+      element: <Login />
+    },
+    {
+      index: true,
+      element: <Register />
+    }
+  ]);
   return (
     <>
-    
-    
-    {/* <RouterProvider router={router}> */}
-
-    {/* </RouterProvider> */}
-   
+      <RouterProvider router={router}></RouterProvider>
     </>
   );
 }
