@@ -1,0 +1,16 @@
+.links{
+color: white !important;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  transition:color 0.3s ease;
+    
+}
+.links:hover {
+    background-color: var(--main-color); 
+    border-radius: 10px; 
+    transition: background-color 0.2s ease-in-out;
+  }
+ 
