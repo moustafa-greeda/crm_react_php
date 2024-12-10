@@ -80,7 +80,7 @@ const Users = () => {
           Swal.fire("Success", "User added successfully!", "success");
         }
       }
-
+      getdata();
       setInputs({});
       setIsModalOpen(false);
     } catch (error) {
