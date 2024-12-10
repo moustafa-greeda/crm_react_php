@@ -15,6 +15,7 @@ import PersonIcon from "@mui/icons-material/Person";
 
 export default function Sidebar() {
   return (
+
     <Box sx={{ display: "flex", marginTop: "100px" }}>
       <Drawer
         variant="permanent"
@@ -60,5 +61,6 @@ export default function Sidebar() {
         </Box>
       </Drawer>
     </Box>
+    
   );
 }

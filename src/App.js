@@ -7,32 +7,53 @@ import { Routes, Route } from "react-router";
 import Home from "./components/Home";
 import Users from "./components/User/User";
 import Login from "./components/Login/Login";
+import Protected from "./components/Login/Prodected";
 
 function App() {
   return (
     <div className="App">
+
+
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Protected Component={Dashboard} />} />
+        </Routes>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {/* <Routes>
         <Route path="tasks" element={<DragAndDropColumns />} />
       </Routes> */}
 
-      <Header />
+      {/* <Header />
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
         <Grid size={2}>
           <Sidebar />
         </Grid>
         <Grid size={10}>
-          {/* <DragAndDropColumns /> */}
+          <DragAndDropColumns />
           <Users />
           <Routes>
             <Route path="/" element={<Login />}>
-              {/* <Route index element={<Home />} /> */}
-              {/* <Route path="/users" element={<Users />} /> */}
-              {/* <Route index element={<Home />} /> */}
+              <Route index element={<Home />} />
+              <Route path="/users" element={<Users />} />
+              <Route index element={<Home />} />
             </Route>
-            {/* <Route path="/users" element={<Users />} /> */}
+            <Route path="/users" element={<Users />} />
           </Routes>
         </Grid>
-      </Grid>
+      </Grid> */}
     </div>
   );
 }

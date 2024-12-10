@@ -1,13 +1,26 @@
-import { Outlet } from "react-router";
+import { useNavigate } from "react-router";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
 export default function Dashboard() {
+  const naviget = useNavigate();
+  function logoutSubmit() {
+    localStorage.setItem("login", "");
+    localStorage.setItem("loginStatus", "Logged out successfully!");
+    naviget("/");
+  }
+  const user = localStorage.getItem("user");
+  // const id = localStorage.getItem("id");
+  // console.log(id);
+
   return (
     <div>
-      <h1>Dashboard moustafa 133</h1>
-      <h1>Dashboard ehab 12</h1>
+      <Header />
+      <Sidebar />
+      <h1>Welcome to Dashboard {user}</h1>
 
-      {/* will either be <Home/> or <Settings/> */}
-      <Outlet />
+      
+
     </div>
   );
 }
