@@ -1,0 +1,42 @@
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .messages-list {
+    margin-bottom: 20px;
+  }
+  
+  .message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+  
+  .message.sent {
+    background-color: #cfe9ff;
+    text-align: right;
+  }
+  
+  .message.received {
+    background-color: #e8e8e8;
+  }
+  
+  .message-input input {
+    width: 85%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .message-input button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
+  
