@@ -1,13 +1,13 @@
 // import DragAndDropColumns from "./pages/Tasks/Tasks";
-// import Header from "./components/Header";
+// import Header from "./componentss/Header";
 // import Grid from "@mui/material/Grid2";
-// import Sidebar from "./components/Sidebar";
-// import Dashboard from "./components/Dashboard";
+// import Sidebar from "./componentss/Sidebar";
+// import Dashboard from "./componentss/Dashboard";
 // import { Routes, Route } from "react-router";
-// import Home from "./components/Home";
-// import Users from "./components/User/User";
-// import Login from "./components/Login/Login";
-// import Protected from "./components/Login/Prodected";
+// import Home from "./componentss/Home";
+// import Users from "./componentss/User/User";
+// import Login from "./componentss/Login/Login";
+// import Protected from "./componentss/Login/Prodected";
 
 // function App() {
 //   return (
@@ -16,7 +16,7 @@
 
 //         <Routes>
 //           <Route path="/" element={<Login />} />
-//           <Route path="/dashboard" element={<Protected Component={Dashboard} />} />
+//           <Route path="/dashboard" element={<Protected components={Dashboard} />} />
 //         </Routes>
 
 
@@ -60,42 +60,42 @@
 
 // export default App;
 
-import './App.css';
+
 import {
   createBrowserRouter,
   RouterProvider,
   createHashRouter
 } from "react-router-dom";
-import Root from './Component/Root/Root';
-import Login from './Component/Auth/Login/Login';
-import Register from './Component/Auth/Register/Register';
-import Home from './Component/Home/Home'
-import Dashboard from './Component/Dashboard/Dashboard';
-import Settings from './Component/Settings/Settings';
+import Root from './components/Root/Root';
+import Login from './components/Auth/Login/Login';
+import Register from './components/Auth/Register/Register';
+import Home from './components/Home/Home'
+import Dashboard from './components/Dashboard/Dashboard';
+ import Settings from './components/Settings/Settings';
 function App() {
-  const router =createHashRouter([{
-    path:'/',element:<Root/>,children:[
-      {path:"home",element:<Home/>},
-      {path:"/dashboard",element:<Dashboard/>},
-      {path:"/settings",element:<Settings/>}
-    ]    
-},
-{
-  path: '/login',
-  element: <Login />,
-},
-{
-  index:true,
-  element: <Register />,
-},
-])
+//   const router =createHashRouter([{
+//     path:'/',element:<Root/>,children:[
+//       // {path:"home",element:<Home/>},
+//       {path:"/dashboard",element:<Dashboard/>},
+//       {path:"/settings",element:<Settings/>}
+//     ]    
+// },
+// {
+//   path: '/login',
+//   element: <Login />,
+// },
+// {
+//   index:true,
+//   element: <Register />,
+// },
+// ])
   return (
     <>
     
     
-    <RouterProvider router={router}>
+    {/* <RouterProvider router={router}> */}
 
-    </RouterProvider>
+    {/* </RouterProvider> */}
    
     </>
   );
