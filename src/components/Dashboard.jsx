@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import Users from "../components/User/User";
 
 export default function Dashboard() {
   const naviget = useNavigate();
@@ -17,8 +18,9 @@ export default function Dashboard() {
     <div>
       <Header />
       <Sidebar />
-      <h1>Welcome to Dashboard {user}</h1>
-      <h2>Your ID is: {id}</h2>
+      {/* <h1>Welcome to Dashboard {user}</h1>
+      <h2>Your ID is: {id}</h2> */}
+      <Users />
 
       
       <button onClick={logoutSubmit}>Logout</button>

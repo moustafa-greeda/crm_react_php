@@ -55,11 +55,14 @@ const Users = () => {
         { ...inputs, id: response.data.id } // افترض أن الاستجابة تحتوي على id للمستخدم
       ]);
 
+      getdata();
+
       // مسح المدخلات بعد الإضافة
       setInputs({});
     } catch (error) {
       console.error("Error adding user:", error);
     }
+    
   };
 
   return (
