@@ -12,10 +12,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  MenuItem,
-  Select,
   FormControl,
   InputLabel,
+  Select,
+  MenuItem,
   Box
 } from "@mui/material";
 import Swal from "sweetalert2";
@@ -54,7 +54,8 @@ function Tasks() {
       description: "",
       creationDate: "",
       projectSize: "",
-      status: "Step 1"
+      endDate: "", // Added endDate field
+      status: "Step 1" // Default value for status
     };
   }
 
@@ -98,6 +99,34 @@ function Tasks() {
       column4: "Finished"
     };
     return statuses[columnId] || "Step 1";
+  };
+
+  const handleDrop = (e, columnId) => {
+    e.preventDefault();
+
+    const itemId = e.dataTransfer.getData("itemId");
+    const sourceColumnId = e.dataTransfer.getData("columnId");
+
+    if (sourceColumnId !== columnId) {
+      const newColumns = { ...columns };
+      const movedItemIndex = newColumns[sourceColumnId].findIndex(
+        (item) => item.id === itemId
+      );
+
+      if (movedItemIndex !== -1) {
+        const [movedItem] = newColumns[sourceColumnId].splice(
+          movedItemIndex,
+          1
+        );
+
+        // Update the status when the item is dropped into a new column
+        movedItem.status = getStatusForColumn(columnId); // Update the status based on the new column
+
+        // Add the moved item to the new column
+        newColumns[columnId].push(movedItem);
+        setColumns(newColumns);
+      }
+    }
   };
 
   return (
@@ -176,19 +205,18 @@ function Tasks() {
               onChange={handleInputChange}
               required
             />
-            <FormControl fullWidth>
-              <InputLabel>Status</InputLabel>
-              <Select
-                name="status"
-                value={newItem.status}
-                onChange={handleInputChange}
-              >
-                <MenuItem value="Step 1">Step 1</MenuItem>
-                <MenuItem value="Step 2">Step 2</MenuItem>
-                <MenuItem value="Step 3">Step 3</MenuItem>
-                <MenuItem value="Finished">Finished</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              label="End Date"
+              name="endDate"
+              type="date"
+              variant="outlined"
+              fullWidth
+              InputLabelProps={{
+                shrink: true
+              }}
+              value={newItem.endDate}
+              onChange={handleInputChange}
+            />
           </Box>
         </DialogContent>
         <DialogActions>
@@ -247,28 +275,7 @@ function Tasks() {
                   alignItems: "stretch",
                   gap: "12px"
                 }}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  const itemId = e.dataTransfer.getData("itemId");
-                  const sourceColumnId = e.dataTransfer.getData("columnId");
-
-                  if (sourceColumnId !== columnId) {
-                    const newColumns = { ...columns };
-                    const movedItemIndex = newColumns[sourceColumnId].findIndex(
-                      (item) => item.id === itemId
-                    );
-
-                    if (movedItemIndex !== -1) {
-                      const [movedItem] = newColumns[sourceColumnId].splice(
-                        movedItemIndex,
-                        1
-                      );
-                      movedItem.status = getStatusForColumn(columnId);
-                      newColumns[columnId].push(movedItem);
-                      setColumns(newColumns);
-                    }
-                  }
-                }}
+                onDrop={(e) => handleDrop(e, columnId)} // Call the handleDrop function
               >
                 {columns[columnId].map((item) => (
                   <ListItem
@@ -300,9 +307,6 @@ function Tasks() {
                           <strong>Description:</strong>{" "}
                           {item.description || "N/A"}
                           <br />
-                          {/* <strong>Project Size:</strong>{" "}
-                          {item.projectSize || "N/A"}
-                          <br /> */}
                           <strong>Date:</strong> {item.creationDate}
                           <br />
                           <strong>Status:</strong> {item.status}
