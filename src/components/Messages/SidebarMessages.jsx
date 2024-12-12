@@ -1,64 +1,68 @@
-import React, { useEffect } from 'react'
-import { useChatStore } from '../../store/useChatStore'
+import React, { useEffect } from 'react';
+import { useChatStore } from '../../store/useChatStore';
 import SidebarSkeleton from './skeletons/SidebarSkeleton';
 import { Users } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 
-
 const SidebarMessages = () => {
+    const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
+    const { onlineUsers } = useAuthStore();
 
-    const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore()
-    const { onlineUsers } = useAuthStore()
     useEffect(() => {
-        getUsers()
-    }, [getUsers])
+        getUsers();
+    }, [getUsers]);
 
+    if (isUsersLoading) return <SidebarSkeleton />;
 
-    if (isUsersLoading) return <SidebarSkeleton />
     return (
-        <aside className='h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200'>
-            <div className='border-b border-base-300 w-full p-5'>
-                <div className="flex items-center gap-2">
-                    <Users className='size-6' />
-                    <span className='font-medium hidden lg:block'>Customers</span>
+        <aside className='tw-h-full tw-w-20 lg:tw-w-72 tw-border-r tw-border-base-300 tw-flex tw-flex-col tw-transition-all tw-duration-200'>
+            <div className='tw-border-b tw-border-base-300 tw-w-full tw-p-5'>
+                <div className="tw-flex tw-items-center tw-gap-2">
+                    <Users className='tw-size-6' />
+                    <span className='tw-font-medium tw-hidden lg:tw-block'>Customers</span>
                 </div>
-
             </div>
 
-            <div className="overflow-y-auto w-full py-3">
+            <div className="tw-overflow-y-auto tw-w-full tw-py-3">
                 {users.map((user) => (
-                    <button key={user._id} onClick={() => setSelectedUser(user)} className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 transition-colors ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}`}>
-                        <div className="relative mx-auto lg:mx-0">
+                    <button
+                        key={user._id}
+                        onClick={() => setSelectedUser(user)}
+                        className={`tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-3 hover:tw-bg-base-300 tw-transition-colors 
+                  ${selectedUser && selectedUser._id === user._id ? "tw-bg-base-300 tw-ring-1 tw-ring-base-300" : ""}`}
+                    >
+                        {/* Profile Picture */}
+                        <div className="tw-relative tw-mx-auto lg:tw-mx-0">
                             <img
                                 src={user.profilePic || "/avatar.png"}
                                 alt={user.name}
-                                className="size-12 object-cover rounded-full"
+                                className="tw-size-12 tw-object-cover tw-rounded-full"
                             />
-                            {onlineUsers.includes(user._id) && (
+                            {(onlineUsers || []).includes(user._id) && (
                                 <span
-                                    className="absolute bottom-0 right-0 size-3 bg-green-500 
-                  rounded-full ring-2 ring-zinc-900"
+                                    className="tw-absolute tw-bottom-0 tw-right-0 tw-size-3 tw-bg-green-500 
+                                    tw-rounded-full tw-ring-2 tw-ring-zinc-900"
                                 />
                             )}
                         </div>
 
-                        {/* User info - only visible on larger screens */}
-                        <div className="hidden lg:block text-left min-w-0">
-                            <div className="font-medium truncate">{user.fullName}</div>
-                            <div className="text-sm text-zinc-400">
-                                {onlineUsers.includes(user._id) ? "Online" : "Offline"}
+                        {/* User Info */}
+                        <div className="tw-hidden lg:tw-block tw-text-left tw-min-w-0">
+                            <div className="tw-font-medium tw-truncate">{user.fullName}</div>
+                            <div className="tw-text-sm tw-text-zinc-400">
+                                {(onlineUsers || []).includes(user._id) ? "Online" : "Offline"}
                             </div>
                         </div>
                     </button>
                 ))}
 
+                {/* No Users Fallback */}
                 {users.length === 0 && (
-                    <div className="text-center text-zinc-500 py-4">No online users</div>
+                    <div className="tw-text-center tw-text-zinc-500 tw-py-4">No users available</div>
                 )}
             </div>
-
         </aside>
-    )
-}
+    );
+};
 
-export default SidebarMessages
+export default SidebarMessages;

@@ -1,13 +1,14 @@
-import DragAndDropColumns from "./pages/Tasks/Tasks";
-import Header from "./components/Header";
-import Grid from "@mui/material/Grid2";
-import Sidebar from "./components/Sidebar";
-import Dashboard from "./components/Dashboard";
+// import DragAndDropColumns from "./pages/Tasks/Tasks";
+// import Header from "./components/Header";
+// import Grid from "@mui/material/Grid2";
+// import Sidebar from "./components/Sidebar";
+// import Dashboard from "./components/Dashboard";
 import { Routes, Route } from "react-router";
-import Home from "./components/Home";
-import Users from "./components/User/User";
-import Login from "./components/Login/Login";
-import Protected from "./components/Login/Prodected";
+// import Home from "./components/Home";
+// import Users from "./components/User/User";
+// import Login from "./components/Login/Login";
+// import Protected from "./components/Login/Prodected";
+import Messages from "./components/Messages/Messages";
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
 
 
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Protected Component={Dashboard} />} />
+          {/* <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Protected Component={Dashboard} />} /> */}
+          <Route path="/messages" element={<Messages />}></Route>
         </Routes>
 
 

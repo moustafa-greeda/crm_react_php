@@ -8,10 +8,10 @@ const Messages = () => {
   const { selectedUser } = useChatStore();
 
   return (
-    <div className='h-screen bg-base-200'>
-      <div className="flex items-center justify-center pt-20 px-4">
-        <div className='bg-base-100 rounded-lg shadow-xl w-full max-w-6xl h-[calc(100vh-8rem)]'>
-          <div className='flex h-full rounded-lg overflow-hidden'>
+    <div className='tw-h-screen tw-bg-base-200'>
+      <div className="tw-flex tw-items-center tw-justify-center tw-pt-20 tw-px-4">
+        <div className='tw-bg-base-100 tw-rounded-lg tw-shadow-xl tw-w-full tw-max-w-6xl tw-h-[calc(100vh-8rem)]'>
+          <div className='tw-flex tw-h-full tw-rounded-lg tw-overflow-hidden'>
 
             <SidebarMessages />
             {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
@@ -24,4 +24,4 @@ const Messages = () => {
   )
 }
 
-export default Messages
+export default Messages;

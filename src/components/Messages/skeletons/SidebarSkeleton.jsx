@@ -6,30 +6,30 @@ const SidebarSkeleton = () => {
 
   return (
     <aside
-      className="h-full w-20 lg:w-72 border-r border-base-300 
-    flex flex-col transition-all duration-200"
+      className="tw-h-full tw-w-20 lg:tw-w-72 tw-border-r tw-border-base-300 
+      tw-flex tw-flex-col tw-transition-all tw-duration-200"
     >
       {/* Header */}
-      <div className="border-b border-base-300 w-full p-5">
-        <div className="flex items-center gap-2">
-          <Users className="w-6 h-6" />
-          <span className="font-medium hidden lg:block">Contacts</span>
+      <div className="tw-border-b tw-border-base-300 tw-w-full tw-p-5">
+        <div className="tw-flex tw-items-center tw-gap-2">
+          <Users className="tw-w-6 tw-h-6" />
+          <span className="tw-font-medium tw-hidden lg:tw-block">Contacts</span>
         </div>
       </div>
 
       {/* Skeleton Contacts */}
-      <div className="overflow-y-auto w-full py-3">
+      <div className="tw-overflow-y-auto tw-w-full tw-py-3">
         {skeletonContacts.map((_, idx) => (
-          <div key={idx} className="w-full p-3 flex items-center gap-3">
+          <div key={idx} className="tw-w-full tw-p-3 tw-flex tw-items-center tw-gap-3">
             {/* Avatar skeleton */}
-            <div className="relative mx-auto lg:mx-0">
-              <div className="skeleton size-12 rounded-full" />
+            <div className="tw-relative tw-mx-auto lg:tw-mx-0">
+              <div className="tw-skeleton tw-size-12 tw-rounded-full" />
             </div>
 
             {/* User info skeleton - only visible on larger screens */}
-            <div className="hidden lg:block text-left min-w-0 flex-1">
-              <div className="skeleton h-4 w-32 mb-2" />
-              <div className="skeleton h-3 w-16" />
+            <div className="tw-hidden lg:tw-block tw-text-left tw-min-w-0 tw-flex-1">
+              <div className="tw-skeleton tw-h-4 tw-w-32 tw-mb-2" />
+              <div className="tw-skeleton tw-h-3 tw-w-16" />
             </div>
           </div>
         ))}

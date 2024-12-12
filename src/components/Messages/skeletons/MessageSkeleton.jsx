@@ -1,28 +1,28 @@
 const MessageSkeleton = () => {
-    // Create an array of 6 items for skeleton messages
-    const skeletonMessages = Array(6).fill(null);
-  
-    return (
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {skeletonMessages.map((_, idx) => (
-          <div key={idx} className={`chat ${idx % 2 === 0 ? "chat-start" : "chat-end"}`}>
-            <div className="chat-image avatar">
-              <div className="size-10 rounded-full">
-                <div className="skeleton w-full h-full rounded-full" />
-              </div>
-            </div>
-  
-            <div className="chat-header mb-1">
-              <div className="skeleton h-4 w-16" />
-            </div>
-  
-            <div className="chat-bubble bg-transparent p-0">
-              <div className="skeleton h-16 w-[200px]" />
+  // Create an array of 6 items for skeleton messages
+  const skeletonMessages = Array(6).fill(null);
+
+  return (
+    <div className="tw-flex-1 tw-overflow-y-auto tw-p-4 tw-space-y-4">
+      {skeletonMessages.map((_, idx) => (
+        <div key={idx} className={`tw-chat ${idx % 2 === 0 ? "tw-chat-start" : "tw-chat-end"}`}>
+          <div className="tw-chat-image tw-avatar">
+            <div className="tw-size-10 tw-rounded-full">
+              <div className="tw-skeleton tw-w-full tw-h-full tw-rounded-full" />
             </div>
           </div>
-        ))}
-      </div>
-    );
-  };
-  
-  export default MessageSkeleton;
+
+          <div className="tw-chat-header tw-mb-1">
+            <div className="tw-skeleton tw-h-4 tw-w-16" />
+          </div>
+
+          <div className="tw-chat-bubble tw-bg-transparent tw-p-0">
+            <div className="tw-skeleton tw-h-16 tw-w-[200px]" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default MessageSkeleton;
