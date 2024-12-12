@@ -1,64 +1,3 @@
-// import DragAndDropColumns from "./pages/Tasks/Tasks";
-// import Header from "./componentss/Header";
-// import Grid from "@mui/material/Grid2";
-// import Sidebar from "./componentss/Sidebar";
-// import Dashboard from "./componentss/Dashboard";
-// import { Routes, Route } from "react-router";
-// import Home from "./componentss/Home";
-// import Users from "./componentss/User/User";
-// import Login from "./componentss/Login/Login";
-// import Protected from "./componentss/Login/Prodected";
-
-// function App() {
-//   return (
-//     <div className="App">
-
-
-//         <Routes>
-//           <Route path="/" element={<Login />} />
-//           <Route path="/dashboard" element={<Protected components={Dashboard} />} />
-//         </Routes>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//       {/* <Routes>
-//         <Route path="tasks" element={<DragAndDropColumns />} />
-//       </Routes> */}
-
-//       {/* <Header />
-//       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-//         <Grid size={2}>
-//           <Sidebar />
-//         </Grid>
-//         <Grid size={10}>
-//           <DragAndDropColumns />
-//           <Users />
-//           <Routes>
-//             <Route path="/" element={<Login />}>
-//               <Route index element={<Home />} />
-//               <Route path="/users" element={<Users />} />
-//               <Route index element={<Home />} />
-//             </Route>
-//             <Route path="/users" element={<Users />} />
-//           </Routes>
-//         </Grid>
-//       </Grid> */}
-//     </div>
-//   );
-// }
-
-// export default App;
 
 
 import {
@@ -80,7 +19,7 @@ import UserDashboard from "./components/User/UserDashboard";
 import Messages from "./components/Messages/Messages";
 
 function App() {
-  const router =createHashRouter([{
+  const router =createBrowserRouter([{
     path:'/',element:<Root/>,children:[
       {path:"home",element:<Home/>},
       // {path:"/dashboard",element:<Dashboard/>},
