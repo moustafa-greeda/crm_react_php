@@ -14,7 +14,8 @@ export default function Settings() {
 
                                     <div class="me-md-3 mb-3 mb-md-0">
                                         <img
-                                            src="https://img.favpng.com/6/0/18/clip-art-circle-shape-image-openclipart-png-favpng-8LaDYwUtsjyxu3XtD5VVcYeRm.jpg"
+                                            // src="https://img.favpng.com/6/0/18/clip-art-circle-shape-image-openclipart-png-favpng-8LaDYwUtsjyxu3XtD5VVcYeRm.jpg"
+                                            src="/avatar.png"
                                             alt="picture"
                                             class="img-fluid rounded-circle"
                                             style={{ width: "100px", height: "100px", objectFit: "cover" }}

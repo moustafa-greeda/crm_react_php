@@ -19,7 +19,7 @@ export default function Navbar() {
                 <nav className="navbar navbar-expand-lg navbar-light bg-light shadow ">
                     <div className="container  d-flex justify-content-between align-items-center">
                         <div className="one">
-                        <img src={image1} alt="" className="" />
+                        <img src={image1} alt="" className="tw-w-40" />
                         </div>
                         <button
                             className="navbar-toggler"
@@ -48,7 +48,7 @@ export default function Navbar() {
                 </nav>
                
 
-                <div className="p-4">
+                <div className="p-4 tw-bg-base-200">
                     <Outlet></Outlet>
                 </div>
             </div>

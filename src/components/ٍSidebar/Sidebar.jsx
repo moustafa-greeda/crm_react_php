@@ -16,7 +16,7 @@ export default function Sidebar() {
         }`}
       style={{
         width: isSidebarOpen ? "250px" : "70px",
-        boxShadow:isSidebarOpen?"5px 0 10px rgba(112, 206, 35, 0.527)":"none",
+        boxShadow: isSidebarOpen ? "5px 0 10px rgba(112, 206, 35, 0.527)" : "none",
         transition: "width 0.3s ease-in-out",
         borderRadius: "0 20px 20px 0",
         overflow: "hidden",
@@ -45,7 +45,7 @@ export default function Sidebar() {
             className={`nav-link d-flex align-items-center ${style.links}`}
 
           >
-          <i className="bi bi-grid fs-5 me-3"></i>
+            <i className="bi bi-grid fs-5 me-3"></i>
             {isSidebarOpen && <span>Dashboard</span>}
           </NavLink>
         </li>
@@ -56,12 +56,12 @@ export default function Sidebar() {
 
 
           >
-         
-           <i class="bi bi-calendar3 fs-5 me-3"></i>
+
+            <i class="bi bi-calendar3 fs-5 me-3"></i>
             {isSidebarOpen && <span>Calendar</span>}
           </NavLink>
         </li>
-        
+
         <li className="nav-item mb-3">
           <NavLink
             to="/"
@@ -75,13 +75,13 @@ export default function Sidebar() {
         </li>
         <li className="nav-item mb-3">
           <NavLink
-            to="/"
+            to="/messages"
             className={`nav-link d-flex align-items-center ${style.links}`}
 
 
           >
-        
-           <i class="bi bi-chat-dots fs-5 me-3"></i>
+
+            <i class="bi bi-chat-dots fs-5 me-3"></i>
             {isSidebarOpen && <span>Messages</span>}
           </NavLink>
         </li>
@@ -92,7 +92,7 @@ export default function Sidebar() {
 
 
           >
-             <i className="bi bi-clipboard-check fs-5 me-3"></i>
+            <i className="bi bi-clipboard-check fs-5 me-3"></i>
             {isSidebarOpen && <span>Tasks</span>}
           </NavLink>
         </li>
@@ -103,8 +103,8 @@ export default function Sidebar() {
 
 
           >
-          
-             <i class="bi bi-gear-fill fs-5 me-3"></i>
+
+            <i class="bi bi-gear-fill fs-5 me-3"></i>
             {isSidebarOpen && <span>Settings</span>}
           </NavLink>
         </li>
