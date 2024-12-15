@@ -14,6 +14,7 @@ export default function Register() {
       .min(5, "Name must be at least 5 characters")
       .required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
+    phone: Yup.number().required("Phone number required"),
     password: Yup.string()
       .required("Password is required")
       .min(8, "Password should be at least 8 characters long"),
@@ -28,7 +29,7 @@ export default function Register() {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "", // Add confirmPassword to the initial values
+      phone:'',      confirmPassword: "", // Add confirmPassword to the initial values
       role: "user"
     },
     validationSchema: validateSchema,
@@ -44,8 +45,9 @@ export default function Register() {
         );
 
         const data = await response.json();
+        console.log(data)
         if (data.success) {
-          navigate("/"); // Navigate to the home page after successful registration
+          navigate("/login"); // Navigate to the home page after successful registration
         } else {
           alert(data.message); // Show any error message returned by the server
         }
@@ -97,6 +99,21 @@ export default function Register() {
                   />
                   {formik.errors.email && formik.touched.email && (
                     <p className={`${style.error}`}>{formik.errors.email}</p>
+                  )}
+                </div>
+
+                <div className="mb-3">
+                  <input
+                    type="number"
+                    name="phone"
+                    className="form-control"
+                    placeholder="Your Phone Number"
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.errors.phone && formik.touched.phone && (
+                    <p className={`${style.error}`}>{formik.errors.phone}</p>
                   )}
                 </div>
 

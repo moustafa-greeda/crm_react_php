@@ -35,8 +35,8 @@ export default function Navbar() {
                         <div className="collapse navbar-collapse " id="navbarNav">
                            
                             <div className={` ms-auto ${style.buttons}`}>
-                                <Link class="btn" style={{"backgroundColor":"var(  --main-color)","borderRadius":"25px"}}>
-                                <i class="bi bi-box-arrow-left pe-2 fw-bold"></i> Logout
+                                <Link className="btn" style={{"backgroundColor":"var(  --main-color)","borderRadius":"25px"}}>
+                                <i className="bi bi-box-arrow-left pe-2 fw-bold"></i> Logout
                                 </Link>
 
                               

@@ -52,7 +52,7 @@ export default function Sidebar() {
             to="/"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i class="bi bi-calendar3 fs-5 me-3"></i>
+            <i className="bi bi-calendar3 fs-5 me-3"></i>
             {isSidebarOpen && <span>Calendar</span>}
           </NavLink>
         </li>
@@ -62,7 +62,7 @@ export default function Sidebar() {
             to="/users"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i class="bi bi-people fs-5 me-3"></i>
+            <i className="bi bi-people fs-5 me-3"></i>
             {isSidebarOpen && <span>Customers</span>}
           </NavLink>
         </li>
@@ -71,7 +71,7 @@ export default function Sidebar() {
             to="/messages"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i class="bi bi-chat-dots fs-5 me-3"></i>
+            <i className="bi bi-chat-dots fs-5 me-3"></i>
             {isSidebarOpen && <span>Messages</span>}
           </NavLink>
         </li>
@@ -89,7 +89,7 @@ export default function Sidebar() {
             to="/settings"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i class="bi bi-gear-fill fs-5 me-3"></i>
+            <i className="bi bi-gear-fill fs-5 me-3"></i>
             {isSidebarOpen && <span>Settings</span>}
           </NavLink>
         </li>
