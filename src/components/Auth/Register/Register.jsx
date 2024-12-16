@@ -29,7 +29,8 @@ export default function Register() {
       name: "",
       email: "",
       password: "",
-      phone:'',      confirmPassword: "", // Add confirmPassword to the initial values
+      phone:'',      
+      confirmPassword: "", // Add confirmPassword to the initial values
       role: "user"
     },
     validationSchema: validateSchema,

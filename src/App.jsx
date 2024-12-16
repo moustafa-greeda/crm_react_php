@@ -23,7 +23,8 @@ function App() {
     path:'/',element:<Root/>,children:[
       {path:"home",element:<Home/>},
       {path:"/dashboard",element:<Dashboard/>},
-      {path:"/settings",element:<Settings/>}
+      {path:"/settings",element:<Settings/>},
+      {path:"/user-dashboard",element:<UserDashboard/>},
     ]    
 },
 {
