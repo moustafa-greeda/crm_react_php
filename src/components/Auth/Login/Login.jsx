@@ -144,6 +144,7 @@ import * as Yup from 'yup';
 import style from '../Login/Login.module.css';
 import img from '../../images/image 1.png';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -184,9 +185,18 @@ export default function Login() {
 
         // Check if login is successful
         if (data.success) {
-          console.log("Login successful:", data.message);
-          // Store user ID in localStorage for later use
-          localStorage.setItem('userId', data.id); // Assuming `userId` is returned from the server
+          // console.log("Login successful:", data.message);
+          // // Store user ID in localStorage for later use
+          // localStorage.setItem('userId', data.id); // Assuming `userId` is returned from the server
+          const userId =data.userId;
+          const role=data.role;
+          console.log(userId);
+          localStorage.setItem('userId',userId);  
+          localStorage.setItem('role',role);  
+           toast.success("You are logged In successfully!", {
+                      position: "top-right",
+                      autoClose: 2000,
+                    });    
           if (data.role === "admin") {
             navigate("/dashboard");
             console.log(data.role);

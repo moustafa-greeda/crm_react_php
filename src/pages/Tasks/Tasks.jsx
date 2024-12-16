@@ -1,352 +1,214 @@
-import React, { useState, useEffect } from "react";
-import {
-  Paper,
-  Typography,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Button,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box
-} from "@mui/material";
-import Swal from "sweetalert2";
 
-const initialData = {
-  column1: [],
-  column2: [],
-  column3: [],
-  column4: []
-};
+import React, { useState, useEffect } from "react";
+import { Paper, Typography, Grid, List, ListItem, ListItemText, Buttonو, Box } from "@mui/material";
+import axios from "axios";
 
 const columnNames = {
   column1: "To Do",
   column2: "In Progress",
   column3: "Review",
-  column4: "Completed"
+  column4: "Completed",
 };
 
 function Tasks() {
-  const [columns, setColumns] = useState(() => {
-    const savedColumns = localStorage.getItem("columns");
-    return savedColumns ? JSON.parse(savedColumns) : initialData;
-  });
-
-  const [openDialog, setOpenDialog] = useState(false);
-  const [selectedColumn, setSelectedColumn] = useState("column1");
-  const [newItem, setNewItem] = useState(getEmptyNewItem());
+  const Role = localStorage.getItem("role");
+  const userId = localStorage.getItem("userId");
+  const [tasks, setAllTasks] = useState([]);
+  const [roleType, setRoleType] = useState(Role);
 
   useEffect(() => {
-    localStorage.setItem("columns", JSON.stringify(columns));
-  }, [columns]);
-
-  function getEmptyNewItem() {
-    return {
-      projectName: "",
-      description: "",
-      creationDate: "",
-      projectSize: "",
-      endDate: "", // Added endDate field
-      status: "Step 1" // Default value for status
-    };
-  }
-
-  const addNewItem = () => {
-    if (!newItem.projectName.trim() || !newItem.creationDate.trim()) {
-      Swal.fire({
-        title: "Error",
-        text: "Project name and creation date are required!",
-        icon: "error",
-        confirmButtonText: "OK"
-      });
-      return;
-    }
-
-    const newEntry = { id: `${Date.now()}`, ...newItem };
-    const newColumns = { ...columns };
-    newColumns[selectedColumn].push(newEntry);
-
-    setColumns(newColumns);
-    setNewItem(getEmptyNewItem());
-    setOpenDialog(false);
-
-    Swal.fire({
-      title: "Item Added Successfully!",
-      text: `Added: ${newItem.projectName}`,
-      icon: "success",
-      confirmButtonText: "OK"
-    });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewItem((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const getStatusForColumn = (columnId) => {
-    const statuses = {
-      column1: "Step 1",
-      column2: "Step 2",
-      column3: "Step 3",
-      column4: "Finished"
-    };
-    return statuses[columnId] || "Step 1";
-  };
-
-  const handleDrop = (e, columnId) => {
-    e.preventDefault();
-
-    const itemId = e.dataTransfer.getData("itemId");
-    const sourceColumnId = e.dataTransfer.getData("columnId");
-
-    if (sourceColumnId !== columnId) {
-      const newColumns = { ...columns };
-      const movedItemIndex = newColumns[sourceColumnId].findIndex(
-        (item) => item.id === itemId
-      );
-
-      if (movedItemIndex !== -1) {
-        const [movedItem] = newColumns[sourceColumnId].splice(
-          movedItemIndex,
-          1
-        );
-
-        // Update the status when the item is dropped into a new column
-        movedItem.status = getStatusForColumn(columnId); // Update the status based on the new column
-
-        // Add the moved item to the new column
-        newColumns[columnId].push(movedItem);
-        setColumns(newColumns);
+    async function getAllTasks() {
+      try {
+        let { data } = await axios.get(`http://localhost/backend/get_allTasks.php`);
+        setAllTasks(data);
+      } catch (error) {
+        console.error(error);
       }
     }
+    getAllTasks();
+  }, []);
+
+  const getFilteredTasks = (status) => {
+    if (roleType === "admin") {
+      return tasks.filter((task) => task.status === status);
+    } else {
+      return tasks.filter(
+        (task) => task.status === status && task.user_id === userId
+      );
+    }
   };
+
+
+  const handleDrop = async (e, newStatus) => {
+    const taskId = e.dataTransfer.getData("itemId");
+
+
+    setAllTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, status: newStatus } : task
+      )
+    );
+
+    try {
+      await axios.post(`http://localhost/backend/update_task_status.php`, {
+        id: taskId,
+        status: newStatus,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  function BackgroundSize(size) {
+    switch (size) {
+      case 'Small':
+        return '#ffb400';
+      case 'Medium':
+        return '#f35588';
+      case 'Large':
+        return '#1E90FF';
+      default:
+        return '#cccccc';
+    }
+  }
 
   return (
     <div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setOpenDialog(true)}
+
+
+      <Box
         sx={{
-          margin: "20px 0",
-          padding: "10px 30px",
-          fontSize: "20px",
-          textTransform: "capitalize"
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "20px",
+          padding: "20px",
+          justifyContent: "space-between",
         }}
       >
-        Add New Task
-      </Button>
-
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>
-          <Typography variant="h5" align="center">
-            Add New Task
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
+        {Object.keys(columnNames).map((columnId) => (
           <Box
+            key={columnId}
             sx={{
-              width: "400px",
-              padding: "20px",
-              gap: "15px",
-              display: "flex",
-              flexDirection: "column"
+              flex: "1 1 22%",
+              minWidth: "250px",
+              backgroundColor: "#f9f9f9",
+              borderRadius: "8px",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              overflow: "hidden",
             }}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => roleType === "admin" && handleDrop(e, columnNames[columnId])}
           >
-            <TextField
-              label="Project Name"
-              name="projectName"
-              variant="outlined"
-              fullWidth
-              value={newItem.projectName}
-              onChange={handleInputChange}
-              required
-            />
-            <TextField
-              label="Description"
-              name="description"
-              variant="outlined"
-              fullWidth
-              value={newItem.description}
-              onChange={handleInputChange}
-              multiline
-              rows={3}
-            />
-            <FormControl fullWidth>
-              <InputLabel>Project Size</InputLabel>
-              <Select
-                name="projectSize"
-                value={newItem.projectSize}
-                onChange={handleInputChange}
-              >
-                <MenuItem value="Small">Small</MenuItem>
-                <MenuItem value="Medium">Medium</MenuItem>
-                <MenuItem value="Large">Large</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label="Creation Date"
-              name="creationDate"
-              type="date"
-              variant="outlined"
-              fullWidth
-              InputLabelProps={{
-                shrink: true
-              }}
-              value={newItem.creationDate}
-              onChange={handleInputChange}
-              required
-            />
-            <TextField
-              label="End Date"
-              name="endDate"
-              type="date"
-              variant="outlined"
-              fullWidth
-              InputLabelProps={{
-                shrink: true
-              }}
-              value={newItem.endDate}
-              onChange={handleInputChange}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => setOpenDialog(false)}
-            color="secondary"
-            variant="outlined"
-            sx={{ padding: "8px 20px", borderRadius: "20px" }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={addNewItem}
-            color="primary"
-            variant="contained"
-            sx={{ padding: "8px 20px", borderRadius: "20px" }}
-          >
-            Add Item
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Grid container spacing={3} justifyContent="center" alignItems="stretch">
-        {Object.keys(columns).map((columnId) => (
-          <Grid item xs={12} sm={6} md={3} key={columnId}>
-            <Paper
+            <Typography
+              variant="h6"
+              align="center"
+              gutterBottom
               sx={{
-                padding: 2,
-                backgroundColor: "#fafafa",
-                boxShadow: 3,
-                borderRadius: "8px",
+                padding: "12px",
+                backgroundColor: "var(--main-color)",
+                color: "#fff",
+                fontWeight: "bold",
+
+              }}
+            >
+              {columnNames[columnId]}
+            </Typography>
+            <List
+              sx={{
+                padding: "12px",
+                flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "flex-start",
-                height: "100%"
+                alignItems: "stretch",
+                gap: "12px",
               }}
-              onDragOver={(e) => e.preventDefault()}
             >
-              <Typography
-                variant="h6"
-                align="center"
-                gutterBottom
-                sx={{
-                  marginBottom: "15px",
-                  fontWeight: "bold",
-                  color: "#4A90E2"
-                }}
-              >
-                {columnNames[columnId]}
-              </Typography>
-              <List
-                sx={{
-                  flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "stretch",
-                  gap: "12px"
-                }}
-                onDrop={(e) => handleDrop(e, columnId)} // Call the handleDrop function
-              >
-                {columns[columnId].map((item) => (
-                  <ListItem
-                    key={item.id}
-                    draggable
-                    onDragStart={(e) => {
-                      e.dataTransfer.setData("itemId", item.id);
-                      e.dataTransfer.setData("columnId", columnId);
-                    }}
-                    sx={{
-                      backgroundColor: "#eee",
-                      borderRadius: "4px",
-                      padding: "12px 20px",
-                      cursor: "move",
-                      "&:hover": {
-                        backgroundColor: "#f0f0f0"
-                      }
-                    }}
-                  >
-                    <ListItemText
-                      primary={
-                        <div className="parent_logo">
-                          <h3>{item.projectName}</h3>
-                          <span>{item.projectSize || "N/A"}</span>
-                        </div>
-                      }
-                      secondary={
-                        <div>
-                          <strong>Description:</strong>{" "}
-                          {item.description || "N/A"}
-                          <br />
-                          <strong>Date:</strong> {item.creationDate}
-                          <br />
-                          <strong>Status:</strong> {item.status}
-                        </div>
-                      }
-                      sx={{
-                        "& .MuiListItemText-primary": {
-                          fontSize: "1.2rem",
-                          fontWeight: "bold"
-                        },
-                        "& .MuiListItemText-primary .parent_logo": {
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center"
-                        },
-                        "& .MuiListItemText-primary .parent_logo h3": {
-                          color: "#1565c0"
-                        },
-                        "& .MuiListItemText-primary .parent_logo span": {
-                          backgroundColor: "#3D5B59",
-                          padding: "5px 10px",
-                          color: "#fff",
-                          borderRadius: "40%"
-                        },
-                        "& .MuiListItemText-secondary": {
-                          fontSize: "1rem",
-                          color: "#555",
-                          lineHeight: "40px"
-                        }
-                      }}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </Paper>
-          </Grid>
+
+              {getFilteredTasks(columnNames[columnId]).map((item) => (
+
+
+                <ListItem
+                  key={item.id}
+                  draggable={roleType === "admin"}
+                  onDragStart={(e) => {
+                    e.dataTransfer.setData("itemId", item.id);
+                  }}
+                  sx={{
+                    backgroundColor: "#eee",
+                    borderRadius: "4px",
+                    padding: "12px 20px",
+                    boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+                    transition: "transform 0.2s",
+                    cursor: roleType === "admin" ? "move" : "default",
+                    "&:hover": {
+                      backgroundColor: "#f0f0f0",
+                      transform: "scale(1.03)"
+                    },
+                  }}
+
+
+                >
+                
+
+                  <ListItemText
+                    primary={
+                      <div
+                        className="parent_logo"
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          flexWrap: 'wrap',
+                        }}
+                      >
+                        <h3
+                          style={{
+                            fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.5rem' },
+                            color: 'var(  --main-color)',
+                            marginRight: '10px',
+                            wordWrap: 'break-word',
+                            flex: 1,
+                          }}
+                        >
+                          {item.projectname}
+                        </h3>
+                        <span
+                          style={{
+                            backgroundColor: BackgroundSize(item.projectsize),
+                            padding: '5px 10px',
+                            color: '#fff',
+                            borderRadius: '40%',
+                            fontSize: { xs: '0.8rem', sm: '1rem', md: '1.2rem' },
+                            flexShrink: 0,
+                          }}
+                        >
+                          {item.projectsize || 'N/A'}
+                        </span>
+                      </div>
+                    }
+                    secondary={
+                      <div>
+                        <strong>Description:</strong> {item.description || "N/A"}
+                        <br />
+                        <strong>Date:</strong> {item.creationdate}
+                        <br />
+                        <strong>Status:</strong> {item.status}
+                      </div>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+
+          </Box>
         ))}
-      </Grid>
+      </Box>
     </div>
   );
 }
 
 export default Tasks;
+
+
+
+

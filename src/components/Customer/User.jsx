@@ -2,11 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+import NewTask from "./NewTask";
+
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [inputs, setInputs] = useState({});
   const [editUser, setEditUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+
+
+
+
+
 
   // Fetch users from backend
   const getdata = async () => {
@@ -14,6 +22,8 @@ const Users = () => {
       const reqdata = await fetch("http://localhost/backend/fetch_users.php");
       const resdata = await reqdata.json();
       setUsers(resdata);
+
+
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -303,11 +313,20 @@ const Users = () => {
                   </button>
                   <button
                     className="btn btn-warning ms-2"
+                    onClick={() => setOpenDialog({ open: true, userId: user.id })}
                     title="Add Task" // نص التوضيح عند التمرير على الأيقونة
                   >
                     <i className="fas fa-plus fa-1x"></i>{" "}
                     {/* أيقونة إضافة مع حجم أكبر */}
                   </button>
+
+                 
+                  <NewTask
+                    open={openDialog.open}
+                    onClose={() => setOpenDialog({ open: false, userId: null })}
+                    userId={openDialog.userId}
+                  />
+
                 </div>
               </td>
             </tr>

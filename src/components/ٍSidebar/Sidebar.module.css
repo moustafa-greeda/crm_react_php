@@ -9,7 +9,7 @@ color: white !important;
     
 }
 .links:hover {
-    background-color: var(--main-color); 
+    background-color:var(--main-color); 
     border-radius: 10px; 
     transition: background-color 0.2s ease-in-out;
   }
