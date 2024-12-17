@@ -41,22 +41,14 @@ export default function Login() {
         }
 
         const data = await response.json();
-
-        // if (data.success) {
-        //   console.log("Login successful:", data.message);
-        //   navigate("/dashboard");
-        // } else {
-        //   console.log("Login failed:", data.message);
-        // }
         if (data.success) {
           localStorage.setItem("userId", data.id);
           localStorage.setItem("isAdmin", data.role);
+          localStorage.setItem("activeUser", JSON.stringify(data.id));
 
           const userId = localStorage.getItem("userId");
-          console.log(userId);
 
-          console.log("Login successful:", data);
-
+          // Update the activeUser state
           // Check if data contains the userId
           if (data.role === "admin") {
             navigate("/dashboard");

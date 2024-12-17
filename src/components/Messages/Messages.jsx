@@ -133,6 +133,11 @@ const Messages = () => {
   // Load users and messages when the component is mounted or updated
   useEffect(() => {
     getUsers();
+    fetchMessages(userId);
+    // console.log(activeUser);
+
+    // fetchMessages(activeUser.id);
+
     if (!userId) {
       console.error("User not logged in");
       return;
