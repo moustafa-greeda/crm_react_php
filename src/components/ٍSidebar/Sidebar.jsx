@@ -42,7 +42,7 @@ export default function Sidebar() {
       <ul className="nav flex-column w-100">
         <li className="nav-item mb-3">
           <NavLink
-            to="/dashboard"
+            to="/Dashboard"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
             <i className="bi bi-grid fs-5 me-3"></i>
@@ -51,7 +51,7 @@ export default function Sidebar() {
         </li>
         <li className="nav-item mb-3">
           <NavLink
-            to="/"
+            to="/Calender"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
             <i class="bi bi-calendar3 fs-5 me-3"></i>
