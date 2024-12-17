@@ -184,19 +184,46 @@ export default function Login() {
 
         // Check if login is successful
         if (data.success) {
+<<<<<<< HEAD
           console.log("Login successful:", data.message);
           // Store user ID in localStorage for later use
           localStorage.setItem('userId', data.id); // Assuming `userId` is returned from the server
+=======
+          localStorage.setItem("userId", data.id);
+          localStorage.setItem("isAdmin", data.role);
+
+          const userId = localStorage.getItem("userId");
+          console.log(userId);
+
+          console.log("Login successful:", data);
+
+          // Check if data contains the userId
+>>>>>>> 67c4ae061b02692d79c2398a832f6ccb560213c4
           if (data.role === "admin") {
             navigate("/dashboard");
-            console.log(data.role);
+            localStorage.setItem("userId", data.id); // Store userId in localStorage
+            console.log("Admin User ID stored in localStorage:", data.id);
           } else {
             navigate("/user-dashboard");
+<<<<<<< HEAD
             console.log(data.role);
           }
+=======
+            localStorage.setItem("userId", data.id); // Store userId in localStorage
+            console.log("User User ID stored in localStorage:", data.id);
+          }
+
+          // Optionally, check if it's stored
+          console.log(
+            "User ID from localStorage:",
+            localStorage.getItem("userId")
+          );
+>>>>>>> 67c4ae061b02692d79c2398a832f6ccb560213c4
         } else {
           console.log("Login failed:", data.message);
         }
+
+        
       } catch (error) {
         console.error("Error during login:", error);
       }
