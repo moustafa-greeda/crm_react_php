@@ -11,6 +11,7 @@ export default function Navbar() {
     function userLogout() {
         localStorage.removeItem("role");
         localStorage.removeItem("userId");
+        localStorage.removeItem("token");
         toast.success("You are logged out successfully!", {
             position: "top-center",
             autoClose: 2000,

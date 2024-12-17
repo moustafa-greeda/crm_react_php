@@ -88,7 +88,7 @@ export default function Sidebar() {
             to="/messages"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-chat-dots fs-5 me-3"></i>
+            <i class="bi bi-chat-dots fs-5 me-3"></i>
             <span>Messages</span>
           </NavLink>
         </li>
