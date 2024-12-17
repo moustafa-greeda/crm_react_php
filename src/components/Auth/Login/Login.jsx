@@ -44,19 +44,25 @@ export default function Login() {
          
         }
 
+
        
 
-        // Check if login is successful
+      
+
+        
+
         if (data.success) {
           // console.log("Login successful:", data.message);
           // // Store user ID in localStorage for later use
           // localStorage.setItem('userId', data.id); // Assuming `userId` is returned from the server
-          const userId =data.userId;
+          const userId =data.id;
           const role=data.role;
           const token=data.token
           console.log(userId);
           localStorage.setItem('userId',userId);  
-          localStorage.setItem('role',role);  
+          localStorage.setItem('role',role); 
+          // localStorage.setItem("isAdmin", data.role); 
+          localStorage.setItem("activeUser", JSON.stringify(data.id));
           localStorage.setItem('token',token); 
            toast.success("You are logged In successfully!", {
                       position: "top-right",
@@ -64,7 +70,8 @@ export default function Login() {
                     });    
           if (data.role === "admin") {
             navigate("/dashboard");
-            console.log(data.role);
+            localStorage.setItem("userId", data.id); // Store userId in localStorage
+            console.log("Admin User ID stored in localStorage:", data.id);
           } else {
             navigate("/user-dashboard");
             console.log(data.role);
@@ -74,10 +81,15 @@ export default function Login() {
             position: "top-right",
             autoClose: 2000,
           });
+             console.log(
+            "User ID from localStorage:",
+            localStorage.getItem("userId")
+          );
         }
       } catch (error) {
         console.error("Error during login:", error);
       }
+     
    
     
     }
