@@ -142,7 +142,7 @@ export default function Login() {
 
                   <p className="text-center fw-bold text-muted mt-2 mb-0">
                     Don't Have an account ?{" "}
-                    <Link to="/" className="fw-bold text-dark ">
+                    <Link to="/register" className="fw-bold text-dark ">
                       <u>Sign Up here</u>
                     </Link>
                   </p>
