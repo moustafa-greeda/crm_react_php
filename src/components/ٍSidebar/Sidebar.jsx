@@ -70,6 +70,15 @@ export default function Sidebar() {
         </li>
         <li className="nav-item mb-3">
           <NavLink
+            to="/contract"
+            className={`nav-link d-flex align-items-center ${style.links}`}
+          >
+            <i class="bi bi-people fs-5 me-3"></i>
+            {isSidebarOpen && <span>contract</span>}
+          </NavLink>
+        </li>
+        <li className="nav-item mb-3">
+          <NavLink
             to="/messages"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >

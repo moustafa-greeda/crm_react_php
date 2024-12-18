@@ -1,38 +1,37 @@
-
-import React, { useState } from 'react';
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import style from '../Login/Login.module.css'
-import img from '../../images/image 1.png'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import style from "../Login/Login.module.css";
+import imge from "../../images/image 1.png";
+import { Link, useNavigate } from "react-router-dom";
 export default function Login() {
   let navigate = useNavigate();
   let validateSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string()
       .required("password is required")
-      .min(3, "Password is too short - should be 8 chars or numbers minimum.")
+      .min(3, "Password is too short - should be 8 chars or numbers minimum."),
   });
   let formik = useFormik({
     initialValues: {
       name: "",
       email: "",
-      password: ""
+      password: "",
     },
     validationSchema: validateSchema,
 
     onSubmit: async function Signin(values) {
       try {
-        console.log(values); // Debugging the values being sent
+        // Debugging the values being sent
         const response = await fetch(
           "http://localhost/backend/login/login.php",
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(values),
-            mode: "cors" // Explicitly enable CORS
+            mode: "cors", // Explicitly enable CORS
           }
         );
 
@@ -42,53 +41,35 @@ export default function Login() {
 
         const data = await response.json();
 
-        // if (data.success) {
-        //   console.log("Login successful:", data.message);
-        //   navigate("/dashboard");
-        // } else {
-        //   console.log("Login failed:", data.message);
-        // }
         if (data.success) {
+          localStorage.setItem("token", data.token);
           localStorage.setItem("userId", data.id);
           localStorage.setItem("isAdmin", data.role);
-
-          const userId = localStorage.getItem("userId");
-          console.log(userId);
-
-          console.log("Login successful:", data);
 
           // Check if data contains the userId
           if (data.role === "admin") {
             navigate("/dashboard");
             localStorage.setItem("userId", data.id); // Store userId in localStorage
-            console.log("Admin User ID stored in localStorage:", data.id);
           } else {
             navigate("/user-dashboard");
             localStorage.setItem("userId", data.id); // Store userId in localStorage
-            console.log("User User ID stored in localStorage:", data.id);
           }
 
           // Optionally, check if it's stored
-          console.log(
-            "User ID from localStorage:",
-            localStorage.getItem("userId")
-          );
         } else {
           console.log("Login failed:", data.message);
         }
-
-        
       } catch (error) {
         console.error("Error during login:", error);
       }
-    }
+    },
   });
   return (
     <>
       <section
         className={`${style.background} d-flex align-items-center justify-content-center`}
       >
-        <img src={img} alt="" className={`${style.logo} d-flex `} />
+        <img src={imge} alt="" className={`${style.logo} d-flex `} />
         <div className="container">
           <div className="row justify-content-center align-items-center">
             <div className=" col-md-6">
@@ -160,14 +141,3 @@ export default function Login() {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-

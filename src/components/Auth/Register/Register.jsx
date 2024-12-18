@@ -146,7 +146,7 @@ export default function Register() {
 
                 <p className="text-center fw-bold text-muted mt-2 mb-0">
                   Already have an account?{" "}
-                  <Link to="/login" className="fw-bold text-dark">
+                  <Link to="/" className="fw-bold text-dark">
                     <u>Login here</u>
                   </Link>
                 </p>

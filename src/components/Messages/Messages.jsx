@@ -12,7 +12,7 @@ const Messages = () => {
   const chatWindowRef = useRef(null); // Ref for the chat window
 
   const userId = localStorage.getItem("userId"); // Logged-in user ID
-  const adminId = "78"; // Admin ID
+  const adminId = "1"; // Admin ID
   const isAdmin = localStorage.getItem("isAdmin") === "admin"; // Check if admin
 
   // Fetch users (only for admin)
@@ -38,6 +38,7 @@ const Messages = () => {
           `http://localhost/backend/Chat/get_messages.php?user_id=${activeUserId}`
         );
         const data = await response.json();
+
         setMessages(data); // Ensure messages are loaded in the original order (from top to bottom)
         scrollToBottom(); // Scroll to the bottom when fetching messages
       } catch (error) {
@@ -83,7 +84,7 @@ const Messages = () => {
       receiver_id: receiverId,
       message: newMessage,
       created_at: new Date().toISOString(),
-      message_id: Date.now()
+      message_id: Date.now(),
     };
 
     // Optimistically update the UI
@@ -100,8 +101,8 @@ const Messages = () => {
           body: JSON.stringify({
             sender_id: userId,
             receiver_id: receiverId,
-            message: newMessage
-          })
+            message: newMessage,
+          }),
         }
       );
 
@@ -133,10 +134,13 @@ const Messages = () => {
   // Load users and messages when the component is mounted or updated
   useEffect(() => {
     getUsers();
+    fetchMessages(userId);
+    // console.log(activeUser);
     if (!userId) {
       console.error("User not logged in");
       return;
     }
+
 
     if (activeUser) {
       fetchMessages(activeUser.id);
