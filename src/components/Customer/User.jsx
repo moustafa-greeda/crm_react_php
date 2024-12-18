@@ -2,11 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+import NewTask from "./NewTask";
+
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [inputs, setInputs] = useState({});
   const [editUser, setEditUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+
+
+
+
+
 
   const [contracts, setContracts] = useState([]);
   const [newContract, setNewContract] = useState({
@@ -44,6 +52,8 @@ const Users = () => {
       const reqdata = await fetch("http://localhost/backend/fetch_users.php");
       const resdata = await reqdata.json();
       setUsers(resdata);
+
+
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -444,6 +454,7 @@ const Users = () => {
                     <i className="fa fa-trash"></i> {/* أيقونة الحذف */}
                   </button>
                   <button
+<<<<<<< HEAD
                     type="button"
                     className="btn btn-secondary"
                     title="Add Contract"
@@ -451,9 +462,22 @@ const Users = () => {
                       setIsContractModalOpen(true);
                       setNewContract({ ...newContract, user_id: user.id }); // تعيين user_id للعقد الجديد
                     }}
+=======
+                    className="btn btn-warning ms-2"
+                    onClick={() => setOpenDialog({ open: true, userId: user.id })}
+                    title="Add Task" // نص التوضيح عند التمرير على الأيقونة
+>>>>>>> 4349cf8b4c4f9cbfd5b24f5d5bfbfdfead8c0697
                   >
                     <i className="fa fa-edit"></i>
                   </button>
+
+                 
+                  <NewTask
+                    open={openDialog.open}
+                    onClose={() => setOpenDialog({ open: false, userId: null })}
+                    userId={openDialog.userId}
+                  />
+
                 </div>
               </td>
             </tr>

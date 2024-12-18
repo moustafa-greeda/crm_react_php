@@ -1,8 +1,17 @@
 import React from "react";
 import "./Dashboard.css";
+<<<<<<< HEAD
 
 const Dashboard = () => {
   return (
+=======
+import Chart from "./chart";
+
+const Dashboard = () => {
+
+  return (
+  <>
+>>>>>>> 4349cf8b4c4f9cbfd5b24f5d5bfbfdfead8c0697
     <div className="dashboard">
       <h1 className="title">Dashboard</h1>
       <div className="stats-container">
@@ -24,7 +33,15 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+<<<<<<< HEAD
   );
+=======
+    <Chart/>
+  </>
+    
+  );
+
+>>>>>>> 4349cf8b4c4f9cbfd5b24f5d5bfbfdfead8c0697
 };
 
 export default Dashboard;
