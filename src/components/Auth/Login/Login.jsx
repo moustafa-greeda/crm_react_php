@@ -1,10 +1,9 @@
-
-import React, { useState } from 'react';
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import style from '../Login/Login.module.css'
-import img from '../../images/image 1.png'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import style from "../Login/Login.module.css";
+import imge from "../../images/image 1.png";
+import { Link, useNavigate } from "react-router-dom";
 export default function Login() {
   let navigate = useNavigate();
   let validateSchema = Yup.object({
@@ -23,7 +22,7 @@ export default function Login() {
 
     onSubmit: async function Signin(values) {
       try {
-        console.log(values); // Debugging the values being sent
+        // Debugging the values being sent
         const response = await fetch(
           "http://localhost/backend/login/login.php",
           {
@@ -41,6 +40,7 @@ export default function Login() {
         }
 
         const data = await response.json();
+
         if (data.success) {
           localStorage.setItem("userId", data.id);
           localStorage.setItem("isAdmin", data.role);
@@ -49,27 +49,33 @@ export default function Login() {
           const userId = localStorage.getItem("userId");
 
           // Update the activeUser state
-          // Check if data contains the userId
-          if (data.role === "admin") {
-            navigate("/dashboard");
-            localStorage.setItem("userId", data.id); // Store userId in localStorage
-            console.log("Admin User ID stored in localStorage:", data.id);
-          } else {
-            navigate("/user-dashboard");
-            localStorage.setItem("userId", data.id); // Store userId in localStorage
-            console.log("User User ID stored in localStorage:", data.id);
-          }
 
-          // Optionally, check if it's stored
-          console.log(
-            "User ID from localStorage:",
-            localStorage.getItem("userId")
-          );
+          if (data.success) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("userId", data.id);
+            localStorage.setItem("isAdmin", data.role);
+            localStorage.setItem("activeUser", JSON.stringify(data.id));
+
+            // Check if data contains the userId
+            if (data.role === "admin") {
+              navigate("/dashboard");
+              localStorage.setItem("userId", data.id); // Store userId in localStorage
+              console.log("Admin User ID stored in localStorage:", data.id);
+            } else {
+              navigate("/user-dashboard");
+              localStorage.setItem("userId", data.id); // Store userId in localStorage
+              console.log("User User ID stored in localStorage:", data.id);
+            }
+
+            // Optionally, check if it's stored
+            console.log(
+              "User ID from localStorage:",
+              localStorage.getItem("userId")
+            );
+          }
         } else {
           console.log("Login failed:", data.message);
         }
-
-        
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -80,7 +86,7 @@ export default function Login() {
       <section
         className={`${style.background} d-flex align-items-center justify-content-center`}
       >
-        <img src={img} alt="" className={`${style.logo} d-flex `} />
+        <img src={imge} alt="" className={`${style.logo} d-flex `} />
         <div className="container">
           <div className="row justify-content-center align-items-center">
             <div className=" col-md-6">
@@ -152,14 +158,3 @@ export default function Login() {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-

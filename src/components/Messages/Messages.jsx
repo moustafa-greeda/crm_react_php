@@ -10,9 +10,9 @@ const Messages = () => {
   ); // Active user
   const [newMessage, setNewMessage] = useState("");
   const chatWindowRef = useRef(null); // Ref for the chat window
-
   const userId = localStorage.getItem("userId"); // Logged-in user ID
   const adminId = "78"; // Admin ID
+
   const isAdmin = localStorage.getItem("isAdmin") === "admin"; // Check if admin
 
   // Fetch users (only for admin)
@@ -135,7 +135,6 @@ const Messages = () => {
     getUsers();
     fetchMessages(userId);
     // console.log(activeUser);
-
     // fetchMessages(activeUser.id);
 
     if (!userId) {

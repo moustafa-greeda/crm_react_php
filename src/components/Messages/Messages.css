@@ -8,8 +8,8 @@
 /* Container for the entire message page */
 .messages-container {
   display: flex;
-  height: 100vh;
-  font-family: 'Arial', sans-serif;
+  height: 90vh;
+  font-family: "Arial", sans-serif;
   background: #f9f9f9;
 }
 
@@ -135,10 +135,10 @@
 
 .message-time {
   font-size: 0.75rem;
-  color: #9e9e9e;
+  /* color: #9e9e9e; */
+  color: #747474;
   align-self: flex-end;
 }
-
 
 /* Input area */
 .chat-input {

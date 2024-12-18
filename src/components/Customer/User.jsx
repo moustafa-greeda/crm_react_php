@@ -8,6 +8,36 @@ const Users = () => {
   const [editUser, setEditUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [contracts, setContracts] = useState([]);
+  const [newContract, setNewContract] = useState({
+    user_id: "",
+    contract_name: "",
+    contract_file: null,
+  });
+  const [isContractModalOpen, setIsContractModalOpen] = useState(false);
+
+  // Add contract
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewContract({ ...newContract, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const fileType = file.type;
+    const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+    const validPdfTypes = ["application/pdf"];
+
+    if (
+      validImageTypes.includes(fileType) ||
+      validPdfTypes.includes(fileType)
+    ) {
+      setNewContract({ ...newContract, contract_file: file });
+    } else {
+      alert("Please upload a valid image or PDF file.");
+    }
+  };
+
   // Fetch users from backend
   const getdata = async () => {
     try {
@@ -19,6 +49,33 @@ const Users = () => {
     }
   };
 
+  const handleAddContract = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("user_id", newContract.user_id);
+    formData.append("contract_name", newContract.contract_name);
+    formData.append("contract_file", newContract.contract_file);
+
+    try {
+      const response = await axios.post(
+        "http://localhost/backend/contract/add_contract.php",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data.success) {
+        setNewContract({ user_id: "", contract_name: "", contract_file: null });
+        setIsContractModalOpen(false);
+      } else {
+        console.error("Error adding contract:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error adding contract:", error);
+    }
+  };
   // Handle form submission for adding or updating user
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -75,7 +132,7 @@ const Users = () => {
         } else {
           setUsers((prevUsers) => [
             ...prevUsers,
-            { ...inputs, id: response.data.id }
+            { ...inputs, id: response.data.id },
           ]);
           Swal.fire("Success", "User added successfully!", "success");
         }
@@ -107,7 +164,7 @@ const Users = () => {
       name: user.name,
       email: user.email,
       phone: user.phone,
-      password: user.password
+      password: user.password,
     });
     setIsModalOpen(true);
   };
@@ -126,7 +183,7 @@ const Users = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete"
+      confirmButtonText: "Delete",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -151,6 +208,91 @@ const Users = () => {
     <div className="Users">
       <div className="container-fluid p-2">
         <div className="col justify-content-start d-flex">
+          {/* Modal for Adding Contract */}
+          {isContractModalOpen && (
+            <div
+              className="modal fade show"
+              style={{ display: "block" }}
+              aria-labelledby="contractModalLabel"
+              aria-hidden="false"
+            >
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="contractModalLabel">
+                      New Contract
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      onClick={() => setIsContractModalOpen(false)}
+                    />
+                  </div>
+                  <div className="modal-body">
+                    <form onSubmit={handleAddContract}>
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="contract-user-id"
+                          name="user_id"
+                          value={newContract.user_id}
+                          onChange={handleInputChange}
+                          required
+                          hidden
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label
+                          htmlFor="contract-name"
+                          className="col-form-label"
+                        >
+                          Contract Name:
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="contract-name"
+                          name="contract_name"
+                          value={newContract.contract_name}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label
+                          htmlFor="contract-file"
+                          className="col-form-label"
+                        >
+                          Contract File:
+                        </label>
+                        <input
+                          type="file"
+                          className="form-control"
+                          id="contract-file"
+                          name="contract_file"
+                          onChange={handleFileChange}
+                          required
+                        />
+                      </div>
+                      <button className="btn btn-primary" type="submit">
+                        Add Contract
+                      </button>
+                    </form>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => setIsContractModalOpen(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <div>
             <button
               type="button"
@@ -302,11 +444,15 @@ const Users = () => {
                     <i className="fa fa-trash"></i> {/* أيقونة الحذف */}
                   </button>
                   <button
-                    className="btn btn-warning ms-2"
-                    title="Add Task" // نص التوضيح عند التمرير على الأيقونة
+                    type="button"
+                    className="btn btn-secondary"
+                    title="Add Contract"
+                    onClick={() => {
+                      setIsContractModalOpen(true);
+                      setNewContract({ ...newContract, user_id: user.id }); // تعيين user_id للعقد الجديد
+                    }}
                   >
-                    <i className="fas fa-plus fa-1x"></i>{" "}
-                    {/* أيقونة إضافة مع حجم أكبر */}
+                    <i className="fa fa-edit"></i>
                   </button>
                 </div>
               </td>
