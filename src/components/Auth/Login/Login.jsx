@@ -49,13 +49,35 @@ export default function Login() {
         //   console.log("Login failed:", data.message);
         // }
         if (data.success) {
+          localStorage.setItem("userId", data.id);
+          localStorage.setItem("isAdmin", data.role);
+
+          const userId = localStorage.getItem("userId");
+          console.log(userId);
+
+          console.log("Login successful:", data);
+
+          // Check if data contains the userId
           if (data.role === "admin") {
             navigate("/dashboard");
-            console.log(data.role);
+            localStorage.setItem("userId", data.id); // Store userId in localStorage
+            console.log("Admin User ID stored in localStorage:", data.id);
           } else {
             navigate("/user-dashboard");
-            console.log(data.role);          }
+            localStorage.setItem("userId", data.id); // Store userId in localStorage
+            console.log("User User ID stored in localStorage:", data.id);
+          }
+
+          // Optionally, check if it's stored
+          console.log(
+            "User ID from localStorage:",
+            localStorage.getItem("userId")
+          );
+        } else {
+          console.log("Login failed:", data.message);
         }
+
+        
       } catch (error) {
         console.error("Error during login:", error);
       }
