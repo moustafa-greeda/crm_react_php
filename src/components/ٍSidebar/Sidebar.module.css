@@ -6,6 +6,7 @@ color: white !important;
   align-items: center;
   border-radius: 10px;
   transition:color 0.3s ease;
+  margin-bottom: 20px;
     
 }
 .links:hover {

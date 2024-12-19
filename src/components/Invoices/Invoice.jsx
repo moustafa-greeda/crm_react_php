@@ -34,7 +34,7 @@ const Invoices = () => {
 
   const fetchUsers = () => {
     axios
-      .get("http://localhost/backend/fetch_users.php")
+      .get("http://localhost/backend/fetch_users")
       .then((response) => {
         if (response.data.success) {
           setUsers(response.data.users); // Assume the response contains a 'users' array

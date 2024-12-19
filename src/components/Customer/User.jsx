@@ -14,7 +14,7 @@ const Users = () => {
   const [newContract, setNewContract] = useState({
     user_id: "",
     contract_name: "",
-    contract_file: null,
+    contract_file: null
   });
   const [isContractModalOpen, setIsContractModalOpen] = useState(false);
 
@@ -46,8 +46,6 @@ const Users = () => {
       const reqdata = await fetch("http://localhost/backend/fetch_users.php");
       const resdata = await reqdata.json();
       setUsers(resdata);
-
-
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -66,8 +64,8 @@ const Users = () => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
-          },
+            "Content-Type": "multipart/form-data"
+          }
         }
       );
       if (response.data.success) {
@@ -136,7 +134,7 @@ const Users = () => {
         } else {
           setUsers((prevUsers) => [
             ...prevUsers,
-            { ...inputs, id: response.data.id },
+            { ...inputs, id: response.data.id }
           ]);
           Swal.fire("Success", "User added successfully!", "success");
         }
@@ -168,7 +166,7 @@ const Users = () => {
       name: user.name,
       email: user.email,
       phone: user.phone,
-      password: user.password,
+      password: user.password
     });
     setIsModalOpen(true);
   };
@@ -187,7 +185,7 @@ const Users = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete",
+      confirmButtonText: "Delete"
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
