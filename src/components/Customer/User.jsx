@@ -10,7 +10,7 @@ const Users = () => {
   const [editUser, setEditUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-
+  const [Loading, setLoading] = useState(false);
 
 
 
@@ -155,6 +155,13 @@ const Users = () => {
         }
       }
     });
+  };
+  const handleAddTask = (userId) => {
+    setLoading((prev)=>({...prev,[userId]:true})); 
+    setTimeout(() => {
+      setOpenDialog({ open: true, userId });
+      setLoading((prev)=>({...prev,[userId]:false})); 
+    }, 1000); 
   };
 
   return (
@@ -313,10 +320,18 @@ const Users = () => {
                   </button>
                   <button
                     className="btn btn-warning ms-2"
-                    onClick={() => setOpenDialog({ open: true, userId: user.id })}
+                    onClick={() => handleAddTask(user.id)}
                     title="Add Task" // نص التوضيح عند التمرير على الأيقونة
                   >
-                    <i className="fas fa-plus fa-1x"></i>{" "}
+                   {Loading[user.id] ? (
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    ) : (
+                      <i className="fas fa-plus fa-1x"></i>
+                    )}
                     {/* أيقونة إضافة مع حجم أكبر */}
                   </button>
 

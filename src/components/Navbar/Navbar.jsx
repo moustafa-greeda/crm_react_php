@@ -27,7 +27,7 @@ export default function Navbar() {
                     marginLeft: "250px", 
                     transition: "margin-left 0.3s",
                     maxWidth: "100%",
-                    overflowX: "hidden",
+                    // overflowX: "hidden",
                 }}
             >
                 

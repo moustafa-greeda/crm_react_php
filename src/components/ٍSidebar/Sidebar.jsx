@@ -55,7 +55,7 @@ export default function Sidebar() {
       </div>
 
       <ul className="nav flex-column w-100  pt-5 ps-3">
-        <li className="nav-item mb-3">
+        <li className="nav-item ">
           <NavLink
             to="/Dashboard"
             className={`nav-link d-flex align-items-center ${style.links}`}
@@ -64,7 +64,7 @@ export default function Sidebar() {
             <span>Dashboard</span>
           </NavLink>
         </li>
-        <li className="nav-item mb-3">
+        <li className="nav-item ">
           <NavLink
             to="/Calender"
             className={`nav-link d-flex align-items-center ${style.links}`}
@@ -74,7 +74,7 @@ export default function Sidebar() {
           </NavLink>
         </li>
 
-        <li className="nav-item mb-3">
+        <li className="nav-item ">
           <NavLink
             to="/users"
             className={`nav-link d-flex align-items-center ${style.links}`}
@@ -83,7 +83,7 @@ export default function Sidebar() {
             <span>Customers</span>
           </NavLink>
         </li>
-        <li className="nav-item mb-3">
+        <li className="nav-item ">
           <NavLink
             to="/messages"
             className={`nav-link d-flex align-items-center ${style.links}`}
@@ -92,7 +92,7 @@ export default function Sidebar() {
             <span>Messages</span>
           </NavLink>
         </li>
-        <li className="nav-item mb-3">
+        <li className="nav-item ">
           <NavLink
             to="/tasks"
             className={`nav-link d-flex align-items-center ${style.links}`}
@@ -101,7 +101,7 @@ export default function Sidebar() {
             <span>Tasks</span>
           </NavLink>
         </li>
-        <li className="nav-item mb-3">
+        <li className="nav-item ">
           <NavLink
             to="/settings"
             className={`nav-link d-flex align-items-center ${style.links}`}
