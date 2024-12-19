@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
-const ProtectedRoute = ({ element: Component, ...rest }) => {
+const ProtectedRoute = ({ element: Component, requiredRoles, ...rest }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
+  
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem("token");
@@ -17,6 +19,7 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
           );
           if (response.data.success) {
             setIsAuthenticated(true);
+            setUserRole(response.data.role); // افترض أن الخادم يعيد الدور
           } else {
             setIsAuthenticated(false);
           }
@@ -36,7 +39,15 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
     return <div>Loading...</div>; // أو يمكنك عرض مؤشر تحميل
   }
 
-  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  if (requiredRoles && !requiredRoles.includes(userRole)) {
+    return <Navigate to="/unauthorized" />; // أو أي صفحة أخرى لعدم السماح
+  }
+
+  return <Component {...rest} />;
 };
 
 export default ProtectedRoute;

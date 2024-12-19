@@ -11,6 +11,8 @@ import UserDashboard from './components/User/UserDashboard';
 import Home from './components/Home';
 import Contracts from './components/contract/contract';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import Calendar from './components/Calender/Calender';
+import Tasks from './pages/Tasks/Tasks';
 
 function App() {
   const router = createBrowserRouter([
@@ -19,12 +21,14 @@ function App() {
       element: <Root />,
       children: [
         { path: 'home', element: <Home /> },
-        { path: '/dashboard', element: <ProtectedRoute element={Dashboard} /> },
-        { path: '/messages', element: <ProtectedRoute element={Messages} /> },
-        { path: '/users', element: <ProtectedRoute element={Users} /> },
-        { path: '/settings', element: <ProtectedRoute element={Settings} /> },
-        { path: '/user-dashboard', element: <ProtectedRoute element={UserDashboard} /> },
-        { path: '/contract', element: <ProtectedRoute element={Contracts} /> },
+        { path: 'dashboard', element: <ProtectedRoute element={Dashboard} requiredRoles={['admin']} /> },
+        { path: 'messages', element: <ProtectedRoute element={Messages} requiredRoles={['admin', 'user']} /> },
+        { path: 'users', element: <ProtectedRoute element={Users} requiredRoles={['admin']} /> },
+        { path: 'settings', element: <ProtectedRoute element={Settings} requiredRoles={['admin']} /> },
+        { path: 'user-dashboard', element: <ProtectedRoute element={UserDashboard} requiredRoles={['user']} /> },
+        { path: 'contract', element: <ProtectedRoute element={Contracts} requiredRoles={['admin']} /> },
+        { path: 'calender', element: <ProtectedRoute element={Calendar} requiredRoles={['admin', 'user']} /> },
+        { path: 'tasks', element: <ProtectedRoute element={Tasks} requiredRoles={['admin']} /> },
       ],
     },
     {
@@ -34,6 +38,10 @@ function App() {
     {
       path: '/register',
       element: <Register />,
+    },
+    {
+      path: '/unauthorized',
+      element: <div>Unauthorized</div>, // صفحة لعدم السماح
     },
   ]);
 

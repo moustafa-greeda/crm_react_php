@@ -15,7 +15,7 @@ const UserDashboard = () => {
         }
 
         const response = await fetch(
-          `http://localhost/backend/fetch_user.php?id=${userId}`
+          `http://localhost/backend/fetch_users.php?id=${userId}`
         );
 
         if (!response.ok) {

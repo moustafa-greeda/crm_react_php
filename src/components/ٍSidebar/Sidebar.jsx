@@ -51,7 +51,7 @@ export default function Sidebar() {
         </li>
         <li className="nav-item mb-3">
           <NavLink
-            to="/"
+            to="/calender"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
             <i class="bi bi-calendar3 fs-5 me-3"></i>
