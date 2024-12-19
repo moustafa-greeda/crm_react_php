@@ -19,7 +19,7 @@ export default function Navbar() {
                 <nav className="navbar navbar-expand-lg navbar-light bg-light shadow ">
                     <div className="container  d-flex justify-content-between align-items-center">
                         <div className="one">
-                        <img src={image1} alt="" className="" />
+                        <img src={image1} alt="" className="tw-w-40" />
                         </div>
                         <button
                             className="navbar-toggler"
@@ -35,8 +35,8 @@ export default function Navbar() {
                         <div className="collapse navbar-collapse " id="navbarNav">
                            
                             <div className={` ms-auto ${style.buttons}`}>
-                                <Link class="btn" style={{"backgroundColor":"var(  --main-color)","borderRadius":"25px"}}>
-                                <i class="bi bi-box-arrow-left pe-2 fw-bold"></i> Logout
+                                <Link className="btn" style={{"backgroundColor":"var(  --main-color)","borderRadius":"25px"}}>
+                                <i className="bi bi-box-arrow-left pe-2 fw-bold"></i> Logout
                                 </Link>
 
                               
@@ -48,7 +48,7 @@ export default function Navbar() {
                 </nav>
                
 
-                <div className="p-4">
+                <div className="p-4 tw-bg-base-200">
                     <Outlet></Outlet>
                 </div>
             </div>
