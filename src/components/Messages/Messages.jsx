@@ -39,7 +39,6 @@ const Messages = () => {
   ); // Active user
   const [newMessage, setNewMessage] = useState("");
   const chatWindowRef = useRef(null); // Ref for the chat window
-
   const userId = localStorage.getItem("userId"); // Logged-in user ID
   const adminId = "1"; // Admin ID
   const isAdmin = localStorage.getItem("isAdmin") === "admin"; // Check if admin
@@ -262,4 +261,3 @@ const Messages = () => {
 };
 
 export default Messages;
-

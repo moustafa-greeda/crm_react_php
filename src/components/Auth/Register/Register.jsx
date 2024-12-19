@@ -1,12 +1,15 @@
+
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from "../Register/Register.module.css";
 import img from "../../images/image 1.png";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Register() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Validation schema for form fields
   const validateSchema = Yup.object({
@@ -14,13 +17,15 @@ export default function Register() {
       .min(5, "Name must be at least 5 characters")
       .required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    phone: Yup.number().required("Phone number required"),
+    phone: Yup.string()
+      .matches(/^\d{10}$/, "Phone number must be 10 digits")
+      .required("Phone number is required"),
     password: Yup.string()
       .required("Password is required")
       .min(8, "Password should be at least 8 characters long"),
     confirmPassword: Yup.string()
       .required("Confirm Password is required")
-      .oneOf([Yup.ref("password"), null], "Passwords must match") // Ensure passwords match
+      .oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
 
   // Formik setup
@@ -28,42 +33,52 @@ export default function Register() {
     initialValues: {
       name: "",
       email: "",
+      phone: "",
       password: "",
-      phone:'',      
-      confirmPassword: "", // Add confirmPassword to the initial values
-      role: "user"
+      confirmPassword: "",
+      role: "user",
     },
     validationSchema: validateSchema,
-    onSubmit: async (values) => {
+    onSubmit: async function name(values) { 
       try {
         const response = await fetch(
           "http://localhost/backend/login/register.php",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(values)
+            body: JSON.stringify(values),
           }
         );
 
         const data = await response.json();
-        console.log(data)
-        if (data.success) {
-          navigate("/"); // Navigate to the home page after successful registration
+         console.log(data);
+         
+        if (response.ok && data.success) {
+           toast.success("Your data has been successfully registered", {
+                                position: "top-right",
+                                autoClose: 2000,
+                              }); 
+          navigate("/login");
         } else {
-          alert(data.message); // Show any error message returned by the server
+          toast.error(`failed: ${data.message} `, {
+                     position: "top-right",
+                     autoClose: 2000,
+                   });
         }
       } catch (error) {
-        console.error("Error during registration:", error);
-        alert("An error occurred during registration.");
+        // console.error("Error during registration:", error);
+        // alert("An error occurred during registration.");
+        console.log(error);
+        
       }
-    }
+    },
   });
 
   return (
     <section
       className={`${style.background} d-flex align-items-center justify-content-center`}
     >
-      <img src={img} alt="" className={`${style.logo} d-flex float-end`} />
+      <img src={img} alt="" className={`${style.logo} float-end`} />
       <div className="container">
         <div className="row justify-content-center align-items-center">
           <div className="col-md-6">
@@ -72,7 +87,7 @@ export default function Register() {
               <p className="text-center">
                 Sign up now to keep track of your work.
               </p>
-              <form className="mx-1 mx-md-4" onSubmit={formik.handleSubmit}>
+              <form onSubmit={formik.handleSubmit}>
                 <div className="mb-3">
                   <input
                     type="text"
@@ -84,10 +99,9 @@ export default function Register() {
                     onBlur={formik.handleBlur}
                   />
                   {formik.errors.name && formik.touched.name && (
-                    <p className={`${style.error}`}>{formik.errors.name}</p>
+                    <p className={style.error}>{formik.errors.name}</p>
                   )}
                 </div>
-
                 <div className="mb-3">
                   <input
                     type="email"
@@ -99,13 +113,12 @@ export default function Register() {
                     onBlur={formik.handleBlur}
                   />
                   {formik.errors.email && formik.touched.email && (
-                    <p className={`${style.error}`}>{formik.errors.email}</p>
+                    <p className={style.error}>{formik.errors.email}</p>
                   )}
                 </div>
-
                 <div className="mb-3">
                   <input
-                    type="number"
+                    type="text"
                     name="phone"
                     className="form-control"
                     placeholder="Your Phone Number"
@@ -114,10 +127,9 @@ export default function Register() {
                     onBlur={formik.handleBlur}
                   />
                   {formik.errors.phone && formik.touched.phone && (
-                    <p className={`${style.error}`}>{formik.errors.phone}</p>
+                    <p className={style.error}>{formik.errors.phone}</p>
                   )}
                 </div>
-
                 <div className="mb-3">
                   <input
                     type="password"
@@ -129,11 +141,9 @@ export default function Register() {
                     onBlur={formik.handleBlur}
                   />
                   {formik.errors.password && formik.touched.password && (
-                    <p className={`${style.error}`}>{formik.errors.password}</p>
+                    <p className={style.error}>{formik.errors.password}</p>
                   )}
                 </div>
-
-                {/* Confirm Password Field */}
                 <div className="mb-3">
                   <input
                     type="password"
@@ -146,14 +156,11 @@ export default function Register() {
                   />
                   {formik.errors.confirmPassword &&
                     formik.touched.confirmPassword && (
-                      <p className={`${style.error}`}>
+                      <p className={style.error}>
                         {formik.errors.confirmPassword}
                       </p>
                     )}
                 </div>
-
-                <input type="hidden" name="role" value="user" readOnly />
-
                 <button
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
@@ -161,7 +168,6 @@ export default function Register() {
                 >
                   Sign Up!
                 </button>
-
                 <p className="text-center fw-bold text-muted mt-2 mb-0">
                   Already have an account?{" "}
                   <Link to="/" className="fw-bold text-dark">
@@ -176,3 +182,4 @@ export default function Register() {
     </section>
   );
 }
+

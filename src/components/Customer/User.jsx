@@ -9,12 +9,36 @@ const Users = () => {
   const [inputs, setInputs] = useState({});
   const [editUser, setEditUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [Loading, setLoading] = useState(false);
 
+  const [contracts, setContracts] = useState([]);
+  const [newContract, setNewContract] = useState({
+    user_id: "",
+    contract_name: "",
+    contract_file: null,
+  });
+  const [isContractModalOpen, setIsContractModalOpen] = useState(false);
 
+  // Add contract
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewContract({ ...newContract, [name]: value });
+  };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const fileType = file.type;
+    const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+    const validPdfTypes = ["application/pdf"];
 
+    if (
+      validImageTypes.includes(fileType) ||
+      validPdfTypes.includes(fileType)
+    ) {
+      setNewContract({ ...newContract, contract_file: file });
+    } else {
+      alert("Please upload a valid image or PDF file.");
+    }
+  };
 
   // Fetch users from backend
   const getdata = async () => {
@@ -29,6 +53,33 @@ const Users = () => {
     }
   };
 
+  const handleAddContract = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("user_id", newContract.user_id);
+    formData.append("contract_name", newContract.contract_name);
+    formData.append("contract_file", newContract.contract_file);
+
+    try {
+      const response = await axios.post(
+        "http://localhost/backend/contract/add_contract.php",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data.success) {
+        setNewContract({ user_id: "", contract_name: "", contract_file: null });
+        setIsContractModalOpen(false);
+      } else {
+        console.error("Error adding contract:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error adding contract:", error);
+    }
+  };
   // Handle form submission for adding or updating user
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -319,29 +370,16 @@ const Users = () => {
                     <i className="fa fa-trash"></i> {/* أيقونة الحذف */}
                   </button>
                   <button
-                    className="btn btn-warning ms-2"
-                    onClick={() => handleAddTask(user.id)}
-                    title="Add Task" // نص التوضيح عند التمرير على الأيقونة
+                    type="button"
+                    className="btn btn-secondary"
+                    title="Add Contract"
+                    onClick={() => {
+                      setIsContractModalOpen(true);
+                      setNewContract({ ...newContract, user_id: user.id }); // تعيين user_id للعقد الجديد
+                    }}
                   >
-                   {Loading[user.id] ? (
-                      <span
-                        className="spinner-border spinner-border-sm"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                    ) : (
-                      <i className="fas fa-plus fa-1x"></i>
-                    )}
-                    {/* أيقونة إضافة مع حجم أكبر */}
+                    <i className="fa fa-edit"></i>
                   </button>
-
-                 
-                  <NewTask
-                    open={openDialog.open}
-                    onClose={() => setOpenDialog({ open: false, userId: null })}
-                    userId={openDialog.userId}
-                  />
-
                 </div>
               </td>
             </tr>

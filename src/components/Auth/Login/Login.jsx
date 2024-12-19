@@ -2,23 +2,24 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from "../Login/Login.module.css";
-import imge from "../../images/image 1.png";
+import img from "../../images/image 1.png";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+
 export default function Login() {
   let navigate = useNavigate();
 
   // Validation schema using Yup
   let validateSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string()
-      .required("password is required")
-      .min(3, "Password is too short - should be 8 chars or numbers minimum."),
+    password: Yup.string().required("password is required")
   });
 
   let formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
+      password: ""
     },
     validationSchema: validateSchema,
     onSubmit: async function Signin(values) {
@@ -29,42 +30,87 @@ export default function Login() {
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "application/json"
             },
             body: JSON.stringify(values),
-            mode: "cors", // Explicitly enable CORS
+            mode: "cors" // Explicitly enable CORS
           }
         );
+        //   const data = await response.json();
+        // console.log(data)
+        //   if (!response.ok) {
+        //      throw new Error(`HTTP error! status: ${response.status}`);
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
+        //   }
         const data = await response.json();
-
         if (data.success) {
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("userId", data.id);
-          localStorage.setItem("isAdmin", data.role);
+          // console.log("Login successful:", data.message);
+          // // Store user ID in localStorage for later use
+          // localStorage.setItem('userId', data.id); // Assuming `userId` is returned from the server
+          const userId = data.id;
+          const role = data.role;
+          const token = data.token;
+          console.log(userId);
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("role", role);
+          // localStorage.setItem("isAdmin", data.role);
+          localStorage.setItem("activeUser", JSON.stringify(data.id));
+          //   const userId = localStorage.getItem("userId");
 
-          // Check if data contains the userId
+          //   // Update the activeUser state
+
+          //   if (data.success) {
+          //     localStorage.setItem("token", data.token);
+          //     localStorage.setItem("userId", data.id);
+          //     localStorage.setItem("isAdmin", data.role);
+          //     localStorage.setItem("activeUser", JSON.stringify(data.id));
+
+          //     // Check if data contains the userId
+          //     if (data.role === "admin") {
+          //       navigate("/dashboard");
+          //       localStorage.setItem("userId", data.id); // Store userId in localStorage
+          //       console.log("Admin User ID stored in localStorage:", data.id);
+          //     } else {
+          //       navigate("/user-dashboard");
+          //       localStorage.setItem("userId", data.id); // Store userId in localStorage
+          //       console.log("User User ID stored in localStorage:", data.id);
+          //     }
+
+          //     // Optionally, check if it's stored
+          //     console.log(
+          //       "User ID from localStorage:",
+          //       localStorage.getItem("userId")
+          //     );
+          //   }
+          // } else {
+          //   console.log("Login failed:", data.message);
+          localStorage.setItem("token", token);
+          toast.success("You are logged In successfully!", {
+            position: "top-right",
+            autoClose: 2000
+          });
           if (data.role === "admin") {
             navigate("/dashboard");
             localStorage.setItem("userId", data.id); // Store userId in localStorage
+            console.log("Admin User ID stored in localStorage:", data.id);
           } else {
             navigate("/user-dashboard");
-            localStorage.setItem("userId", data.id); // Store userId in localStorage
+            console.log(data.role);
           }
-
-          // Optionally, check if it's stored
         } else {
-          console.log("Login failed:", data.message);
+          toast.error(`Login failed: ${data.message} `, {
+            position: "top-right",
+            autoClose: 2000
+          });
+          console.log(
+            "User ID from localStorage:",
+            localStorage.getItem("userId")
+          );
         }
-
       } catch (error) {
         console.error("Error during login:", error);
       }
-    },
+    }
   });
 
   return (
@@ -72,7 +118,7 @@ export default function Login() {
       <section
         className={`${style.background} d-flex align-items-center justify-content-center`}
       >
-        <img src={imge} alt="" className={`${style.logo} d-flex `} />
+        <img src={img} alt="" className={`${style.logo} d-flex `} />
         <div className="container">
           <div className="row justify-content-center align-items-center">
             <div className="col-md-6">
@@ -123,8 +169,8 @@ export default function Login() {
                   </button>
 
                   <p className="text-center fw-bold text-muted mt-2 mb-0">
-                    Don't Have an account?{" "}
-                    <Link to="/register" className="fw-bold text-dark">
+                    Don't Have an account ?{" "}
+                    <Link to="/register" className="fw-bold text-dark ">
                       <u>Sign Up here</u>
                     </Link>
                   </p>

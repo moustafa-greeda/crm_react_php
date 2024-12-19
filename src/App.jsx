@@ -18,14 +18,13 @@ import Users from "./components/Customer/User";
 import UserDashboard from "./components/User/UserDashboard";
 import Messages from "./components/Messages/Messages";
 
+
 function App() {
   const router =createBrowserRouter([{
     path:'/',element:<Root/>,children:[
       {path:"home",element:<Home/>},
       {path:"/dashboard",element:<Dashboard/>},
-      {path:"/settings",element:<Settings/>},
-      {path:"/messages",element:<Messages/>},
-      {path:"/user-dashboard",element:<UserDashboard/>},
+      {path:"/settings",element:<Settings/>}
     ]    
 },
 {

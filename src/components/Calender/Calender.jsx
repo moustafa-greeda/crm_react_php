@@ -15,7 +15,9 @@ const Calendar = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("http://localhost/backend/event/getEvents.php");
+        const response = await axios.get(
+          "http://localhost/backend/Calender/getEvents.php"
+        );
         setEvents(response.data); // تخزين الأحداث المسترجعة
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -71,7 +73,7 @@ const Calendar = () => {
             const day = idx + 1;
 
             // العثور على الأحداث المناسبة لهذا اليوم
-            const dayEvents = events.filter(event => {
+            const dayEvents = events.filter((event) => {
               const eventDate = new Date(event.event_date);
               return eventDate.getDate() === day;
             });
@@ -85,7 +87,7 @@ const Calendar = () => {
                       <div key={index} className="event">
                         <div className="event-name">{event.event_name}</div>
                         <div className="event-details">
-                          <span className="start-time">{event.start_time}</span> 
+                          <span className="start-time">{event.start_time}</span>
                           <span className="end-time">{event.end_time}</span>
                         </div>
                       </div>
@@ -100,16 +102,31 @@ const Calendar = () => {
 
       {/* المودال لإضافة حدث */}
       {showModal && (
-        <div className="modal show" style={{ display: "block" }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div
+          className="modal show"
+          style={{ display: "block" }}
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Create New Event</h5>
-                <button type="button" className="btn-close" onClick={handleCloseModal} aria-label="Close"></button>
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Create New Event
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={handleCloseModal}
+                  aria-label="Close"
+                ></button>
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                  <label htmlFor="event-name" className="form-label">Event Name:</label>
+                  <label htmlFor="event-name" className="form-label">
+                    Event Name:
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -120,7 +137,9 @@ const Calendar = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="event-date" className="form-label">Event Date:</label>
+                  <label htmlFor="event-date" className="form-label">
+                    Event Date:
+                  </label>
                   <input
                     type="date"
                     className="form-control"
@@ -130,8 +149,10 @@ const Calendar = () => {
                   />
                 </div>
                 <div className="mb-3 input-group">
-                  <label htmlFor="start-time" className="form-label">Start Time:</label>
-                  
+                  <label htmlFor="start-time" className="form-label">
+                    Start Time:
+                  </label>
+
                   <input
                     type="time"
                     className="form-control"
@@ -139,10 +160,11 @@ const Calendar = () => {
                     value={startTime}
                     onChange={(e) => setStartTime(e.target.value)}
                   />
-                  
                 </div>
                 <div className="mb-3 input-group">
-                  <label htmlFor="end-time" className="form-label">End Time:</label>
+                  <label htmlFor="end-time" className="form-label">
+                    End Time:
+                  </label>
                   <input
                     type="time"
                     className="form-control"
@@ -152,7 +174,9 @@ const Calendar = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="notes" className="form-label">Notes:</label>
+                  <label htmlFor="notes" className="form-label">
+                    Notes:
+                  </label>
                   <textarea
                     className="form-control"
                     id="notes"
@@ -163,8 +187,20 @@ const Calendar = () => {
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Cancel</button>
-                <button type="button" className="btn btn-primary" onClick={handleCreateEvent}>Create</button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleCloseModal}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleCreateEvent}
+                >
+                  Create
+                </button>
               </div>
             </div>
           </div>
