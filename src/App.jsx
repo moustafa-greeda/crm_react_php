@@ -24,6 +24,7 @@ function App() {
       {path:"home",element:<Home/>},
       {path:"/dashboard",element:<Dashboard/>},
       {path:"/settings",element:<Settings/>},
+      {path:"/messages",element:<Messages/>},
       {path:"/user-dashboard",element:<UserDashboard/>},
     ]    
 },

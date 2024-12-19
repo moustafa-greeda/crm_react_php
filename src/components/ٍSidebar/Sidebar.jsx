@@ -17,7 +17,9 @@ export default function Sidebar() {
       }`}
       style={{
         width: isSidebarOpen ? "250px" : "70px",
-
+        boxShadow: isSidebarOpen
+          ? "5px 0 10px rgba(112, 206, 35, 0.527)"
+          : "none",
         transition: "width 0.3s ease-in-out",
         borderRadius: "0 20px 20px 0",
         overflow: "hidden"
@@ -52,7 +54,7 @@ export default function Sidebar() {
             to="/"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-calendar3 fs-5 me-3"></i>
+            <i class="bi bi-calendar3 fs-5 me-3"></i>
             {isSidebarOpen && <span>Calendar</span>}
           </NavLink>
         </li>
@@ -62,7 +64,7 @@ export default function Sidebar() {
             to="/users"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-people fs-5 me-3"></i>
+            <i class="bi bi-people fs-5 me-3"></i>
             {isSidebarOpen && <span>Customers</span>}
           </NavLink>
         </li>
@@ -71,7 +73,7 @@ export default function Sidebar() {
             to="/messages"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-chat-dots fs-5 me-3"></i>
+            <i class="bi bi-chat-dots fs-5 me-3"></i>
             {isSidebarOpen && <span>Messages</span>}
           </NavLink>
         </li>
@@ -89,7 +91,7 @@ export default function Sidebar() {
             to="/settings"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-gear-fill fs-5 me-3"></i>
+            <i class="bi bi-gear-fill fs-5 me-3"></i>
             {isSidebarOpen && <span>Settings</span>}
           </NavLink>
         </li>

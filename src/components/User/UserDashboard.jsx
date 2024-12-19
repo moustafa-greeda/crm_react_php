@@ -71,10 +71,10 @@ const UserDashboard = () => {
               </div>
             </div>
             <div className="info-item">
-            <i class="fa-solid fa-circle-info icon"></i>            
+            <i class="fa-solid fa-globe icon"></i>            
             <div>
-                <h4>Role</h4>
-                <p>{userData.role}</p>
+                <h4>Website</h4>
+                <p>www.website.com</p>
               </div>
             </div>
           </div>

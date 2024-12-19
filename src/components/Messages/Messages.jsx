@@ -1,25 +1,8 @@
-<<<<<<< HEAD
-// import React from 'react'
-// import { useChatStore } from '../../store/useChatStore'
-// import SidebarMessages from './SidebarMessages';
-// import ChatContainer from './ChatContainer';
-// import NoChatSelected from './NoChatSelected';
-
-// const Messages = () => {
-//   const { selectedUser } = useChatStore();
-
-//   return (
-//     <div className='tw-h-screen tw-bg-base-200'>
-//       <div className="tw-flex tw-items-center tw-justify-center tw-pt-20 tw-px-4">
-//         <div className='tw-bg-base-100 tw-rounded-lg tw-shadow-xl tw-w-full tw-max-w-6xl tw-h-[calc(100vh-8rem)]'>
-//           <div className='tw-flex tw-h-full tw-rounded-lg tw-overflow-hidden'>
-
-//             <SidebarMessages />
-//             {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
-=======
 import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
 import "./Messages.css";
+import NoChatSelected from "./NoChatSelected"
+import { Send, Users } from "lucide-react";
 
 const Messages = () => {
   const [users, setUsers] = useState([]); // User list
@@ -167,7 +150,10 @@ const Messages = () => {
       {/* Admin can see the list of users */}
       {isAdmin && (
         <div className="message-list">
-          <h3>Conversations</h3>
+          <div className="tw-flex tw-items-center tw-gap-2 mb-3">
+            <Users className='tw-size-6' />
+            <h3 className="tw-font-semibold">Conversations</h3>
+          </div>
           {users.length > 0 ? (
             users.map((user) => (
               <div
@@ -175,9 +161,16 @@ const Messages = () => {
                 className={`message-item ${activeUser?.id === user.id ? "active" : ""}`}
                 onClick={() => handleUserSelection(user)}
               >
-                <div>
-                  <h4>name: {user.name}</h4>
-                  <p>User ID: {user.id}</p>
+                <div className="d-flex justify-content-center align-items-center tw-gap-2">
+                  <img
+                    src={"/avatar.png"}
+                    alt={user.name}
+                    className="tw-size-12 tw-object-cover tw-rounded-full"
+                  />
+                  <div>
+                    <h4>{user.name}</h4>
+                    <p>User ID: {user.id}</p>
+                  </div>
                 </div>
               </div>
             ))
@@ -190,9 +183,7 @@ const Messages = () => {
       {/* Chat window */}
       <div className="chat-window">
         {isAdmin && !activeUser ? (
-          <div className="no-conversation">
-            <p>Please select a user to start the conversation.</p>
-          </div>
+          <NoChatSelected />
         ) : (
           <>
             <div className="chat-header">
@@ -208,22 +199,26 @@ const Messages = () => {
                 messages.map((msg) => {
                   const isUserMessage =
                     msg.sender_id.toString() === userId.toString();
-                  return (
+                 
+                    return (
+                    
                     <div
                       key={msg.message_id}
                       className={`message-bubble ${isUserMessage ? "message-right" : "message-left"}`}
                     >
                       <p>{msg.message}</p>
-                      <span className="message-time">
-                        {moment(msg.created_at).format("MMM D, h:mm A")}
-                      </span>
-                      <button
-                        className="delete-button"
-                        onClick={() => handleDeleteMessage(msg.message_id)}
-                      >
-                        Delete
-                      </button>
+                      <div className="message-details d-flex justify-content-between">
+                        <time className="message-time pe-3">
+                          {moment(msg.created_at).format("MMM D, h:mm A")}
+                        </time>
+                        <button
+                          className="delete-button tw-text-red-400"
+                          onClick={() => handleDeleteMessage(msg.message_id)}>
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
                     </div>
+
                   );
                 })
               ) : (
@@ -237,7 +232,8 @@ const Messages = () => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
               />
-              <button onClick={handleSendMessage}>Send</button>
+              <button onClick={handleSendMessage} className="tw-btn">Send
+              </button>
             </div>
           </>
         )}
@@ -245,14 +241,5 @@ const Messages = () => {
     </div>
   );
 };
->>>>>>> 67c4ae061b02692d79c2398a832f6ccb560213c4
 
-//           </div>
-//         </div>
-//       </div>
-
-//     </div>
-//   )
-// }
-
-// export default Messages;
+export default Messages;

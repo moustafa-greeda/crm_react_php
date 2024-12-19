@@ -11,7 +11,7 @@ const NoChatSelected = () => {
               className="tw-w-16 tw-h-16 tw-rounded-2xl tw-bg-primary/10 tw-flex tw-items-center
              tw-justify-center tw-animate-bounce"
             >
-              <MessageSquare className="tw-w-8 tw-h-8 tw-text-primary " />
+              <MessageSquare className="tw-w-8 tw-h-8 tw-text-green-600 " />
             </div>
           </div>
         </div>

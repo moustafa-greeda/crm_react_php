@@ -235,17 +235,17 @@ export default function Settings() {
                                                 />
                                             </div>
 
-                                            <div className="col-md-6">
+                                            {/* <div className="col-md-6">
                                                 <label htmlFor="role" className="form-label text-muted">Role</label>
                                                 <input
                                                     type="text"
                                                     className={`form-control ${style.inputts}`}
                                                     id="role"
                                                     value={userData.role}
-                                                    onChange={handleInputChange}
+                                                    // onChange={handleInputChange}
                                                     disabled={!isEditable}
                                                 />
-                                            </div>
+                                            </div> */}
                                         </div>
 
                                         {isEditable && (

@@ -118,6 +118,7 @@
   flex-direction: column;
   gap: 0.5rem;
   position: relative;
+  margin-bottom: 30px;
 }
 
 .message-left {
@@ -128,7 +129,7 @@
 
 .message-right {
   align-self: flex-end;
-  background: #4caf50;
+  background: var(--main-color);
   color: white;
   border-radius: 20px 20px 5px 20px;
 }
@@ -137,6 +138,7 @@
   font-size: 0.75rem;
   color: #9e9e9e;
   align-self: flex-end;
+  flex-shrink: 0;
 }
 
 
@@ -159,7 +161,7 @@
 
 .chat-input button {
   padding: 0.8rem 1.5rem;
-  background: #4caf50;
+  background: var(--main-color);
   color: #fff;
   border: none;
   border-radius: 25px;
@@ -169,5 +171,26 @@
 }
 
 .chat-input button:hover {
-  background: #45a049;
+  background: var(--main-color);
 }
+
+.chat-input input:focus{
+  outline: var(--main-color);
+  border-color: var(--main-color);
+}
+
+
+/* .message-details{
+  position: absolute;
+  top: 100%;
+  z-index: 999;
+  padding:0!important;
+  margin-top: 5px;
+  
+}
+
+.delete-button{
+  position: absolute;
+  left: 30px;
+  
+} */
