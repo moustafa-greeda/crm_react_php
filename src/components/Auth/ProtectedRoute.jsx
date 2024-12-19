@@ -6,7 +6,6 @@ const ProtectedRoute = ({ element: Component, requiredRoles, ...rest }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [userRole, setUserRole] = useState(null);
 
-  
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem("token");
@@ -40,7 +39,7 @@ const ProtectedRoute = ({ element: Component, requiredRoles, ...rest }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   if (requiredRoles && !requiredRoles.includes(userRole)) {

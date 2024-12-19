@@ -48,7 +48,7 @@ export default function Register() {
         const data = await response.json();
         console.log(data)
         if (data.success) {
-          navigate("/login"); // Navigate to the home page after successful registration
+          navigate("/"); // Navigate to the home page after successful registration
         } else {
           alert(data.message); // Show any error message returned by the server
         }
