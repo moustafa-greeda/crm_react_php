@@ -51,27 +51,30 @@ export default function NewTask({ open, onClose, userId }) {
                 console.log(values);
 
                 const response = await axios.post(
-                    "http://localhost/backend/addTask.php",
-                    values,
-                    { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+                  "http://localhost/backend/Tasks/addTask.php",
+                  values,
+                  {
+                    headers: {
+                      "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                  }
                 );
 
                 console.log(response);
 
-                if (response.status === 200 && response.data.status === "success") {
-                    setLoading(false);
-                    Swal.fire({
-                        title: "Item Added Successfully!",
-                        text: `Added: ${values.projectname}`,
-                        icon: "success",
-                        confirmButtonText: "OK",
-                    });
-                    formik.resetForm();
-                    // const newEntry = { id: `${Date.now()}`, ...values };
-                    // const newColumns = { ...columns };
-                    // newColumns[selectedColumn].push(newEntry);
-                    // setColumns(newColumns);
-                    onClose(); // Close the dialog
+                if (
+                  response.status === 200 &&
+                  response.data.status === "success"
+                ) {
+                  setLoading(false);
+                  Swal.fire({
+                    title: "Item Added Successfully!",
+                    text: `Added: ${values.projectname}`,
+                    icon: "success",
+                    confirmButtonText: "OK"
+                  });
+                  formik.resetForm();
+                  onClose(); // Close the dialog
                 }
             } catch (error) {
                 Swal.fire({

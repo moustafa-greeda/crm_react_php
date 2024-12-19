@@ -19,7 +19,9 @@ function Tasks() {
   useEffect(() => {
     async function getAllTasks() {
       try {
-        let { data } = await axios.get(`http://localhost/backend/get_allTasks.php`);
+        let { data } = await axios.get(
+          `http://localhost/backend/Tasks/get_allTasks.php`
+        );
         setAllTasks(data);
       } catch (error) {
         console.error(error);
@@ -38,10 +40,8 @@ function Tasks() {
     }
   };
 
-
   const handleDrop = async (e, newStatus) => {
     const taskId = e.dataTransfer.getData("itemId");
-
 
     setAllTasks((prevTasks) =>
       prevTasks.map((task) =>
@@ -50,10 +50,13 @@ function Tasks() {
     );
 
     try {
-      await axios.post(`http://localhost/backend/update_task_status.php`, {
-        id: taskId,
-        status: newStatus,
-      });
+      await axios.post(
+        `http://localhost/backend/Tasks/update_task_status.php`,
+        {
+          id: taskId,
+          status: newStatus
+        }
+      );
     } catch (error) {
       console.error(error);
     }

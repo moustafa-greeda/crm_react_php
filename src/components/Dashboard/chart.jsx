@@ -1,7 +1,5 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-<<<<<<< HEAD
-=======
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,8 +11,14 @@ import {
 } from "chart.js";
 
 // تسجيل المكونات
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
->>>>>>> 4349cf8b4c4f9cbfd5b24f5d5bfbfdfead8c0697
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Chart = () => {
   const data = {

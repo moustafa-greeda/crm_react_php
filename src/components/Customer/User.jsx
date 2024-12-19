@@ -10,12 +10,6 @@ const Users = () => {
   const [editUser, setEditUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-
-
-
-
-
-
   const [contracts, setContracts] = useState([]);
   const [newContract, setNewContract] = useState({
     user_id: "",
@@ -454,7 +448,6 @@ const Users = () => {
                     <i className="fa fa-trash"></i> {/* أيقونة الحذف */}
                   </button>
                   <button
-<<<<<<< HEAD
                     type="button"
                     className="btn btn-secondary"
                     title="Add Contract"
@@ -462,22 +455,36 @@ const Users = () => {
                       setIsContractModalOpen(true);
                       setNewContract({ ...newContract, user_id: user.id }); // تعيين user_id للعقد الجديد
                     }}
-=======
+
+                    // className="btn btn-warning ms-2"
+                    // onClick={() => setOpenDialog({ open: true, userId: user.id })}
+                    // title="Add Task" // نص التوضيح عند التمرير على الأيقونة
+                  >
+                    <i className="fa fa-edit"></i>
+                  </button>
+                  <button
+                    type="button"
+                    // className="btn btn-secondary"
+                    // title="Add Contract"
+                    // onClick={() => {
+                    //   setIsContractModalOpen(true);
+                    //   setNewContract({ ...newContract, user_id: user.id }); // تعيين user_id للعقد الجديد
+                    // }}
+
                     className="btn btn-warning ms-2"
-                    onClick={() => setOpenDialog({ open: true, userId: user.id })}
+                    onClick={() =>
+                      setOpenDialog({ open: true, userId: user.id })
+                    }
                     title="Add Task" // نص التوضيح عند التمرير على الأيقونة
->>>>>>> 4349cf8b4c4f9cbfd5b24f5d5bfbfdfead8c0697
                   >
                     <i className="fa fa-edit"></i>
                   </button>
 
-                 
                   <NewTask
                     open={openDialog.open}
                     onClose={() => setOpenDialog({ open: false, userId: null })}
                     userId={openDialog.userId}
                   />
-
                 </div>
               </td>
             </tr>

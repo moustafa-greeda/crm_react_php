@@ -9,6 +9,8 @@ import Users from "./components/Customer/User";
 import UserDashboard from "./components/User/UserDashboard";
 import Messages from "./components/Messages/Messages";
 import Calender from "./components/Calender/Calender";
+import Contracts from "./components/contract/contract";
+import Invoices from "./components/Invoices/Invoice"
 
 function App() {
   const router = createBrowserRouter([
@@ -23,7 +25,11 @@ function App() {
         { path: "/messages", element: <Messages /> },
         { path: "/settings", element: <Settings /> },
         { path: "/Auth/Login", element: <Login /> },
-        { path: "/Calender", element: <Calender /> }
+        { path: "/Calender", element: <Calender /> },
+        { path: "/contract", element: <Contracts /> },
+        { path: "/invoices", element: <Invoices /> },
+
+
       ]
     },
     {

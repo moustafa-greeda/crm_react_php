@@ -31,13 +31,15 @@ export default function Sidebar() {
         width: "250px",
         boxShadow: "5px 0 10px rgba(112, 206, 35, 0.527)",
         borderRadius: "0 20px 20px 0",
-        overflow: "hidden",
+        overflow: "scroll"
       }}
     >
-      <div style={{
-        padding: "10px", boxShadow: "0 4px 6px var(--main-color)",
-        marginBottom: "10px",
-      }}
+      <div
+        style={{
+          padding: "10px",
+          boxShadow: "0 4px 6px var(--main-color)",
+          marginBottom: "10px"
+        }}
       >
         <h2
           style={{
@@ -47,11 +49,15 @@ export default function Sidebar() {
             textAlign: "center"
           }}
         >
-          Welcome {loading ? <div class="spinner-border text-success" role="status">
-            <span class="sr-only">Loading...</span>
-          </div> : <span style={{ color: "var(--main-color)", }}>{name}</span>}
+          Welcome{" "}
+          {loading ? (
+            <div class="spinner-border text-success" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          ) : (
+            <span style={{ color: "var(--main-color)" }}>{name}</span>
+          )}
         </h2>
-
       </div>
 
       <ul className="nav flex-column w-100  pt-5 ps-3">
@@ -89,7 +95,8 @@ export default function Sidebar() {
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
             <i class="bi bi-people fs-5 me-3"></i>
-            {isSidebarOpen && <span>contract</span>}
+            {/* {isSidebarOpen && <span>contract</span>} */}
+            <span>contract</span>
           </NavLink>
         </li>
         <li className="nav-item mb-3">
@@ -99,6 +106,15 @@ export default function Sidebar() {
           >
             <i class="bi bi-chat-dots fs-5 me-3"></i>
             <span>Messages</span>
+          </NavLink>
+        </li>
+        <li className="nav-item mb-3">
+          <NavLink
+            to="/invoices"
+            className={`nav-link d-flex align-items-center ${style.links}`}
+          >
+            <i class="bi bi-chat-dots fs-5 me-3"></i>
+            <span>Invoices</span>
           </NavLink>
         </li>
         <li className="nav-item mb-3">

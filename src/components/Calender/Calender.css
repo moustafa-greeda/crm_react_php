@@ -190,7 +190,7 @@ Container Styling
   opacity: 0.8;
 }
 /* استخدام flexbox لترتيب الـ label و input */
-.mb-3 {
+.x {
   display: flex;
   flex-direction: row; /* ترتيب العناصر في نفس السطر */
   gap: 20px; /* المسافة بين label و input */
@@ -198,7 +198,7 @@ Container Styling
 }
 
 /* تعديل المسافات بين label و input */
-.mb-3 .form-label {
+.x .form-label {
   display: flex;
       align-items: center;
       justify-content: center;
@@ -207,7 +207,7 @@ Container Styling
         margin-bottom: 0;
 }
 
-.mb-3 .form-control {
+.x .form-control {
   flex-grow: 1;
 }
 .h5{
