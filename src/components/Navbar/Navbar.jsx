@@ -1,14 +1,20 @@
 
-import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import style from '../Navbar/Navbar.module.css';
+import React, { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import style from "../Navbar/Navbar.module.css";
 import image1 from '../images/image 1.png';
 import { toast } from "react-toastify";
+import Sidebar from "../ٍSidebar/Sidebar";
 
 export default function Navbar() {
-    let navigate = useNavigate();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
 
-    function userLogout() {
+    const navigate = useNavigate();
+
+    const userLogout = () => {
         localStorage.removeItem("role");
         localStorage.removeItem("userId");
         localStorage.removeItem("token");
@@ -17,20 +23,21 @@ export default function Navbar() {
             autoClose: 2000,
         });
         navigate("/");
-    }
+    };
 
     return (
         <>
+            <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+
             <div
                 className="flex-grow-1"
                 style={{
-                    marginLeft: "250px", 
-                    transition: "margin-left 0.3s",
+                    marginLeft: isSidebarOpen ? "250px" : "70px",
+                    transition: "margin-left 0.3s ease-in-out",
                     maxWidth: "100%",
-                     overflowX:"scroll"
+                    overflowX: "hidden",
                 }}
             >
-                
                 <nav className="navbar navbar-expand-lg navbar-light bg-light shadow">
                     <div className="container d-flex justify-content-between align-items-center">
                         <div className="one">
@@ -66,12 +73,10 @@ export default function Navbar() {
                     </div>
                 </nav>
 
-              
-                <div className="p-3">
+                <div className="p-1">
                     <Outlet />
                 </div>
             </div>
         </>
     );
 }
-

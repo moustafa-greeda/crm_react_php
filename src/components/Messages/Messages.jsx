@@ -1,31 +1,33 @@
 
-// import React from 'react'
-// import { useChatStore } from '../../store/useChatStore'
-// import SidebarMessages from './SidebarMessages';
-// import ChatContainer from './ChatContainer';
-// import NoChatSelected from './NoChatSelected';
 
-// const Messages = () => {
-//   const { selectedUser } = useChatStore();
+// // import React from 'react'
+// // import { useChatStore } from '../../store/useChatStore'
+// // import SidebarMessages from './SidebarMessages';
+// // import ChatContainer from './ChatContainer';
+// // import NoChatSelected from './NoChatSelected';
 
-//   return (
-//     <div className='tw-h-screen tw-bg-base-200'>
-//       <div className="tw-flex tw-items-center tw-justify-center tw-pt-20 tw-px-4">
-//         <div className='tw-bg-base-100 tw-rounded-lg tw-shadow-xl tw-w-full tw-max-w-6xl tw-h-[calc(100vh-8rem)]'>
-//           <div className='tw-flex tw-h-full tw-rounded-lg tw-overflow-hidden'>
+// // const Messages = () => {
+// //   const { selectedUser } = useChatStore();
 
-//             <SidebarMessages />
-//             {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
+// //   return (
+// //     <div className='tw-h-screen tw-bg-base-200'>
+// //       <div className="tw-flex tw-items-center tw-justify-center tw-pt-20 tw-px-4">
+// //         <div className='tw-bg-base-100 tw-rounded-lg tw-shadow-xl tw-w-full tw-max-w-6xl tw-h-[calc(100vh-8rem)]'>
+// //           <div className='tw-flex tw-h-full tw-rounded-lg tw-overflow-hidden'>
 
-//           </div>
-//         </div>
-//       </div>
+// //             <SidebarMessages />
+// //             {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
 
-//     </div>
-//   )
-// }
+// //           </div>
+// //         </div>
+// //       </div>
 
-// export default Messages;
+// //     </div>
+// //   )
+// // }
+
+// // export default Messages;
+
 
 import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
@@ -41,8 +43,10 @@ const Messages = () => {
   const chatWindowRef = useRef(null); // Ref for the chat window
 
   const userId = localStorage.getItem("userId"); // Logged-in user ID
-  const adminId = "78"; // Admin ID
-  const isAdmin = localStorage.getItem("isAdmin") === "admin"; // Check if admin
+
+  const adminId = "109";
+
+  const isAdmin = localStorage.getItem("role") === "admin"; // Check if admin
 
   // Fetch users (only for admin)
   const getUsers = async () => {
@@ -67,6 +71,10 @@ const Messages = () => {
           `http://localhost/backend/Chat/get_messages.php?user_id=${activeUserId}`
         );
         const data = await response.json();
+
+
+
+
         setMessages(data); // Ensure messages are loaded in the original order (from top to bottom)
         scrollToBottom(); // Scroll to the bottom when fetching messages
       } catch (error) {
@@ -112,7 +120,10 @@ const Messages = () => {
       receiver_id: receiverId,
       message: newMessage,
       created_at: new Date().toISOString(),
+
       message_id: Date.now()
+
+
     };
 
     // Optimistically update the UI
@@ -131,6 +142,9 @@ const Messages = () => {
             receiver_id: receiverId,
             message: newMessage
           })
+
+          
+
         }
       );
 
@@ -165,12 +179,18 @@ const Messages = () => {
     fetchMessages(userId);
     // console.log(activeUser);
 
+
     // fetchMessages(activeUser.id);
+
 
     if (!userId) {
       console.error("User not logged in");
       return;
     }
+
+
+
+
 
     if (activeUser) {
       fetchMessages(activeUser.id);

@@ -1,11 +1,13 @@
 import React from "react";
 import "./Dashboard.css";
+
 import Chart from "./chart";
 
-const Dashboard = () => {
 
+
+const Dashboard = () => {
   return (
-  <>
+<>
     <div className="dashboard">
       <h1 className="title">Dashboard</h1>
       <div className="stats-container">
@@ -27,10 +29,13 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+
     <Chart/>
   </>
     
   );
+
+
 
 };
 

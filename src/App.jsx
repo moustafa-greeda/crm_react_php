@@ -9,15 +9,17 @@ import Root from './components/Root/Root';
 import Login from './components/Auth/Login/Login';
 import Register from './components/Auth/Register/Register';
 
-// import Dashboard from './components/Dashboard/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 import DragAndDropColumns from "./pages/Tasks/Tasks";
 import Settings from "./components/Settings/Settings";
-import { Dashboard } from "@mui/icons-material";
+// import { Dashboard } from "@mui/icons-material";
 import Home from "./components/Home";
 import Users from "./components/Customer/User";
 import UserDashboard from "./components/User/UserDashboard";
 import Messages from "./components/Messages/Messages";
-
+import Contracts from "./components/contract/contract";
+import Calender from "./components/Calender/Calender";
+import Protected from "./components/Auth/Protected";
 
 function App() {
   const router =createBrowserRouter([  {
@@ -27,18 +29,20 @@ function App() {
       { path: "/tasks", element: <DragAndDropColumns /> },
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/user-dashboard", element: <UserDashboard /> },
-      { path: "/users", element: <Users /> },
+      { path: "/users", element:<Users />},
       { path: "/messages", element: <Messages /> },
-      { path: "/settings", element: <Settings /> }
+      { path: "/settings", element: <Settings /> },
+      { path: '/contract', element: <Contracts /> },
+      { path: '/calender', element: <Calender/> },
     ]
   },
 {
-  path: '/login',
-  element: <Login />,
+  path: '/register',
+  element: <Register  />,
 },
 {
   index:true,
-  element: <Register />,
+  element: <Login/>,
 },
 ])
   return (

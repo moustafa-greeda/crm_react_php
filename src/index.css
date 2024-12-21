@@ -36,4 +36,63 @@ code {
 #typePasswordX::placeholder {
   color: #000000;
 }
+/* /////////////////// */
+/* Sidebar.css */
+
+.sidebar-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.toggle-button {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #333;
+  color: white;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: -250px; /* Hide sidebar by default */
+  transition: all 0.3s ease-in-out;
+  padding: 20px;
+}
+
+.sidebar.open {
+  left: 0; /* Slide sidebar into view */
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 15px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px; /* Adjust sidebar width for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 150px; /* Further adjust sidebar width for very small screens */
+  }
+
+  .toggle-button {
+    font-size: 20px; /* Adjust button size */
+  }
+}
+
 

@@ -58,7 +58,7 @@ export default function Register() {
                                 position: "top-right",
                                 autoClose: 2000,
                               }); 
-          navigate("/login");
+          navigate("/");
         } else {
           toast.error(`failed: ${data.message} `, {
                      position: "top-right",
@@ -88,7 +88,7 @@ export default function Register() {
                 Sign up now to keep track of your work.
               </p>
               <form onSubmit={formik.handleSubmit}>
-                <div className="mb-3">
+                <div className="mb-2">
                   <input
                     type="text"
                     name="name"
@@ -102,7 +102,7 @@ export default function Register() {
                     <p className={style.error}>{formik.errors.name}</p>
                   )}
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <input
                     type="email"
                     name="email"
@@ -116,7 +116,7 @@ export default function Register() {
                     <p className={style.error}>{formik.errors.email}</p>
                   )}
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <input
                     type="text"
                     name="phone"
@@ -130,7 +130,7 @@ export default function Register() {
                     <p className={style.error}>{formik.errors.phone}</p>
                   )}
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <input
                     type="password"
                     name="password"
@@ -144,7 +144,7 @@ export default function Register() {
                     <p className={style.error}>{formik.errors.password}</p>
                   )}
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <input
                     type="password"
                     name="confirmPassword"
@@ -164,7 +164,7 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
-                  className="btn btn-success btn-block w-100 mt-3 mb-3"
+                  className="btn btn-success btn-block w-100 mt-3 mb-2"
                 >
                   Sign Up!
                 </button>

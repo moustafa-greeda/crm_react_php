@@ -10,7 +10,7 @@
 //                     <div className="col-12 col-md-10 col-lg-12">
 //                     <h5 className='text-dark fw-bold fs-3 ps-2'>Account Settings</h5>
 //                         <div className="card bg-white text-white pb-5">
-//                             <div className="mb-3 ms-3 me-3 mt-4">
+//                             <div className="mb-2 ms-3 me-3 mt-4">
 //                                 <h4 className="p-2 fw-bold text-dark">My Profile</h4>
 //                                 <div className="card p-3 d-flex flex-column flex-md-row align-items-center">
 
@@ -165,7 +165,7 @@ export default function Settings() {
                             <div className="mb-3 ms-3 me-3 mt-4">
                                 <h4 className="p-2 fw-bold text-dark">My Profile</h4>
                                 <div className="card p-3 d-flex flex-column flex-md-row align-items-center">
-                                    <div className="me-md-3 mb-3 mb-md-0">
+                                    <div className="me-md-3 mb-2 mb-md-0">
                                         <img
                                             src="/avatar.png"
                                             alt="User Profile"
@@ -195,7 +195,7 @@ export default function Settings() {
                                 </div>
                                 <div className="card-body">
                                     <form onSubmit={handleSaveClick}>
-                                        <div className="row mb-3">
+                                        <div className="row mb-2">
                                             <div className="col-md-6">
                                                 <label htmlFor="name" className="form-label text-muted">Name</label>
                                                 <input
@@ -221,7 +221,7 @@ export default function Settings() {
                                             </div>
 
                                         </div>
-                                        <div className="row mb-3">
+                                        <div className="row mb-2">
 
                                             <div className="col-md-6">
                                                 <label htmlFor="email" className="form-label text-muted">Email Address</label>
