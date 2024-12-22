@@ -118,7 +118,7 @@
   flex-direction: column;
   gap: 0.5rem;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .message-left {

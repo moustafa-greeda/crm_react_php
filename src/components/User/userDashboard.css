@@ -1,39 +1,129 @@
 .highlight {
-    color: var(--main-color);
-    font-weight: bold;
-  }
+  color: var(--main-color);
+  font-weight: bold;
+}
 
-  .personal-info-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    margin-bottom: 30px;
-  }
-  
-  .info-item {
-    display: flex;
-    align-items: center;
-    width: 45%;
-  }
-  
-  .icon {
-    color: var(--main-color);
-    font-size: 30px;
-    margin-right: 15px;
-  }
-  
-  h4 {
-    margin: 0;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  p {
-    margin: 0;
-    font-size: 16px;
-    color: #000;
-  }
+.personal-info-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  margin-bottom: 30px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  width: 45%;
+}
+
+.icon {
+  color: var(--main-color);
+  font-size: 30px;
+  margin-right: 15px;
+}
+
+h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+p {
+  margin: 0;
+  font-size: 16px;
+  color: #000;
+
+}
+
+
+
+.contact-item {
+  display: flex;
+  background-color: #F5F5F5;
+  padding: 15px;
+  align-items: center;
+  /* --gap: 0.9375rem;
+  width: calc(calc(100% - var(--gap)) / 2); */
+
+}
+
+.icon i {
+  background-color: var(--main-color);
+  border-radius: 50%;
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+}
+
+.icon {
+  margin: 10px;
+}
+
+/* .contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  --gap: 0.9375rem;
+  gap: var(--gap)
+} */
+
+
+
+.btnn {
+  background-color: var(--main-color);
+  border-radius: 30px;
+}
+
+.btnn:hover {
+  background-color: #61CE70;
+}
+
+
+
+
+/* Darken images */
+.carousel-image-overlay img {
+  opacity: 0.8; /* Adjust the opacity level */
+}
+
+/* Center text in the middle */
+.carousel-caption {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.8); /* Optional: dark background for better readability */
+}
+
+/* Optional: Adjust text styling */
+.carousel-caption h5 {
+  font-size: 2rem;
+  color: var(--main-color);
+  font-weight: 600;
+}
+
+.carousel-caption p {
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 300;
+}
+
+
+.ty h3{
+  color: var(--main-color);
+  font-weight: 700;
+  font-size: 40px;
+}
+
+.ty p{
+  font-weight: 300;
+  font-size: 20px;
+}

@@ -223,7 +223,7 @@ export default function Settings() {
                                         </div>
                                         <div className="row mb-3">
 
-                                            <div className="col-md-6">
+                                            <div className="col-md-12">
                                                 <label htmlFor="email" className="form-label text-muted">Email Address</label>
                                                 <input
                                                     type="email"
@@ -246,6 +246,7 @@ export default function Settings() {
                                                     disabled={!isEditable}
                                                 />
                                             </div> */}
+
                                         </div>
 
                                         {isEditable && (
@@ -259,7 +260,65 @@ export default function Settings() {
                                         )}
                                     </form>
                                 </div>
+
+
                             </div>
+
+                            {/* <div className="card ms-3 me-3 mt-3">
+
+                                <div className="card-body">
+                                <div className="d-flex justify-content-between align-items-center flex-wrap">
+                                    <h4 className="py-3 mb-3 fw-bold">Change Password</h4>
+                                    {!isEditable && (
+                                        <button className="mb-3 btn btn-outline-success" onClick={handleEditClick}>
+                                            <i className="bi bi-pen pe-1"></i>Edit
+                                        </button>
+                                    )}
+                                </div>
+                                    <form onSubmit={handleSaveClick}>
+                                        <div className="row mb-3">
+                                            <div className="col-md-12">
+                                                <label htmlFor="current-password" className="form-label text-muted">Current Password</label>
+                                                <input
+                                                    type="password"
+                                                    className={`form-control ${style.inputts}`}
+                                                    id="current-password"
+                                                    value={userData.password}
+                                                    onChange={handleInputChange}
+                                                    disabled={!isEditable}
+                                                />
+                                            </div>
+
+                                        </div>
+                                        <div className="row mb-3">
+
+                                            <div className="col-md-12">
+                                                <label htmlFor="email" className="form-label text-muted">New Password</label>
+                                                <input
+                                                    type="email"
+                                                    className={`form-control ${style.inputts}`}
+                                                    id="password"
+                                                    // value={userData.email}
+                                                    onChange={handleInputChange}
+                                                    disabled={!isEditable}
+                                                />
+                                            </div>
+
+                                        </div>
+
+                                        {isEditable && (
+                                            <button
+                                                type="submit"
+                                                className="btn text-dark float-end ps-5 pe-5"
+                                                style={{ backgroundColor: 'var(--main-color)', borderRadius: '25px' }}
+                                            >
+                                                Save
+                                            </button>
+                                        )}
+                                    </form>
+                                </div>
+                            </div> */}
+
                         </div>
                     </div>
                 </div>
