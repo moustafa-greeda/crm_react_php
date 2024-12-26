@@ -1,14 +1,32 @@
 
-import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import style from '../Navbar/Navbar.module.css';
-import image1 from '../images/image 1.png';
+import React, { useState, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import style from "../Navbar/Navbar.module.css";
+import image1 from "../images/image 1.png";
 import { toast } from "react-toastify";
+import Sidebar from "../ٍSidebar/Sidebar";
 
 export default function Navbar() {
-    let navigate = useNavigate();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
 
-    function userLogout() {
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
+    useEffect(()=>{
+      const reSizeNav=()=>{
+        if(window.innerWidth<=768){
+            setIsSidebarOpen(false);
+        }
+      }
+      return ()=>{
+        window.addEventListener("resize",reSizeNav)
+      }
+    },[])
+
+    const navigate = useNavigate();
+
+    const userLogout = () => {
         localStorage.removeItem("role");
         localStorage.removeItem("userId");
         localStorage.removeItem("token");
@@ -17,20 +35,21 @@ export default function Navbar() {
             autoClose: 2000,
         });
         navigate("/");
-    }
+    };
 
     return (
         <>
+            <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+
             <div
                 className="flex-grow-1"
                 style={{
-                    marginLeft: "250px", 
-                    transition: "margin-left 0.3s",
+                    marginLeft: isSidebarOpen ? "250px" : "70px",
+                    transition: "margin-left 0.3s ease-in-out",
                     maxWidth: "100%",
-                     overflowX:"scroll"
+                    overflowX: "scroll",
                 }}
             >
-                
                 <nav className="navbar navbar-expand-lg navbar-light bg-light shadow">
                     <div className="container d-flex justify-content-between align-items-center">
                         <div className="one">
@@ -52,8 +71,8 @@ export default function Navbar() {
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <div className={`ms-auto ${style.buttons}`}>
                                 <button
-                                    onClick={() => userLogout()}
-                                    className="btn"
+                                    onClick={userLogout}
+                                    className="btn btn-danger"
                                     style={{
                                         backgroundColor: "var(--main-color)",
                                         borderRadius: "25px",
@@ -66,12 +85,10 @@ export default function Navbar() {
                     </div>
                 </nav>
 
-              
-                <div className="p-3">
+                <div className="p-1">
                     <Outlet />
                 </div>
             </div>
         </>
     );
 }
-

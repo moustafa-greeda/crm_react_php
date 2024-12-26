@@ -39,7 +39,7 @@ const UserDashboard = () => {
   }, [userId]);
 
   return (
-    <div>
+    <div className="container">
       {error ? (
         <h2 style={{ color: "red" }}>{error}</h2>
       ) : userData ? (
