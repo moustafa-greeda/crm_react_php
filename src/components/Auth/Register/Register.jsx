@@ -18,7 +18,7 @@ export default function Register() {
       .required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     phone: Yup.string()
-      .matches(/^\d{10}$/, "Phone number must be 10 digits")
+      .matches(/^\d{10}$/, "Phone number must be 10 digits, remove 0")
       .required("Phone number is required"),
     password: Yup.string()
       .required("Password is required")
@@ -58,7 +58,7 @@ export default function Register() {
                                 position: "top-right",
                                 autoClose: 2000,
                               }); 
-          navigate("/login");
+          navigate("/");
         } else {
           toast.error(`failed: ${data.message} `, {
                      position: "top-right",

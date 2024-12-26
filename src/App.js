@@ -10,7 +10,9 @@ import UserDashboard from "./components/User/UserDashboard";
 import Messages from "./components/Messages/Messages";
 import Calender from "./components/Calender/Calender";
 import Contracts from "./components/contract/contract";
-import Invoices from "./components/Invoices/Invoice"
+import Invoices from "./components/Invoices/Invoice";
+import ForgotPassword from "./components/Auth/Login/ForgetPass";
+import ResetPassword from "./components/Auth/Login/ResetPass";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,12 +26,9 @@ function App() {
         { path: "/users", element: <Users /> },
         { path: "/messages", element: <Messages /> },
         { path: "/settings", element: <Settings /> },
-        { path: "/Auth/Login", element: <Login /> },
         { path: "/Calender", element: <Calender /> },
         { path: "/contract", element: <Contracts /> },
         { path: "/invoices", element: <Invoices /> },
-
-
       ]
     },
     {
@@ -37,15 +36,26 @@ function App() {
       element: <Register />
     },
     {
+      path: "/forgot-password",
+      element: <ForgotPassword />, // Add ForgotPassword route
+    },
+    {
+      path: "/reset-password/:token", // Route with token as a parameter
+      element: <ResetPassword />, // Link to ResetPassword component
+    },
+    {
       index: true,
       element: <Login />
     },
-
+    {
+      path: "*",
+      element: <div className="text-center mt-5"><h1>404: Page Not Found</h1></div>,
+  },
   ]);
 
   return (
     <>
-      <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router} />
     </>
   );
 }

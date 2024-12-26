@@ -11,8 +11,8 @@ export default function Login() {
   let navigate = useNavigate();
 
   let validateSchema = Yup.object({
-    email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string().required("password is required")
+    email: Yup.string().email("Invalid email").required("Email Required"),
+    password: Yup.string().required("Password is required")
   });
 
   let formik = useFormik({

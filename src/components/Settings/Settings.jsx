@@ -47,7 +47,7 @@ export default function Settings() {
         enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string().min(3, 'Name must be at least 3 characters long'),
-            phone: Yup.string().matches(/^\d{10}$/, 'Phone number must be 10 digits'),
+            phone: Yup.string().matches(/^\d{10}$/, 'Phone number must be 10 digits, remove 0'),
             email: Yup.string().email('Invalid email'),
         }),
         onSubmit: (values) => {
