@@ -43,47 +43,15 @@ export default function Login() {
         //   }
         const data = await response.json();
         if (data.success) {
-          // console.log("Login successful:", data.message);
-          // // Store user ID in localStorage for later use
-          // localStorage.setItem('userId', data.id); // Assuming `userId` is returned from the server
           const userId = data.id;
           const role = data.role;
           const token = data.token;
-          console.log(userId);
+          localStorage.setItem("authToken", token);
+
           localStorage.setItem("userId", userId);
           localStorage.setItem("role", role);
-          // localStorage.setItem("isAdmin", data.role);
           localStorage.setItem("activeUser", JSON.stringify(data.id));
-          //   const userId = localStorage.getItem("userId");
-
-          //   // Update the activeUser state
-
-          //   if (data.success) {
-          //     localStorage.setItem("token", data.token);
-          //     localStorage.setItem("userId", data.id);
-          //     localStorage.setItem("isAdmin", data.role);
-          //     localStorage.setItem("activeUser", JSON.stringify(data.id));
-
-          //     // Check if data contains the userId
-          //     if (data.role === "admin") {
-          //       navigate("/dashboard");
-          //       localStorage.setItem("userId", data.id); // Store userId in localStorage
-          //       console.log("Admin User ID stored in localStorage:", data.id);
-          //     } else {
-          //       navigate("/user-dashboard");
-          //       localStorage.setItem("userId", data.id); // Store userId in localStorage
-          //       console.log("User User ID stored in localStorage:", data.id);
-          //     }
-
-          //     // Optionally, check if it's stored
-          //     console.log(
-          //       "User ID from localStorage:",
-          //       localStorage.getItem("userId")
-          //     );
-          //   }
-          // } else {
-          //   console.log("Login failed:", data.message);
-          localStorage.setItem("token", token);
+          // localStorage.setItem("token", token);
           toast.success("You are logged In successfully!", {
             position: "top-right",
             autoClose: 2000

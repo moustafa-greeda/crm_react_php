@@ -1,11 +1,9 @@
-Container Styling
 .container {
   font-family: Arial, sans-serif;
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
 }
-
 /* Calendar Main Styling */
 .calendar {
   background-color: #fff;
@@ -21,32 +19,28 @@ Container Styling
   align-items: center;
   margin-bottom: 10px;
 }
-
 .calendar h1 {
   font-size: 1.5rem;
   color: #333;
 }
-
 .add-btn {
-  background-color: #4caf50;
+  background-color: var(--main-color);
   color: #fff;
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
 }
-
 .add-btn:hover {
   background-color: #45a049;
 }
-
 /* Calendar Grid Styling */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
+  width: 100%;
 }
-
 .day:hover {
   background-color: #f1f1f1;
 }
@@ -60,7 +54,6 @@ Container Styling
   margin: 5px;
   min-height: 100px;
 }
-
 .day-number {
   font-size: 18px;
   font-weight: bold;
@@ -68,47 +61,38 @@ Container Styling
   color: #333;
   margin-bottom: 10px;
 }
-
 .events {
   margin-top: 10px;
 }
-
 /* تخصيص لون الحدث */
 .event {
   padding: 5px;
-  background-color: #e3f2fd; /* لون خلفية الحدث */
+  color: #333;
+  background-color: #dceafc;
   border: 1px solid #90caf9; /* لون حدود الحدث */
   margin-bottom: 5px;
   border-radius: 4px;
 }
-
 .event-name {
   color: #6a7e7c; /* لون اسم الحدث */
   font-weight: bold;
   margin-bottom: 5px;
 }
-
 .event-details {
   color: #5f6368; /* لون وقت البداية والنهاية */
   font-size: 12px;
 }
-
 /* تخصيص ألوان للمواعيد */
-/* .start-time, .end-time {
+ .start-time, .end-time {
   display: inline-block;
   margin-right: 5px;
 }
-
 .start-time {
   font-weight:italic;
 }
-
 .end-time {
   font-style: italic;
-} */
-
-
-
+} 
 /* Modal Styling */
 .modal {
   position: fixed;
@@ -117,31 +101,22 @@ Container Styling
   width:20%;
   height:20%;
   background: rgba(0, 0, 0, 0.5);
-  display: flex;
+  display: none;
+}
+.modal show{
+  display:flex;
   justify-content: center;
   align-items: center;
-}
 
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  width: 300px;
-  display: flex;
-  flex-direction: column;
 }
 .modal-title {
   color: rgb(57, 68, 73);
-
 }
-
 .modal-content h2 {
   margin-bottom: 15px;
   font-size: 1.3rem;
   color: #333;
 }
-
 .modal-content input,
 .modal-content textarea {
   margin-bottom: 10px;
@@ -153,21 +128,17 @@ Container Styling
   background-color: #f0f6eb;
   width: 200px !important;
 }
-
-
 .modal-content textarea {
   resize: none;
   height: 80px;
   text-align: center;
 }
-
 /* Buttons Styling */
 .modal-content .button-group {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
-
 .modal-content button {
   padding: 10px 15px;
   border: none;
@@ -175,30 +146,26 @@ Container Styling
   cursor: pointer;
   font-size: 1rem;
 }
-
 .modal-content button:nth-child(1) {
   background-color: #535b53; /* Create */
   color: #fff;
 }
-
 .modal-content button:nth-child(2) {
   background-color: #45a049; /* Cancel */
   color: #fff;
 }
-
 .modal-content button:hover {
   opacity: 0.8;
 }
 /* استخدام flexbox لترتيب الـ label و input */
-.x {
+.mb-3 {
   display: flex;
   flex-direction: row; /* ترتيب العناصر في نفس السطر */
   gap: 20px; /* المسافة بين label و input */
   align-items: center; /* جعل العناصر في المنتصف عموديًا */
 }
-
 /* تعديل المسافات بين label و input */
-.x .form-label {
+.mb-3 .form-label {
   display: flex;
       align-items: center;
       justify-content: center;
@@ -206,11 +173,50 @@ Container Styling
         width: 25%;
         margin-bottom: 0;
 }
-
-.x .form-control {
+.mb-3 .form-control {
   flex-grow: 1;
 }
 .h5{
   text-align: center;
 }
+/* تنسيق الأزرار الخاصة بـ Next و Prev */
+button.btn-light {
+  background-color: #f8f9fa;
+  color: #c9ef97;
+  border: 1px solid #c9ef97;
+}
+button.btn-light:hover {
+  background-color: var(--main-color);
+  color: white;
+}
+/* محاذاة الأزرار */
+button + button {
+  margin-left: 10px;
+}
+
+select {
+  background-color: #f8f9fa; /* لون خلفية فاتح */
+  color: #212529; /* لون النص داكن */
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+select option {
+  background-color: #ffffff; /* لون خلفية الخيارات */
+  color: #212529; /* لون النص */
+}
+
+/* تنسيق زر الـ Next و Prev */
+button:hover {
+  background-color:var(--main-color);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 

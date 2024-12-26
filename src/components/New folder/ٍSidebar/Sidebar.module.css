@@ -1,0 +1,18 @@
+.links{
+color: white !important;
+  text-decoration: none;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  transition:color 0.3s ease;
+  margin-bottom: 10px;
+
+    
+}
+.links:hover {
+    background-color:var(--main-color); 
+    border-radius: 10px; 
+    transition: background-color 0.2s ease-in-out;
+  }
+ 
