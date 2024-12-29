@@ -110,8 +110,7 @@ function App() {
       element: <Login />
     },
     {
-      path: "*", // Catch-all route for 404
-      element: <PageNotFound /> // Display the PageNotFound component
+      path: "*" // Catch-all route for 404
     }
   ]);
 

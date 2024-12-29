@@ -1,24 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
-import NoChatSelected from "./NoChatSelected";
 import "./Messages.css";
-import "font-awesome/css/font-awesome.min.css";
 
 const Messages = () => {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [lastMessages, setLastMessages] = useState({});
   const [activeUser, setActiveUser] = useState(
     JSON.parse(localStorage.getItem("activeUser")) || null
   );
   const [newMessage, setNewMessage] = useState("");
-  const [file, setFile] = useState(null); // State to manage the selected file
   const chatWindowRef = useRef(null);
-
   const userId = localStorage.getItem("userId");
-  const adminId = "78";
+  const adminId = "78"; // هذا هو الـ admin ID، يمكنك تعديله حسب الحاجة
   const isAdmin = localStorage.getItem("role") === "admin";
 
-  // Fetch users (Admin only)
+  // جلب المستخدمين
   const getUsers = async () => {
     if (isAdmin) {
       try {
@@ -26,31 +23,88 @@ const Messages = () => {
           "http://localhost/backend/fetch_users.php"
         );
         const data = await response.json();
-        const filterUser = data.filter((user) => user.id !== adminId);
-        setUsers(filterUser);
+        console.log("Fetched users:", data);
+
+        // تصفية المستخدمين لاستبعاد الـ admin
+        const filteredUsers = Array.isArray(data)
+          ? data.filter((user) => user.id.toString() !== adminId.toString())
+          : [];
+
+        setUsers(filteredUsers);
+
+        // جلب آخر رسالة لكل مستخدم
+        filteredUsers.forEach((user) => {
+          getLastMessage(user.id);
+        });
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     }
   };
 
-  // Fetch messages for the active user
+  // جلب الرسائل الخاصة بالمستخدم النشط
   const fetchMessages = async (activeUserId) => {
     if (activeUserId) {
       try {
+        const receiverId = isAdmin ? activeUserId : adminId; // إذا كنت admin، ستجلب رسائل المستخدم المحدد، وإلا ستكون مع الـ admin
+
         const response = await fetch(
-          `http://localhost/backend/Chat/get_messages.php?user_id=${activeUserId}`
+          `http://localhost/backend/Chat/get_messages.php?user_id=${activeUserId}&receiver_id=${receiverId}`
         );
         const data = await response.json();
-        setMessages(data);
+        console.log("Fetched messages:", data); // طباعة الرد للتأكد
+        if (data.messages) {
+          setMessages(data.messages); // تأكد من هيكل البيانات
+        } else {
+          setMessages([]);
+        }
         scrollToBottom();
       } catch (error) {
         console.error("Error fetching messages:", error);
+        setMessages([]);
       }
     }
   };
 
-  // Delete a message
+  // جلب آخر رسالة لمستخدم معين
+  const getLastMessage = async (userId) => {
+    try {
+      const response = await fetch(
+        `http://localhost/backend/Chat/get_last_message.php?user_id=${userId}`
+      );
+
+      // Check if the response is OK (status code 200)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Attempt to parse the response as JSON
+      const data = await response.json();
+      console.log("Last message data:", data); // Debugging log
+
+      // Check if data contains the message
+      if (data && data.message) {
+        setLastMessages((prev) => ({
+          ...prev,
+          [userId]: data.message
+        }));
+      } else {
+        setLastMessages((prev) => ({
+          ...prev,
+          [userId]: "No messages yet" // Fallback when no message is found
+        }));
+      }
+    } catch (error) {
+      // Handle errors, including invalid JSON and network issues
+      console.error("Error fetching last message:", error);
+      setLastMessages((prev) => ({
+        ...prev,
+        [userId]: "No messages yet" // Fallback when an error occurs
+      }));
+    }
+  };
+
+  // حذف رسالة
   const handleDeleteMessage = async (messageId) => {
     try {
       const response = await fetch(
@@ -61,10 +115,9 @@ const Messages = () => {
 
       if (data.success) {
         setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.message_id === messageId ? { ...msg, is_deleted: true } : msg
-          )
+          prevMessages.filter((msg) => msg.message_id !== messageId)
         );
+        console.log("Message deleted successfully.");
       } else {
         console.error("Failed to delete message:", data.message);
       }
@@ -73,106 +126,84 @@ const Messages = () => {
     }
   };
 
-  // Send a new message
+  // إرسال رسالة
   const handleSendMessage = async () => {
-    if (newMessage.trim() === "" && !file) return;
+    if (newMessage.trim() === "") {
+      console.error("Message cannot be empty.");
+      return;
+    }
 
+    const senderId = userId;
     const receiverId = isAdmin ? activeUser?.id : adminId;
 
-    if (receiverId === userId) {
-      console.error("Sender and receiver cannot be the same.");
+    if (!senderId || !receiverId) {
+      console.error("Sender or receiver ID is missing.");
       return;
     }
 
     const newMessageObject = {
-      sender_id: userId,
+      sender_id: senderId,
       receiver_id: receiverId,
       message: newMessage,
       created_at: new Date().toISOString(),
-      message_id: Date.now(),
-      is_deleted: false,
-      file: file ? file.name : null // Include file name in the message object
+      message_id: Date.now()
     };
 
-    // Update UI immediately for better user experience
     setMessages((prevMessages) => [...prevMessages, newMessageObject]);
     setNewMessage("");
-    setFile(null); // Reset the file input
     scrollToBottom();
 
-    // Create FormData to send file and message
-    const formData = new FormData();
-    formData.append("sender_id", userId);
-    formData.append("receiver_id", receiverId);
-    formData.append("message", newMessage);
-    if (file) formData.append("file", file);
-
-    // Send to the backend
     try {
       const response = await fetch(
         "http://localhost/backend/Chat/send_message.php",
         {
           method: "POST",
-          body: formData
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sender_id: senderId,
+            receiver_id: receiverId,
+            message: newMessage
+          })
         }
       );
 
       const data = await response.json();
+
       if (data.status === "success") {
-        fetchMessages(activeUser.id);
+        console.log("Message sent successfully.");
+        fetchMessages(activeUser?.id);
       } else {
-        console.error("Failed to send message:", data);
+        console.error("Failed to send message:", data.message);
       }
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
 
-  // Scroll to the bottom of the chat
+  // التمرير إلى أسفل المحادثة
   const scrollToBottom = () => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
   };
 
-  // Handle user selection (Admin only)
+  // التعامل مع اختيار المستخدم
   const handleUserSelection = (user) => {
     setActiveUser(user);
-    localStorage.setItem("activeUser", JSON.stringify(user));
     fetchMessages(user.id);
   };
 
-  // Clear active user
-  const clearActiveUser = () => {
-    setActiveUser(null);
-    localStorage.removeItem("activeUser");
-  };
-
-  // Handle file selection
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  // Initial setup
   useEffect(() => {
-    scrollToBottom();
     getUsers();
-    fetchMessages(userId);
-
     if (!userId) {
       console.error("User not logged in");
       return;
     }
 
-    // Only fetch messages for activeUser if they are not the admin (ID: 78)
-    if (activeUser && activeUser.id !== adminId) {
+    if (activeUser) {
       fetchMessages(activeUser.id);
     }
   }, [userId, activeUser]);
-
-  // Check if there's no active user or chat selected
-  const isNoChatSelected =
-    !activeUser || !activeUser.id || activeUser.id === adminId;
 
   return (
     <div className="messages-container">
@@ -188,11 +219,15 @@ const Messages = () => {
                 }`}
                 onClick={() => handleUserSelection(user)}
               >
-                <i className="fa fa-user-circle user-avatar"></i>
-
-                <div className="">
-                  <h4>{user.name}</h4>
-                  <p>User ID: {user.id}</p>
+                <div id="ee">
+                  <div>
+                    <i className="fas fa-user"></i>
+                  </div>
+                  <div>
+                    <h4>{user.name}</h4>
+                    {/* عرض آخر رسالة */}
+                    {/* <p>{lastMessages[user.id] || "No messages yet"}</p> */}
+                  </div>
                 </div>
               </div>
             ))
@@ -203,13 +238,17 @@ const Messages = () => {
       )}
 
       <div className="chat-window">
-        {isNoChatSelected ? (
-          <NoChatSelected />
+        {isAdmin && !activeUser ? (
+          <div className="no-conversation">
+            <p>Please select a user to start the conversation.</p>
+          </div>
         ) : (
           <>
             <div className="chat-header">
               <h4>
-                Chat with {activeUser.name} (ID: {activeUser.id})
+                {isAdmin && activeUser
+                  ? `Chat with ${activeUser.name} (ID: ${activeUser.id})`
+                  : "Admin"}
               </h4>
               <span>Today, {moment().format("MMM D")}</span>
             </div>
@@ -223,28 +262,18 @@ const Messages = () => {
                       key={msg.message_id}
                       className={`message-bubble ${
                         isUserMessage ? "message-right" : "message-left"
-                      } ${msg.is_deleted ? "message-deleted" : ""}`}
+                      }`}
                     >
-                      <p>{msg.is_deleted ? "message deleted" : msg.message}</p>
-                      {msg.file && (
-                        <a
-                          href={`http://localhost/uploads/${msg.file}`}
-                          target="_blank"
-                        >
-                          Download Attachment
-                        </a>
-                      )}
+                      <p>{msg.message}</p>
                       <span className="message-time">
                         {moment(msg.created_at).format("MMM D, h:mm A")}
                       </span>
-                      {!msg.is_deleted && isUserMessage && (
-                        <button
-                          className="delete-button"
-                          onClick={() => handleDeleteMessage(msg.message_id)}
-                        >
-                          <i className="fa fa-trash"></i>
-                        </button>
-                      )}
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDeleteMessage(msg.message_id)}
+                      >
+                        Delete
+                      </button>
                     </div>
                   );
                 })
@@ -259,7 +288,6 @@ const Messages = () => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
               />
-              {/* <input type="file" onChange={handleFileChange} /> */}
               <button onClick={handleSendMessage}>Send</button>
             </div>
           </>

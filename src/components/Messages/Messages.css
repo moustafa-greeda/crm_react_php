@@ -73,6 +73,29 @@ body {
   font-size: 0.85rem;
   color: #777;
 }
+#ee {
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  gap: 10px; /* Optional: space between icon and text */
+  height: 100%; /* Make sure the container takes up full height (if needed) */
+}
+
+/* #ee div {
+  display: flex;
+  align-items: center;
+} */
+
+#ee i {
+  font-size: 24px; /* Icon size */
+  color: #007bff; /* Icon color */
+  margin-right: 10px; /* Space between icon and text */
+}
+
+#ee h4, #ee p {
+  margin: 0;
+  padding: 0;
+}
 
 .no-users {
   color: #999;
