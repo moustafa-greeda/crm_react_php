@@ -10,77 +10,116 @@ const Calendar = () => {
   const [endTime, setEndTime] = useState("");
   const [notes, setNotes] = useState("");
   const [events, setEvents] = useState([]);
+  const [users, setUsers] = useState([]);  // لتخزين المستخدمين
+  const [selectedUser, setSelectedUser] = useState(""); // لتخزين المستخدم المحدد
+  const [userRole, setUserRole] = useState("");  // دور المستخدم (أدمن/يوزر)
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  // جلب الأحداث من قاعدة البيانات
+  // جلب دور المستخدم من localStorage
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost/backend/Calender/getEvents.php"
-        );
-        setEvents(response.data); // تخزين الأحداث المسترجعة
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    };
-
-    fetchEvents();
+    const role = localStorage.getItem("role");
+    setUserRole(role);
   }, []);
 
-  const handleAddEvent = () => {
-    setShowModal(true); // فتح المودال
-  };
+  // جلب المستخدمين من السيرفر
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost/backend/fetch_users.php");
+        setUsers(response.data); // تخزين المستخدمين
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
 
-  const handleCloseModal = () => {
-    setShowModal(false); // غلق المودال
+  // جلب الأحداث من السيرفر
+  useEffect(() => {
+    fetchEvents();  // جلب الأحداث عند تحميل الصفحة
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      console.log(userId);
+      
+      const role = localStorage.getItem("role");
+
+      // جلب الأحداث بناءً على دور المستخدم
+      const response = await axios.get(`http://localhost/backend/Calender/getEvents.php?user_id=${userId}&role=${role}`);
+      console.log(response);
+      
+      if (Array.isArray(response.data)) {
+        setEvents(response.data); // تخزين الأحداث
+      } else {
+        console.error("Expected an array but got:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
   };
 
   const handleCreateEvent = async () => {
     try {
-      // إرسال البيانات إلى الـ API لإضافة الحدث
-      const response = await axios.post(
-        "http://localhost/backend/Calender/addEvent.php",
-        {
-          event_name: eventName,
-          event_date: eventDate,
-          start_time: startTime,
-          end_time: endTime,
-          notes: notes
-        }
-      );
+      const userId = localStorage.getItem("userId");
+      const role = localStorage.getItem("role");
+      
+      // إرسال البيانات إلى السيرفر
+      const response = await axios.post("http://localhost/backend/Calender/addEvent.php", {
+        user_id: selectedUser,
+        event_name: eventName,
+        event_date: eventDate,
+        start_time: startTime,
+        end_time: endTime,
+        notes: notes,
+      });
 
-      alert(response.data.message); // إعلام المستخدم
-      setShowModal(false); // غلق المودال بعد الإضافة
+      console.log("Response from server:", response.data);  // أضف هذا السطر لمراقبة الرد
 
-      // تحديث قائمة الأحداث
-      const newEvents = await axios.get(
-        "http://localhost/backend/Calender/getEvents.php"
-      );
-      setEvents(newEvents.data);
+      alert(response.data.message);
+      setShowModal(false);
+      fetchEvents();  // جلب الأحداث بعد إضافة الحدث
     } catch (error) {
       console.error("Error creating event:", error);
     }
   };
 
+  const handleNextMonth = () => {
+    setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
+  };
+
+  const handlePrevMonth = () => {
+    setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
+  };
+
+  const monthName = currentDate.toLocaleString('default', { month: 'long' });
+  const year = currentDate.getFullYear();
+
   return (
-    <div className="container">
+    <div className="calender-container">
       <main className="calendar">
         <header>
-          <h1>Dec 2024</h1>
-          <button className="btn btn-success" onClick={handleAddEvent}>
-            + Add Event
+          <h1>{`${monthName} ${year}`}</h1>
+          <button className="btn btn-light" onClick={handlePrevMonth}>
+            &lt; Prev
           </button>
+          <button className="btn btn-light" onClick={handleNextMonth}>
+            Next &gt;
+          </button>
+          {userRole === "admin" && (
+            <button className="btn btn-success" onClick={() => setShowModal(true)}>
+              + Add Event
+            </button>
+          )}
         </header>
 
         <section className="calendar-grid">
-          {/* عرض الأيام في التقويم */}
           {Array.from({ length: 31 }).map((_, idx) => {
             const day = idx + 1;
-
-            // العثور على الأحداث المناسبة لهذا اليوم
             const dayEvents = events.filter((event) => {
               const eventDate = new Date(event.event_date);
-              return eventDate.getDate() === day;
+              return eventDate.getDate() === day && eventDate.getMonth() === currentDate.getMonth();
             });
 
             return (
@@ -105,7 +144,6 @@ const Calendar = () => {
         </section>
       </main>
 
-      {/* المودال لإضافة حدث */}
       {showModal && (
         <div
           className="modal show"
@@ -123,12 +161,12 @@ const Calendar = () => {
                 <button
                   type="button"
                   className="btn-close"
-                  onClick={handleCloseModal}
+                  onClick={() => setShowModal(false)}
                   aria-label="Close"
                 ></button>
               </div>
               <div className="modal-body">
-                <div className="mb-3">
+                <div className="mb-3 modal-details">
                   <label htmlFor="event-name" className="form-label">
                     Event Name:
                   </label>
@@ -141,7 +179,7 @@ const Calendar = () => {
                     onChange={(e) => setEventName(e.target.value)}
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 modal-details">
                   <label htmlFor="event-date" className="form-label">
                     Event Date:
                   </label>
@@ -153,11 +191,10 @@ const Calendar = () => {
                     onChange={(e) => setEventDate(e.target.value)}
                   />
                 </div>
-                <div className="mb-3 input-group">
+                <div className="mb-3 modal-details input-group">
                   <label htmlFor="start-time" className="form-label">
                     Start Time:
                   </label>
-
                   <input
                     type="time"
                     className="form-control"
@@ -166,7 +203,7 @@ const Calendar = () => {
                     onChange={(e) => setStartTime(e.target.value)}
                   />
                 </div>
-                <div className="mb-3 input-group">
+                <div className="mb-3 modal-details input-group">
                   <label htmlFor="end-time" className="form-label">
                     End Time:
                   </label>
@@ -178,7 +215,7 @@ const Calendar = () => {
                     onChange={(e) => setEndTime(e.target.value)}
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 modal-details">
                   <label htmlFor="notes" className="form-label">
                     Notes:
                   </label>
@@ -190,12 +227,30 @@ const Calendar = () => {
                     onChange={(e) => setNotes(e.target.value)}
                   ></textarea>
                 </div>
+                <div className="mb-3 modal-details">
+                  <label htmlFor="user" className="form-label">
+                    Select User:
+                  </label>
+                  <select
+                    className="form-control"
+                    id="user"
+                    value={selectedUser}
+                    onChange={(e) => setSelectedUser(e.target.value)}
+                  >
+                    <option value="">Select a User</option>
+                    {users.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <div className="modal-footer">
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={handleCloseModal}
+                  onClick={() => setShowModal(false)}
                 >
                   Cancel
                 </button>

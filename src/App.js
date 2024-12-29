@@ -21,7 +21,7 @@ function App() {
       element: <Root />,
       children: [
         { path: "/tasks", element: <DragAndDropColumns /> },
-        { path: "/Dashboard", element: <Dashboard /> },
+        { path: "/dashboard", element: <Dashboard /> },
         { path: "/user-dashboard", element: <UserDashboard /> },
         { path: "/users", element: <Users /> },
         { path: "/messages", element: <Messages /> },

@@ -99,7 +99,7 @@ const UserDashboard = () => {
               <div className="carousel-item position-relative active" data-bs-interval="5000">
                 <img src="/pexels-3.jpg" className="d-block w-100 carousel-image" alt="..." />
                 <div className="carousel-overlay"></div>
-                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white">
+                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white carousel-caption-text">
                   <h5>Quality</h5>
                   <p>We aim to deliver high-quality products. Hence. we take care of everything at the granular level.</p>
                 </div>
@@ -107,7 +107,7 @@ const UserDashboard = () => {
               <div className="carousel-item position-relative" data-bs-interval="5000">
                 <img src="/pexels-2.jpg" className="d-block w-100 carousel-image" alt="..." />
                 <div className="carousel-overlay"></div>
-                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white">
+                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white carousel-caption-text">
                   <h5>Reliability</h5>
                   <p>Our teams are made up of highly skilled and certified engineers with industry-specific domain knowledge.</p>
                 </div>
@@ -115,7 +115,7 @@ const UserDashboard = () => {
               <div className="carousel-item position-relative" data-bs-interval="5000">
                 <img src="/pexels-1.jpg" className="d-block w-100 carousel-image" alt="..." />
                 <div className="carousel-overlay"></div>
-                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white">
+                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white carousel-caption-text">
                   <h5>Flexibility</h5>
                   <p>Our team keeps the requirements of our clients on priority & the development process transparent.</p>
                 </div>
@@ -123,7 +123,7 @@ const UserDashboard = () => {
               <div className="carousel-item position-relative" data-bs-interval="5000">
                 <img src="/pexels-5.jpg" className="d-block w-100 carousel-image" alt="..." />
                 <div className="carousel-overlay"></div>
-                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white">
+                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white carousel-caption-text">
                   <h5>Competence</h5>
                   <p>Our team consists of expert developers who have domain expertise for all business industries.</p>
                 </div>

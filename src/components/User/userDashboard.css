@@ -136,3 +136,15 @@
   text-decoration: none;
   color: #000;
 }
+
+@media screen and (min-width:0px) and (max-width:600px) {
+  .carousel-caption-text h5, .carousel-caption-text p{
+    font-size: 15px;
+  }
+  .carousel-caption-text{
+    margin-top: 10px;
+  }
+  .carousel-caption-text h5{
+    margin-top: 20px;
+  }
+}

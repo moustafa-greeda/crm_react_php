@@ -1,13 +1,12 @@
-
 import React, { useState, useEffect } from "react";
-import { Paper, Typography, Grid, List, ListItem, ListItemText, Buttonو, Box } from "@mui/material";
+import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import axios from "axios";
 
 const columnNames = {
   column1: "To Do",
   column2: "In Progress",
   column3: "Review",
-  column4: "Completed",
+  column4: "Completed"
 };
 
 function Tasks() {
@@ -16,20 +15,26 @@ function Tasks() {
   const [tasks, setAllTasks] = useState([]);
   const [roleType, setRoleType] = useState(Role);
 
+  // Fetch all tasks on initial load
   useEffect(() => {
     async function getAllTasks() {
       try {
-        let { data } = await axios.get(
+        const { data } = await axios.get(
           `http://localhost/backend/Tasks/get_allTasks.php`
         );
         setAllTasks(data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching tasks:", error);
       }
     }
     getAllTasks();
+
+    // Set up polling to fetch tasks every 5 seconds
+    const interval = setInterval(getAllTasks, 5000);
+    return () => clearInterval(interval); // Clean up on component unmount
   }, []);
 
+  // Filter tasks based on user role and status
   const getFilteredTasks = (status) => {
     if (roleType === "admin") {
       return tasks.filter((task) => task.status === status);
@@ -40,9 +45,11 @@ function Tasks() {
     }
   };
 
+  // Handle dragging and dropping tasks to update their status
   const handleDrop = async (e, newStatus) => {
     const taskId = e.dataTransfer.getData("itemId");
 
+    // Optimistic UI update: Immediately update the task status on frontend
     setAllTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task
@@ -50,41 +57,57 @@ function Tasks() {
     );
 
     try {
-      await axios.post(
-        `http://localhost/backend/Tasks/update_task_status.php`,
+      // Send the update to the backend
+      const response = await axios.post(
+        "http://localhost/backend/Tasks/update_task_status.php",
         {
           id: taskId,
           status: newStatus
         }
       );
+
+      // If the backend fails, revert the UI change
+      if (!response.data.success) {
+        console.error("Error updating task status");
+        setAllTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.id === taskId ? { ...task, status: task.previousStatus } : task
+          )
+        );
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error updating task status:", error);
+      setAllTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId ? { ...task, status: task.previousStatus } : task
+        )
+      );
     }
   };
+
+  // Function to set the background color based on project size
   function BackgroundSize(size) {
     switch (size) {
-      case 'Small':
-        return '#ffb400';
-      case 'Medium':
-        return '#f35588';
-      case 'Large':
-        return '#1E90FF';
+      case "Small":
+        return "#ffb400";
+      case "Medium":
+        return "#f35588";
+      case "Large":
+        return "#1E90FF";
       default:
-        return '#cccccc';
+        return "#cccccc";
     }
   }
 
   return (
     <div>
-
-
       <Box
         sx={{
           display: "flex",
           flexWrap: "wrap",
           gap: "20px",
           padding: "20px",
-          justifyContent: "space-between",
+          justifyContent: "space-between"
         }}
       >
         {Object.keys(columnNames).map((columnId) => (
@@ -96,10 +119,12 @@ function Tasks() {
               backgroundColor: "#f9f9f9",
               borderRadius: "8px",
               boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-              overflow: "hidden",
+              overflow: "hidden"
             }}
             onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => roleType === "admin" && handleDrop(e, columnNames[columnId])}
+            onDrop={(e) =>
+              roleType === "admin" && handleDrop(e, columnNames[columnId])
+            }
           >
             <Typography
               variant="h6"
@@ -109,8 +134,7 @@ function Tasks() {
                 padding: "12px",
                 backgroundColor: "var(--main-color)",
                 color: "#fff",
-                fontWeight: "bold",
-
+                fontWeight: "bold"
               }}
             >
               {columnNames[columnId]}
@@ -122,13 +146,10 @@ function Tasks() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "stretch",
-                gap: "12px",
+                gap: "12px"
               }}
             >
-
               {getFilteredTasks(columnNames[columnId]).map((item) => (
-
-
                 <ListItem
                   key={item.id}
                   draggable={roleType === "admin"}
@@ -145,32 +166,23 @@ function Tasks() {
                     "&:hover": {
                       backgroundColor: "#f0f0f0",
                       transform: "scale(1.03)"
-                    },
+                    }
                   }}
-
-
                 >
-                
-
                   <ListItemText
                     primary={
                       <div
-                        className="parent_logo"
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          flexWrap: 'wrap',
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center"
                         }}
                       >
                         <h3
                           style={{
-                            fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.5rem' },
-                            color: 'var(  --main-color)',
-                            marginRight: '10px',
-                            wordWrap: 'break-word',
-                            flex: 1,
+                            fontSize: "1.5rem",
+                            color: "var(--main-color)",
+                            marginRight: "10px"
                           }}
                         >
                           {item.projectname}
@@ -178,20 +190,19 @@ function Tasks() {
                         <span
                           style={{
                             backgroundColor: BackgroundSize(item.projectsize),
-                            padding: '5px 10px',
-                            color: '#fff',
-                            borderRadius: '40%',
-                            fontSize: { xs: '0.8rem', sm: '1rem', md: '1.2rem' },
-                            flexShrink: 0,
+                            padding: "5px 10px",
+                            color: "#fff",
+                            borderRadius: "40%"
                           }}
                         >
-                          {item.projectsize || 'N/A'}
+                          {item.projectsize || "N/A"}
                         </span>
                       </div>
                     }
                     secondary={
                       <div>
-                        <strong>Description:</strong> {item.description || "N/A"}
+                        <strong>Description:</strong>{" "}
+                        {item.description || "N/A"}
                         <br />
                         <strong>Date:</strong> {item.creationdate}
                         <br />
@@ -202,7 +213,6 @@ function Tasks() {
                 </ListItem>
               ))}
             </List>
-
           </Box>
         ))}
       </Box>
@@ -211,7 +221,3 @@ function Tasks() {
 }
 
 export default Tasks;
-
-
-
-

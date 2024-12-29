@@ -232,7 +232,7 @@ const Users = () => {
                   </div>
                   <div className="modal-body">
                     <form onSubmit={handleAddContract}>
-                      <div className="mb-3">
+                      <div className="mb-3 modal-details">
                         <input
                           type="text"
                           className="form-control"
@@ -244,7 +244,7 @@ const Users = () => {
                           hidden
                         />
                       </div>
-                      <div className="mb-3">
+                      <div className="mb-3 modal-details">
                         <label
                           htmlFor="contract-name"
                           className="col-form-label"
@@ -261,7 +261,7 @@ const Users = () => {
                           required
                         />
                       </div>
-                      <div className="mb-3">
+                      <div className="mb-3 modal-details">
                         <label
                           htmlFor="contract-file"
                           className="col-form-label"
@@ -326,7 +326,7 @@ const Users = () => {
                     </div>
                     <div className="modal-body">
                       <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
+                        <div className="mb-3 modal-details">
                           <label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -342,7 +342,7 @@ const Users = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 modal-details">
                           <label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -358,7 +358,7 @@ const Users = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 modal-details">
                           <label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -374,7 +374,7 @@ const Users = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 modal-details">
                           <label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -432,7 +432,7 @@ const Users = () => {
               <td>
                 <div className="d-flex justify-content-center">
                   <button
-                    className="btn btn-secondary me-2"
+                    className="btn btn-primary me-2"
                     onClick={() => handleEdit(user)}
                     title="Edit User" // نص التوضيح عند التمرير على الأيقونة
                   >
@@ -447,37 +447,25 @@ const Users = () => {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn btn-success ms-2"
                     title="Add Contract"
                     onClick={() => {
                       setIsContractModalOpen(true);
                       setNewContract({ ...newContract, user_id: user.id }); // تعيين user_id للعقد الجديد
                     }}
-
-                    // className="btn btn-warning ms-2"
-                    // onClick={() => setOpenDialog({ open: true, userId: user.id })}
-                    // title="Add Task" // نص التوضيح عند التمرير على الأيقونة
                   >
-                    <i className="fa fa-edit"></i>
+                    <i class="fa fa-tags"></i>
                   </button>
                   <button
                     type="button"
-                    // className="btn btn-secondary"
-                    // title="Add Contract"
-                    // onClick={() => {
-                    //   setIsContractModalOpen(true);
-                    //   setNewContract({ ...newContract, user_id: user.id }); // تعيين user_id للعقد الجديد
-                    // }}
-
                     className="btn btn-warning ms-2"
                     onClick={() =>
                       setOpenDialog({ open: true, userId: user.id })
                     }
                     title="Add Task" // نص التوضيح عند التمرير على الأيقونة
                   >
-                    <i className="fa fa-edit"></i>
+                    <i class="fa fa-tasks"></i>{" "}
                   </button>
-
                   <NewTask
                     open={openDialog.open}
                     onClose={() => setOpenDialog({ open: false, userId: null })}
