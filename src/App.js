@@ -1,53 +1,70 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Root from './components/Root/Root';
-import Login from './components/Auth/Login/Login';
-import Register from './components/Auth/Register/Register';
-import Messages from './components/Messages/Messages';
-import Dashboard from './components/Dashboard/Dashboard';
-import Settings from './components/Settings/Settings';
-import Users from './components/Customer/User';
-import UserDashboard from './components/User/UserDashboard';
-import Home from './components/Home';
-import Contracts from './components/contract/contract';
-import ProtectedRoute from './components/Auth/ProtectedRoute';
-import Calendar from './components/Calender/Calender';
-import Tasks from './pages/Tasks/Tasks';
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Root from "./components/Root/Root";
+import Login from "./components/Auth/Login/Login";
+import Register from "./components/Auth/Register/Register";
+import Dashboard from "./components/Dashboard/Dashboard";
+import DragAndDropColumns from "./pages/Tasks/Tasks";
+import Settings from "./components/Settings/Settings";
+import Users from "./components/Customer/User";
+import UserDashboard from "./components/User/UserDashboard";
+import Messages from "./components/Messages/Messages";
+import Calender from "./components/Calender/Calender";
+import Contracts from "./components/contract/contract";
+import Invoices from "./components/Invoices/Invoice";
+import PageNotFound from "./components/PageNotFound"; // Import the PageNotFound component
 
 function App() {
+  // الحصول على الدور من الـ localStorage أو السياق (Context)
+  const role = localStorage.getItem("role");
+
+  // تعريف الـ routes المشتركة بين الـ admin والـ user
+  const commonRoutes = [
+    { path: "/login", element: <Login /> },
+    { path: "/register", element: <Register /> },
+    { path: "/tasks", element: <DragAndDropColumns /> },
+    { path: "/messages", element: <Messages /> },
+    { path: "/Calender", element: <Calender /> },
+    { path: "/settings", element: <Settings /> }
+  ];
+
+  // تعريف الـ routes الخاصة بالـ admin
+  const adminRoutes = [
+    { path: "/dashboard", element: <Dashboard /> },
+    { path: "/users", element: <Users /> },
+    { path: "/contract", element: <Contracts /> }
+  ];
+
+  // تعريف الـ routes الخاصة بالـ user
+  const userRoutes = [{ path: "/user-dashboard", element: <UserDashboard /> }];
+
+  // إنشاء الـ router بناءً على الدور
   const router = createBrowserRouter([
     {
       path: '/',
       element: <Root />,
       children: [
-        { path: 'home', element: <Home /> },
-        { path: 'dashboard', element: <ProtectedRoute element={Dashboard} requiredRoles={['admin']} /> },
-        { path: 'messages', element: <ProtectedRoute element={Messages} requiredRoles={['admin', 'user']} /> },
-        { path: 'users', element: <ProtectedRoute element={Users} requiredRoles={['admin']} /> },
-        { path: 'settings', element: <ProtectedRoute element={Settings} requiredRoles={['admin']} /> },
-        { path: 'user-dashboard', element: <ProtectedRoute element={UserDashboard} requiredRoles={['user']} /> },
-        { path: 'contract', element: <ProtectedRoute element={Contracts} requiredRoles={['admin']} /> },
-        { path: 'calender', element: <ProtectedRoute element={Calendar} requiredRoles={['admin', 'user']} /> },
-        { path: 'tasks', element: <ProtectedRoute element={Tasks} requiredRoles={['admin']} /> },
-      ],
+        ...commonRoutes, // إضافة الـ routes المشتركة
+        ...(role === "admin" ? adminRoutes : userRoutes) // إضافة الـ routes حسب الدور
+      ]
+    },
+    {
+      path: "/register",
+      element: <Register />
     },
     {
       index: true,
       element: <Login />,
     },
     {
-      path: '/register',
-      element: <Register />,
-    },
-    {
-      path: '/unauthorized',
-      element: <div>Unauthorized</div>, // صفحة لعدم السماح
-    },
+      path: "*", // Catch-all route for 404
+      element: <PageNotFound /> // Display the PageNotFound component
+    }
   ]);
 
   return (
     <>
-      <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router} />
     </>
   );
 }

@@ -51,7 +51,7 @@ export default function NewTask({ open, onClose, userId }) {
                 console.log(values);
 
                 const response = await axios.post(
-                    "http://localhost/backend/task/addTask.php",
+                    "http://localhost/backend/Tasks/addTask.php",
                     values,
                     { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
                 );
