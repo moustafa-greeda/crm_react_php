@@ -1,103 +1,71 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import style from '../ٍSidebar/Sidebar.module.css';
-import axios from "axios";
+import style from '../ٍSidebar/Sidebar.module.css'
 
 export default function Sidebar() {
-  const [name, setName] = useState();
-  const [loading, setLoading] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      setLoading(true);
-      axios.get(`http://localhost/backend/fetch_user.php?id=${userId}`)
-        .then((response) => {
-          setName(response.data.name)
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false)
-        });
-    }
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
-  }, []);
   return (
     <div
-      className={`bg-dark text-white position-fixed h-100 d-flex flex-column align-items-center pt-5`}
+      className={`bg-dark text-white position-fixed h-100 d-flex flex-column ${
+        isSidebarOpen ? "sidebar-open" : "sidebar-closed"
+      }`}
       style={{
         width: isSidebarOpen ? "250px" : "70px",
-
+        boxShadow: isSidebarOpen
+          ? "5px 0 10px rgba(112, 206, 35, 0.527)"
+          : "none",
         transition: "width 0.3s ease-in-out",
         borderRadius: "0 20px 20px 0",
-        overflow: "scroll"
+        overflow: "hidden"
       }}
     >
-      <div
-        style={{
-          padding: "10px",
-          boxShadow: "0 4px 6px var(--main-color)",
-          marginBottom: "10px"
-        }}
-      >
-        <h2
-          style={{
-            fontSize: "1.6rem",
-            fontWeight: "bold",
-            letterSpacing: "1px",
-            textAlign: "center"
-          }}
+      <div className="d-flex flex-column align-items-center py-3">
+        <button
+          className="btn btn-light mb-3"
+          onClick={toggleSidebar}
+          style={{ borderRadius: "50%", transition: "all 0.3s ease-in-out" }}
         >
-          Welcome{" "}
-          {loading ? (
-            <div class="spinner-border text-success" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
+          {isSidebarOpen ? (
+            <i className="bi bi-arrow-left"></i>
           ) : (
-            <span style={{ color: "var(--main-color)" }}>{name}</span>
+            <i className="bi bi-list"></i>
           )}
-        </h2>
+        </button>
       </div>
 
-      <ul className="nav flex-column w-100  pt-5 ps-3">
-        <li className="nav-item ">
+      <ul className="nav flex-column w-100">
+        <li className="nav-item mb-3">
           <NavLink
-            to="/Dashboard"
+            to="/dashboard"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
             <i className="bi bi-grid fs-5 me-3"></i>
-            <span>Dashboard</span>
+            {isSidebarOpen && <span>Dashboard</span>}
           </NavLink>
         </li>
-        <li className="nav-item ">
+        <li className="nav-item mb-3">
           <NavLink
             to="/"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-calendar3 fs-5 me-3"></i>
+            <i class="bi bi-calendar3 fs-5 me-3"></i>
             {isSidebarOpen && <span>Calendar</span>}
           </NavLink>
         </li>
 
-        <li className="nav-item ">
+        <li className="nav-item mb-3">
           <NavLink
             to="/users"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-people fs-5 me-3"></i>
-            {isSidebarOpen && <span>Customers</span>}
-          </NavLink>
-        </li>
-        <li className="nav-item ">
-          <NavLink
-            to="/contract"
-            className={`nav-link d-flex align-items-center ${style.links}`}
-          >
             <i class="bi bi-people fs-5 me-3"></i>
-            {/* {isSidebarOpen && <span>contract</span>} */}
-            <span>contract</span>
+            {isSidebarOpen && <span>Customers</span>}
           </NavLink>
         </li>
         <li className="nav-item mb-3">
@@ -105,7 +73,7 @@ export default function Sidebar() {
             to="/messages"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-chat-dots fs-5 me-3"></i>
+            <i class="bi bi-chat-dots fs-5 me-3"></i>
             {isSidebarOpen && <span>Messages</span>}
           </NavLink>
         </li>
@@ -115,15 +83,15 @@ export default function Sidebar() {
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
             <i className="bi bi-clipboard-check fs-5 me-3"></i>
-            <span>Tasks</span>
+            {isSidebarOpen && <span>Tasks</span>}
           </NavLink>
         </li>
-        <li className="nav-item ">
+        <li className="nav-item mb-3">
           <NavLink
             to="/settings"
             className={`nav-link d-flex align-items-center ${style.links}`}
           >
-            <i className="bi bi-gear-fill fs-5 me-3"></i>
+            <i class="bi bi-gear-fill fs-5 me-3"></i>
             {isSidebarOpen && <span>Settings</span>}
           </NavLink>
         </li>

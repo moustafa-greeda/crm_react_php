@@ -2,43 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import NewTask from "./NewTask";
-
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [inputs, setInputs] = useState({});
   const [editUser, setEditUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [contracts, setContracts] = useState([]);
-  const [newContract, setNewContract] = useState({
-    user_id: "",
-    contract_name: "",
-    contract_file: null,
-  });
-  const [isContractModalOpen, setIsContractModalOpen] = useState(false);
-
-  // Add contract
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewContract({ ...newContract, [name]: value });
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const fileType = file.type;
-    const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
-    const validPdfTypes = ["application/pdf"];
-
-    if (
-      validImageTypes.includes(fileType) ||
-      validPdfTypes.includes(fileType)
-    ) {
-      setNewContract({ ...newContract, contract_file: file });
-    } else {
-      alert("Please upload a valid image or PDF file.");
-    }
-  };
 
   // Fetch users from backend
   const getdata = async () => {
@@ -46,40 +14,11 @@ const Users = () => {
       const reqdata = await fetch("http://localhost/backend/fetch_users.php");
       const resdata = await reqdata.json();
       setUsers(resdata);
-
-
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
-  const handleAddContract = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("user_id", newContract.user_id);
-    formData.append("contract_name", newContract.contract_name);
-    formData.append("contract_file", newContract.contract_file);
-
-    try {
-      const response = await axios.post(
-        "http://localhost/backend/contract/add_contract.php",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      if (response.data.success) {
-        setNewContract({ user_id: "", contract_name: "", contract_file: null });
-        setIsContractModalOpen(false);
-      } else {
-        console.error("Error adding contract:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error adding contract:", error);
-    }
-  };
   // Handle form submission for adding or updating user
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -206,13 +145,6 @@ const Users = () => {
         }
       }
     });
-  };
-  const handleAddTask = (userId) => {
-    setLoading((prev)=>({...prev,[userId]:true})); 
-    setTimeout(() => {
-      setOpenDialog({ open: true, userId });
-      setLoading((prev)=>({...prev,[userId]:false})); 
-    }, 1000); 
   };
 
   return (
@@ -370,15 +302,11 @@ const Users = () => {
                     <i className="fa fa-trash"></i> {/* أيقونة الحذف */}
                   </button>
                   <button
-                    type="button"
-                    className="btn btn-secondary"
-                    title="Add Contract"
-                    onClick={() => {
-                      setIsContractModalOpen(true);
-                      setNewContract({ ...newContract, user_id: user.id }); // تعيين user_id للعقد الجديد
-                    }}
+                    className="btn btn-warning ms-2"
+                    title="Add Task" // نص التوضيح عند التمرير على الأيقونة
                   >
-                    <i className="fa fa-edit"></i>
+                    <i className="fas fa-plus fa-1x"></i>{" "}
+                    {/* أيقونة إضافة مع حجم أكبر */}
                   </button>
                 </div>
               </td>
