@@ -12,13 +12,13 @@ export default function Login() {
 
   let validateSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email Required"),
-    password: Yup.string().required("Password is required")
+    password: Yup.string().required("Password is required"),
   });
 
   let formik = useFormik({
     initialValues: {
       email: "",
-      password: ""
+      password: "",
     },
     validationSchema: validateSchema,
     onSubmit: async function Signin(values) {
@@ -29,10 +29,10 @@ export default function Login() {
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(values),
-            mode: "cors" // Explicitly enable CORS
+            mode: "cors", // Explicitly enable CORS
           }
         );
         //   const data = await response.json();
@@ -45,8 +45,6 @@ export default function Login() {
         if (data.success) {
           const userId = data.id;
           const role = data.role;
-          const token = data.token;
-          localStorage.setItem("authToken", token);
 
           localStorage.setItem("userId", userId);
           localStorage.setItem("role", role);
@@ -54,7 +52,7 @@ export default function Login() {
           // localStorage.setItem("token", token);
           toast.success("You are logged In successfully!", {
             position: "top-right",
-            autoClose: 2000
+            autoClose: 2000,
           });
           if (data.role === "admin") {
             navigate("/dashboard");
@@ -67,7 +65,7 @@ export default function Login() {
         } else {
           toast.error(`Login failed: ${data.message} `, {
             position: "top-right",
-            autoClose: 2000
+            autoClose: 2000,
           });
           console.log(
             "User ID from localStorage:",
@@ -77,7 +75,7 @@ export default function Login() {
       } catch (error) {
         console.error("Error during login:", error);
       }
-    }
+    },
   });
 
   return (
@@ -151,7 +149,6 @@ export default function Login() {
                       <u>Click here</u>
                     </Link>
                   </p>
-
                 </form>
               </div>
             </div>

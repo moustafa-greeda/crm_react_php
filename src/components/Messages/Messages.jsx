@@ -16,8 +16,12 @@ const Messages = () => {
   const chatWindowRef = useRef(null);
 
   const userId = localStorage.getItem("userId");
-  const adminId = "78";
+  const adminId = "1";
+  // const activu = localStorage.getItem("activeUser");
+  const role = localStorage.getItem("role");
   const isAdmin = localStorage.getItem("role") === "admin";
+
+  // Clear active user
 
   // Fetch users (Admin only)
   const getUsers = async () => {
@@ -43,6 +47,8 @@ const Messages = () => {
           `http://localhost/backend/Chat/get_messages.php?user_id=${activeUserId}`
         );
         const data = await response.json();
+        // console.log("11");
+        
         setMessages(data);
         scrollToBottom();
       } catch (error) {
@@ -139,6 +145,7 @@ const Messages = () => {
 
   // Handle user selection (Admin only)
   const handleUserSelection = (user) => {
+
     setActiveUser(user);
     localStorage.setItem("activeUser", JSON.stringify(user));
     fetchMessages(user.id);
@@ -159,9 +166,10 @@ const Messages = () => {
   useEffect(() => {
     scrollToBottom();
     getUsers();
-    fetchMessages(userId);
-
-    if (activeUser && activeUser.id !== adminId) {
+    if (role === "user") {
+      fetchMessages(userId);
+    }
+    if (activeUser) {
       fetchMessages(activeUser.id);
     }
 
@@ -169,6 +177,20 @@ const Messages = () => {
       console.error("User not logged in");
       return;
     }
+
+    const handleBeforeUnload = () => {
+      localStorage.clear();
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("role", role);
+      // setActiveUser(activu);
+      localStorage.setItem("activeUser", userId );
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [userId, activeUser]);
 
   // Check if there's no active user or chat selected
