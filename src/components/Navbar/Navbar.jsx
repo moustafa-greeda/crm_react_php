@@ -7,41 +7,36 @@ import Sidebar from "../Sidebar/Sidebar";
 
 export default function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
-  const [marginLeft, setMarginLeft] = useState('70px');
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   useEffect(() => {
     const reSizeNav = () => {
-      if (window.innerWidth >= 768 && isSidebarOpen) {
-        setMarginLeft('250px');
-      } else if (window.innerWidth < 768 && !isSidebarOpen) {
-        setMarginLeft('70px');
-
-      } else {
-        setMarginLeft('70px');
+      if (window.innerWidth <= 768) {
+        setIsSidebarOpen(false);
       }
     };
 
-    // إضافة مستمع للأحداث عند تغيير حجم النافذة
-    window.addEventListener('resize', reSizeNav);
+    // Add event listener
+    window.addEventListener("resize", reSizeNav);
 
-    // استدعاء الدالة مرة واحدة عند التحميل الأولي
-    reSizeNav();
     // Cleanup the event listener when the component is unmounted
     return () => {
       window.removeEventListener("resize", reSizeNav);
     };
-  }, [isSidebarOpen]); // Empty dependency array ensures this effect runs once on mount and cleans up on unmount
+  }, []); // Empty dependency array ensures this effect runs once on mount and cleans up on unmount
 
   const navigate = useNavigate();
 
   const userLogout = () => {
-    localStorage.clear(); // Clear all local storage
+    localStorage.removeItem("role");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
     toast.success("You are logged out successfully!", {
       position: "top-center",
-      autoClose: 2000,
+      autoClose: 2000
     });
     navigate("/");
   };
@@ -51,12 +46,12 @@ export default function Navbar() {
       <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div
-        className="flex-grow-1 navbar-ml"
+        className="flex-grow-1"
         style={{
-          marginLeft: marginLeft,
-          transition: 'margin-left 0.3s ease-in-out',
+          marginLeft: isSidebarOpen ? "250px" : "70px",
+          transition: "margin-left 0.3s ease-in-out",
           maxWidth: "100%",
-          overflowX: "hidden",
+          overflowX: "overflow"
         }}
       >
         <nav className="navbar navbar-expand-lg navbar-light bg-light shadow">
@@ -81,10 +76,10 @@ export default function Navbar() {
               <div className={`ms-auto ${style.buttons}`}>
                 <button
                   onClick={userLogout}
-                  className="btn btn-danger"
+                  className="btn"
                   style={{
                     backgroundColor: "var(--main-color)",
-                    borderRadius: "25px",
+                    borderRadius: "25px"
                   }}
                 >
                   <i className="bi bi-box-arrow-left pe-2 fw-bold"></i> Logout

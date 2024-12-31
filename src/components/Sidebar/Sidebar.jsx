@@ -52,7 +52,6 @@ export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
       }`}
       style={{
         width: isSidebarOpen ? "250px" : "70px",
-        zIndex: isSidebarOpen ? 1000 : 1, // ضبط z-index لجعل الشريط الجانبي يظهر فوق المكونات الأخرى عند فتحه
         boxShadow: isSidebarOpen
           ? "5px 0 10px rgba(112, 206, 35, 0.527)"
           : "none",

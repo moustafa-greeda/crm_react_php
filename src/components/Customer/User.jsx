@@ -232,7 +232,7 @@ const Users = () => {
                   </div>
                   <div className="modal-body">
                     <form onSubmit={handleAddContract}>
-                      <div className="mb-3">
+                      <div className="mb-3 modal-details">
                         <input
                           type="text"
                           className="form-control"
@@ -244,7 +244,7 @@ const Users = () => {
                           hidden
                         />
                       </div>
-                      <div className="mb-3">
+                      <div className="mb-3 modal-details">
                         <label
                           htmlFor="contract-name"
                           className="col-form-label"
@@ -261,7 +261,7 @@ const Users = () => {
                           required
                         />
                       </div>
-                      <div className="mb-3">
+                      <div className="mb-3 modal-details">
                         <label
                           htmlFor="contract-file"
                           className="col-form-label"
@@ -326,7 +326,7 @@ const Users = () => {
                     </div>
                     <div className="modal-body">
                       <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
+                        <div className="mb-3 modal-details">
                           <label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -342,7 +342,7 @@ const Users = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 modal-details">
                           <label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -358,7 +358,7 @@ const Users = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 modal-details">
                           <label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -374,7 +374,7 @@ const Users = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 modal-details">
                           <label
                             htmlFor="recipient-name"
                             className="col-form-label"

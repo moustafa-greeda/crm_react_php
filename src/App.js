@@ -12,7 +12,8 @@ import Messages from "./components/Messages/Messages";
 import Calender from "./components/Calender/Calender";
 import Contracts from "./components/contract/contract";
 import Invoices from "./components/Invoices/Invoice";
-import PageNotFound from "./components/PageNotFound"; // Import the PageNotFound component
+import ForgotPassword from "./components/Auth/Login/ForgetPass";
+import ResetPassword from "./components/Auth/Login/ResetPass";
 
 function App() {
   // الحصول على الدور من الـ localStorage أو السياق (Context)
@@ -44,8 +45,15 @@ function App() {
       path: '/',
       element: <Root />,
       children: [
-        ...commonRoutes, // إضافة الـ routes المشتركة
-        ...(role === "admin" ? adminRoutes : userRoutes) // إضافة الـ routes حسب الدور
+        { path: "/tasks", element: <DragAndDropColumns /> },
+        { path: "/dashboard", element: <Dashboard /> },
+        { path: "/user-dashboard", element: <UserDashboard /> },
+        { path: "/users", element: <Users /> },
+        { path: "/messages", element: <Messages /> },
+        { path: "/settings", element: <Settings /> },
+        { path: "/Calender", element: <Calender /> },
+        { path: "/contract", element: <Contracts /> },
+        { path: "/invoices", element: <Invoices /> },
       ]
     },
     {
@@ -53,13 +61,21 @@ function App() {
       element: <Register />
     },
     {
+      path: "/forgot-password",
+      element: <ForgotPassword />, // Add ForgotPassword route
+    },
+    {
+      path: "/reset-password/:token", // Route with token as a parameter
+      element: <ResetPassword />, // Link to ResetPassword component
+    },
+    {
       index: true,
       element: <Login />,
     },
     {
-      path: "*", // Catch-all route for 404
-      element: <PageNotFound /> // Display the PageNotFound component
-    }
+      path: "*",
+      element: <div className="text-center mt-5"><h1>404: Page Not Found</h1></div>,
+  },
   ]);
 
   return (

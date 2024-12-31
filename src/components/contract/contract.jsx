@@ -131,6 +131,7 @@ const Contracts = () => {
     window.open(fileUrl, "_blank");
   };
 
+
   const handleDeleteContract = async (contractId) => {
     try {
       const response = await axios.delete(
@@ -139,10 +140,10 @@ const Contracts = () => {
       if (response.data.success) {
         fetchContracts();
       } else {
-        console.error("Error deleting contract:", response.data.message);
+        console.error('Error deleting contract:', response.data.message);
       }
     } catch (error) {
-      console.error("Error deleting contract:", error);
+      console.error('Error deleting contract:', error);
     }
   };
 
@@ -181,7 +182,10 @@ const Contracts = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDeleteContract(contract.id)}
+                    onClick={() => {
+                      handleDeleteContract(contract.id);
+                      
+                    }}
                     className="btn btn-danger"
                   >
                     Delete
@@ -221,7 +225,7 @@ const Contracts = () => {
                     editContract ? handleUpdateContract : handleAddContract
                   }
                 >
-                  <div className="mb-3">
+                  <div className="mb-3" hidden>
                     <label
                       htmlFor="contract-user-id"
                       className="col-form-label"
@@ -267,7 +271,13 @@ const Contracts = () => {
                       required={!editContract}
                     />
                   </div>
-                  <button className="btn btn-primary" type="submit">
+                  <button
+                    className="btn btn-primary"
+                    type="submit"
+                    onClick={() => {
+                      setIsContractModalOpen(false);
+                    }}
+                  >
                     {editContract ? "Update Contract" : "Add Contract"}
                   </button>
                 </form>

@@ -18,7 +18,7 @@ export default function Register() {
       .required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     phone: Yup.string()
-      .matches(/^\d{10}$/, "Phone number must be 10 digits")
+      .matches(/^\d{10}$/, "Phone number must be 10 digits, remove 0")
       .required("Phone number is required"),
     password: Yup.string()
       .required("Password is required")
@@ -58,7 +58,7 @@ export default function Register() {
                                 position: "top-right",
                                 autoClose: 2000,
                               }); 
-          navigate("/login");
+          navigate("/");
         } else {
           toast.error(`failed: ${data.message} `, {
                      position: "top-right",
@@ -88,7 +88,7 @@ export default function Register() {
                 Sign up now to keep track of your work.
               </p>
               <form onSubmit={formik.handleSubmit}>
-                <div className="mb-3">
+                <div className="mb-1">
                   <input
                     type="text"
                     name="name"
@@ -102,7 +102,7 @@ export default function Register() {
                     <p className={style.error}>{formik.errors.name}</p>
                   )}
                 </div>
-                <div className="mb-3">
+                <div className="mb-1">
                   <input
                     type="email"
                     name="email"
@@ -116,7 +116,7 @@ export default function Register() {
                     <p className={style.error}>{formik.errors.email}</p>
                   )}
                 </div>
-                <div className="mb-3">
+                <div className="mb-1">
                   <input
                     type="text"
                     name="phone"
@@ -130,7 +130,7 @@ export default function Register() {
                     <p className={style.error}>{formik.errors.phone}</p>
                   )}
                 </div>
-                <div className="mb-3">
+                <div className="mb-1">
                   <input
                     type="password"
                     name="password"
@@ -144,7 +144,7 @@ export default function Register() {
                     <p className={style.error}>{formik.errors.password}</p>
                   )}
                 </div>
-                <div className="mb-3">
+                <div className="mb-1">
                   <input
                     type="password"
                     name="confirmPassword"
@@ -182,4 +182,3 @@ export default function Register() {
     </section>
   );
 }
-

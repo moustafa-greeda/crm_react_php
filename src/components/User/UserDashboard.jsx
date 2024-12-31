@@ -41,41 +41,42 @@ const UserDashboard = () => {
   }, [userId]);
 
   return (
-    <div>
+    <div className="container">
       {error ? (
         <h2 style={{ color: "red" }}>{error}</h2>
       ) : userData ? (
         <>
-          <h1 className="fs-3 mb-2">
-            Welcome{" "}
-            <span className="highlight">{userData.name.split(" ")[0]}!</span>
+          <h1 className="fs-2 my-2">
+            Welcome <span className="user-highlight">{userData.name.split(" ")[0]}!</span>
           </h1>
-          <h2 className="mt-4 fw-bold">Personal Information</h2>
-          <div className="personal-info-container mt-2">
-            <div className="info-item">
-              <i className="fa-solid fa-user icon"></i>
-              <div>
+          <h2 className="mt-4 fw-bold" id="user-info">Personal Information</h2>
+
+          <div className="mt-2 personal-info-container">
+
+            <div className="userdash-info-item">
+              <i className="fa-solid fa-user userdash-icon"></i>
+              <div className="userdash-info">
                 <h4>Name</h4>
                 <p>{userData.name}</p>
               </div>
             </div>
-            <div className="info-item">
-              <i className="fa-solid fa-envelope icon"></i>
-              <div>
+            <div className="userdash-info-item">
+              <i className="fa-solid fa-envelope userdash-icon"></i>
+              <div className="userdash-info">
                 <h4>Email</h4>
                 <p>{userData.email}</p>
               </div>
             </div>
-            <div className="info-item">
-              <i class="fa-solid fa-phone icon"></i>
-              <div>
+            <div className="userdash-info-item">
+              <i class="fa-solid fa-phone userdash-icon"></i>
+              <div className="userdash-info">
                 <h4>Phone Number</h4>
                 <p>+20{userData.phone}</p>
               </div>
             </div>
-            <div className="info-item">
-              <i className="fa-solid fa-globe icon"></i>
-              <div>
+            <div className="userdash-info-item">
+              <i className="fa-solid fa-globe userdash-icon"></i>
+              <div className="userdash-info">
                 <h4>Website</h4>
                 <p>www.website.com</p>
               </div>
@@ -83,11 +84,9 @@ const UserDashboard = () => {
           </div>
 
           <div className="text-center ty my-5">
-            <h3>Thank you for choosing ZBOOMA</h3>
-            <p>
-              Our company is a leading company in the field of networks, web and
-              mobile applications with modern programming techniques
-            </p>
+            <h3>Thank you for choosing ZBOOMA!</h3>
+            <p>Our company is a leading company in the field of networks, web and mobile applications with modern programming techniques</p>
+
           </div>
 
           {/* slider */}
@@ -125,68 +124,36 @@ const UserDashboard = () => {
               ></button>
             </div>
             <div className="carousel-inner">
-              <div className="carousel-item active" data-bs-interval="5000">
-                <div className="carousel-image-overlay">
-                  <img
-                    src="/pexels-3.jpg"
-                    className="d-block w-100"
-                    alt="..."
-                  />
-                  <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white">
-                    <h5>Quality</h5>
-                    <p>
-                      We aim to deliver high-quality products. Hence. we take
-                      care of everything at the granular level.
-                    </p>
-                  </div>
+              <div className="carousel-item position-relative active" data-bs-interval="5000">
+                <img src="/pexels-3.jpg" className="d-block w-100 carousel-image" alt="..." />
+                <div className="carousel-overlay"></div>
+                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white carousel-caption-text">
+                  <h5>Quality</h5>
+                  <p>We aim to deliver high-quality products. Hence. we take care of everything at the granular level.</p>
                 </div>
               </div>
-              <div className="carousel-item" data-bs-interval="5000">
-                <div className="carousel-image-overlay">
-                  <img
-                    src="/pexels-2.jpg"
-                    className="d-block w-100"
-                    alt="..."
-                  />
-                  <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white">
-                    <h5>Reliabilty</h5>
-                    <p>
-                      Our teams are made up of highly-skilled and certified
-                      engineers with industry- specific domain knowledge
-                    </p>
-                  </div>
+              <div className="carousel-item position-relative" data-bs-interval="5000">
+                <img src="/pexels-2.jpg" className="d-block w-100 carousel-image" alt="..." />
+                <div className="carousel-overlay"></div>
+                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white carousel-caption-text">
+                  <h5>Reliability</h5>
+                  <p>Our teams are made up of highly skilled and certified engineers with industry-specific domain knowledge.</p>
                 </div>
               </div>
-              <div className="carousel-item" data-bs-interval="5000">
-                <div className="carousel-image-overlay">
-                  <img
-                    src="/pexels-1.jpg"
-                    className="d-block w-100"
-                    alt="..."
-                  />
-                  <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white">
-                    <h5>Flexibilty</h5>
-                    <p>
-                      Our team keeps the requirements of our clients on priority
-                      & the development process transparent
-                    </p>
-                  </div>
+              <div className="carousel-item position-relative" data-bs-interval="5000">
+                <img src="/pexels-1.jpg" className="d-block w-100 carousel-image" alt="..." />
+                <div className="carousel-overlay"></div>
+                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white carousel-caption-text">
+                  <h5>Flexibility</h5>
+                  <p>Our team keeps the requirements of our clients on priority & the development process transparent.</p>
                 </div>
               </div>
-              <div className="carousel-item" data-bs-interval="5000">
-                <div className="carousel-image-overlay">
-                  <img
-                    src="/pexels-5.jpg"
-                    className="d-block w-100"
-                    alt="..."
-                  />
-                  <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white">
-                    <h5>Competence</h5>
-                    <p>
-                      Our team consists of expert developers who have knowledge
-                      of domain expertise for all business industries.
-                    </p>
-                  </div>
+              <div className="carousel-item position-relative" data-bs-interval="5000">
+                <img src="/pexels-5.jpg" className="d-block w-100 carousel-image" alt="..." />
+                <div className="carousel-overlay"></div>
+                <div className="carousel-caption d-flex flex-column justify-content-center align-items-center text-white carousel-caption-text">
+                  <h5>Competence</h5>
+                  <p>Our team consists of expert developers who have domain expertise for all business industries.</p>
                 </div>
               </div>
             </div>
@@ -218,10 +185,8 @@ const UserDashboard = () => {
 
           <div className="contact">
             <div className="container">
-              <div className="main-title text-center fs-2 py-4 mt-5">
-                <h3 className="">
-                  NEED HELP? <span className="highlight">CONTACT US</span>
-                </h3>
+              <div className="main-title text-center py-2 mt-5 mb-1">
+                <h3 className="fs-2">NEED HELP? <span className="user-highlight">CONTACT US</span></h3>
               </div>
               <div>
                 <iframe
@@ -236,72 +201,66 @@ const UserDashboard = () => {
                 />
               </div>
 
-              <div className="contact-info">
+              <div className="">
                 <div className="row g-4">
                   <div className="col-md-6">
-                    <div className="contact-item">
-                      <div className="icon">
+                    <div className="dashuser-contact-item">
+                      <div className="dashuser-icon">
                         <i className="fa-regular fa-map"></i>
                       </div>
 
-                      <div className="content">
-                        <h3 className="fw-bold fs-5">Our Address</h3>
-                        <p>
-                          Mansoura Qism 2, El Mansoura 1, Dakahlia Governorate
-                        </p>
+                      <div className="dashuser-content">
+                        <h3 className="fw-bold fs-5 m-0 p-0">Our Address</h3>
+                        <p className="m-0 p-0">Mansoura Qism 2, El Mansoura 1, Dakahlia Governorate</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="col-md-6">
-                    <div className="contact-item">
-                      <div className="icon">
+                    <div className="dashuser-contact-item">
+                      <div className="dashuser-icon">
                         <i className="fa-regular fa-envelope"></i>
                       </div>
 
-                      <div className="content">
-                        <h3 className="fw-bold fs-5">Email Us</h3>
-                        <a href="mailto:contact@example.com">
-                          zbooma@gmail.com
-                        </a>
+                      <div className="dashuser-content">
+                        <h3 className="fw-bold fs-5 m-0 p-0">Email Us</h3>
+                        <a href="mailto:contact@example.com">zbooma@gmail.com</a>
                       </div>
                     </div>
                   </div>
 
                   <div className="col-md-6">
-                    <div className="contact-item">
-                      <div className="icon">
+                    <div className="dashuser-contact-item">
+                      <div className="dashuser-icon">
                         <i className="fa-solid fa-phone"></i>
                       </div>
-                      <div className="content">
-                        <h3 className="fw-bold fs-5">Call Us</h3>
-                        <p>+201012345678</p>
+                      <div className="dashuser-content">
+                        <h3 className="fw-bold fs-5 p-0 m-0">Call Us</h3>
+                        <p className="p-0 m-0">+201012345678</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="col-md-6">
-                    <div className="contact-item">
-                      <div className="icon">
+                    <div className="dashuser-contact-item">
+                      <div className="dashuser-icon">
                         <i className="fa-solid fa-share-nodes"></i>
                       </div>
 
-                      <div className="content">
-                        <h3 className="fw-bold fs-5">Opening Hours</h3>
-                        <p>Sat-Thurs: 9AM - 5PM</p>
-                        <p>Friday: Closed</p>
+                      <div className="dashuser-content">
+                        <h3 className="fw-bold fs-5 p-0 m-0">Opening Hours</h3>
+                        <p className="p-0 m-0">Sat-Thurs: 9AM - 5PM, Friday: Closed</p>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
 
-              <div className="website d-flex mt-4 gap-3 align-items-center justify-content-center">
-                <p className="fs-5">Need more guidance?</p>
-                <button className="btn btnn">
-                  <a href="https://zbooma.com/" target="_blank">
-                    Visit Our Website
-                  </a>
+              <div className="d-flex mt-5 gap-3 align-items-center justify-content-center text-center">
+                <p className="fs-5 fw-bold translate-middle-y">Need more guidance?</p>
+                <button className="dashuser-btn translate-middle tw-ms-16">
+                  <a href="https://zbooma.com/" target="_blank">Visit Our Website</a>
                 </button>
               </div>
             </div>

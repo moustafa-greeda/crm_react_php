@@ -10,10 +10,9 @@ import axios from "axios";
 export default function Login() {
   let navigate = useNavigate();
 
-  // Validation schema using Yup
   let validateSchema = Yup.object({
-    email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string().required("password is required")
+    email: Yup.string().email("Invalid email").required("Email Required"),
+    password: Yup.string().required("Password is required")
   });
 
   let formik = useFormik({
@@ -46,11 +45,13 @@ export default function Login() {
         if (data.success) {
           const userId = data.id;
           const role = data.role;
-
+          const token = data.token;
+          localStorage.setItem("authToken", token);
 
           localStorage.setItem("userId", userId);
           localStorage.setItem("role", role);
           localStorage.setItem("activeUser", JSON.stringify(data.id));
+          // localStorage.setItem("token", token);
           toast.success("You are logged In successfully!", {
             position: "top-right",
             autoClose: 2000
@@ -87,7 +88,7 @@ export default function Login() {
         <img src={img} alt="" className={`${style.logo} d-flex `} />
         <div className="container">
           <div className="row justify-content-center align-items-center">
-            <div className="col-md-6">
+            <div className=" col-md-6">
               <div className={`p-4 ${style.box}`}>
                 <h1 className="text-center fw-bold">Login</h1>
                 <p className="text-center">Enter Your email and password</p>
@@ -105,11 +106,13 @@ export default function Login() {
                     />
                   </div>
 
-                  {formik.errors.email && formik.touched.email && (
+                  {formik.errors.email && formik.touched.email ? (
                     <p className={`${style.error}`}>{formik.errors.email}</p>
+                  ) : (
+                    ""
                   )}
 
-                  <div className="mb-3">
+                  <div className="mb-2">
                     <input
                       type="password"
                       id="Password"
@@ -122,8 +125,10 @@ export default function Login() {
                     />
                   </div>
 
-                  {formik.errors.password && formik.touched.password && (
+                  {formik.errors.password && formik.touched.password ? (
                     <p className={`${style.error}`}>{formik.errors.password}</p>
+                  ) : (
+                    ""
                   )}
 
                   <button
@@ -140,6 +145,13 @@ export default function Login() {
                       <u>Sign Up here</u>
                     </Link>
                   </p>
+                  <p className="text-center fw-bold text-muted mt-2 mb-0">
+                    Forgot your password?{" "}
+                    <Link to="/forgot-password" className="fw-bold text-dark ">
+                      <u>Click here</u>
+                    </Link>
+                  </p>
+
                 </form>
               </div>
             </div>

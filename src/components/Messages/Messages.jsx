@@ -3,6 +3,7 @@ import moment from "moment";
 import NoChatSelected from "./NoChatSelected";
 import "./Messages.css";
 import "font-awesome/css/font-awesome.min.css";
+import { Users } from "lucide-react";
 
 const Messages = () => {
   const [users, setUsers] = useState([]);
@@ -15,7 +16,7 @@ const Messages = () => {
   const chatWindowRef = useRef(null);
 
   const userId = localStorage.getItem("userId");
-  const adminId = "1";
+  const adminId = "78";
   const isAdmin = localStorage.getItem("role") === "admin";
 
   // Fetch users (Admin only)
@@ -74,54 +75,55 @@ const Messages = () => {
   };
 
   // Send a new message
-  const handleSendMessage = async () => {
-    if (newMessage.trim() === "" && !file) return;
 
+  // إرسال رسالة
+  const handleSendMessage = async () => {
+    if (newMessage.trim() === "") {
+      console.error("Message cannot be empty.");
+      return;
+    }
+
+    const senderId = userId;
     const receiverId = isAdmin ? activeUser?.id : adminId;
 
-    if (receiverId === userId) {
-      console.error("Sender and receiver cannot be the same.");
+    if (!senderId || !receiverId) {
+      console.error("Sender or receiver ID is missing.");
       return;
     }
 
     const newMessageObject = {
-      sender_id: userId,
+      sender_id: senderId,
       receiver_id: receiverId,
       message: newMessage,
       created_at: new Date().toISOString(),
       message_id: Date.now(),
-      is_deleted: false,
-      file: file ? file.name : null // Include file name in the message object
     };
 
-    // Update UI immediately for better user experience
     setMessages((prevMessages) => [...prevMessages, newMessageObject]);
     setNewMessage("");
-    setFile(null); // Reset the file input
     scrollToBottom();
 
-    // Create FormData to send file and message
-    const formData = new FormData();
-    formData.append("sender_id", userId);
-    formData.append("receiver_id", receiverId);
-    formData.append("message", newMessage);
-    if (file) formData.append("file", file);
-
-    // Send to the backend
     try {
       const response = await fetch(
         "http://localhost/backend/Chat/send_message.php",
         {
           method: "POST",
-          body: formData
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sender_id: senderId,
+            receiver_id: receiverId,
+            message: newMessage,
+          }),
         }
       );
 
       const data = await response.json();
+
       if (data.status === "success") {
-        fetchMessages(activeUser.id);
+        console.log("Message sent successfully.");
+        fetchMessages(activeUser?.id);
       } else {
-        console.error("Failed to send message:", data);
+        console.error("Failed to send message:", data.message);
       }
     } catch (error) {
       console.error("Error sending message:", error);
@@ -159,14 +161,13 @@ const Messages = () => {
     getUsers();
     fetchMessages(userId);
 
+    if (activeUser && activeUser.id !== adminId) {
+      fetchMessages(activeUser.id);
+    }
+
     if (!userId) {
       console.error("User not logged in");
       return;
-    }
-
-    // Only fetch messages for activeUser if they are not the admin (ID: 78)
-    if (activeUser && activeUser.id !== adminId) {
-      fetchMessages(activeUser.id);
     }
   }, [userId, activeUser]);
 
@@ -203,7 +204,7 @@ const Messages = () => {
       )}
 
       <div className="chat-window">
-        {isNoChatSelected ? (
+        {isNoChatSelected && isAdmin ? (
           <NoChatSelected />
         ) : (
           <>
