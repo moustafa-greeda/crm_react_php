@@ -93,12 +93,13 @@ function Dashboard() {
   }) : [];
 
   return (
-    <Box sx={{ padding: "20px" }}>
-      <Typography variant="h4" gutterBottom>
+    <Box sx={{ padding: "20px", backgroundColor: "#F8F9FA" }}>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight:"bold"  }}>
         Dashboard
       </Typography>
       {loading ? (
         <CircularProgress />
+      
       ) : (
         <Grid container spacing={3}>
           {/* New Users و Today's Events */}
@@ -106,7 +107,7 @@ function Dashboard() {
             <Grid item xs={12} md={6}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6" sx={{ color: "blue" }}>
+                  <Typography variant="h5" sx={{ color: "var(--main-color)" }}>
                     New Users
                   </Typography>
                   <Typography variant="h5">{users.length}</Typography>
@@ -115,13 +116,13 @@ function Dashboard() {
             </Grid>
             <Grid item xs={12} md={6}>
               <Paper sx={{ padding: "16px" }}>
-                <Typography variant="h6" gutterBottom sx={{ color: "blue" }}>
+                <Typography variant="h5" gutterBottom sx={{ color: "var(--main-color)" }}>
                   Today's Events
                 </Typography>
                 {todayEvents.length > 0 ? (
                   todayEvents.map((event, index) => (
                     <Box key={index} sx={{ marginBottom: "10px" }}>
-                      <Typography variant="body1" sx={{ color: "blue" }}>
+                      <Typography variant="body1" sx={{ color: "var(--main-color)" }}>
                         {event.event_name}
                       </Typography>
                       <Typography variant="body2">
@@ -139,7 +140,7 @@ function Dashboard() {
           {/* المهام */}
           <Grid container item spacing={3} xs={12}>
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h5" gutterBottom sx={{fontWeight:"bold"}}>
                 Tasks
               </Typography>
             </Grid>
@@ -147,7 +148,7 @@ function Dashboard() {
               <Grid key={index} item xs={12} md={4}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6" sx={{ color: "blue" }}>
+                    <Typography variant="h5" sx={{ color: "var(--main-color)" }}>
                       {status}
                     </Typography>
                     <Typography variant="h5">{getTaskStats(status)}</Typography>
@@ -160,7 +161,7 @@ function Dashboard() {
           {/* رسم بياني */}
           <Grid item xs={12}>
             <Paper sx={{ padding: "16px" }}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h5" gutterBottom sx={{fontWeight:"bold"}}>
                 Tasks Progress (Monthly)
               </Typography>
               <Line data={chartData} />

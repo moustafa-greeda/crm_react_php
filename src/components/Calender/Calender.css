@@ -1,89 +1,90 @@
+/* General Calendar Container */
 .calender-container {
-  font-family: Arial, sans-serif;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
+  font-family: "Roboto", Arial, sans-serif;
+  margin: 20px auto;
+  max-width: 1200px;
+  color: #333;
 }
-/* Calendar Main Styling */
+
 .calendar {
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background: #fff;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .calendar header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
-.calendar h1 {
-  font-size: 1.5rem;
-  color: #333;
+
+.calendar header h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #101011;
 }
-.add-btn {
-  background-color: #4caf50;
-  color: #fff;
+
+.calendar header button {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  background-color: #4CAF50; /* اللون الأخضر */
   border: none;
-  padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-.add-btn:hover {
-  background-color: #45a049;
+
+.calendar header button:hover {
+  background-color: #388E3C; /* تغيير اللون عند التمرير */
 }
-/* Calendar Grid Styling */
+
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  width: 100%;
+  gap: 10px;
 }
-.day:hover {
-  background-color: #f1f1f1;
-}
-/* إضافة تنسيق للـ day في التقويم */
-/* تخصيص اللون لعرض اليوم */
+
 .day {
+  padding: 15px;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  background-color: #f8f9fa;
   position: relative;
-  padding: 10px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
-  margin: 5px;
   min-height: 100px;
-}
-.day-number {
-  font-size: 18px;
-  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   text-align: center;
-  color: #333;
+}
+
+.day-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0d0e0e; /* اللون الداكن */
   margin-bottom: 10px;
 }
+
 .events {
-  margin-top: 10px;
+  margin-top: 5px;
 }
-/* تخصيص لون الحدث */
+
 .event {
-  padding: 5px;
-  color: #333;
-  background-color: #dceafc;
-  border: 1px solid #90caf9; /* لون حدود الحدث */
+  background-color: #28a745; /* اللون الأخضر */
+  color: white;
+  padding: 5px 10px;
   margin-bottom: 5px;
-  border-radius: 4px;
-}
-.event-name {
-  color: #6a7e7c; /* لون اسم الحدث */
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-.event-details {
-  color: #5f6368; /* لون وقت البداية والنهاية */
+  border-radius: 3px;
   font-size: 12px;
+  text-align: left;
 }
-/* تخصيص ألوان للمواعيد */
- .start-time, .end-time {
+
+.event-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.start-time, .end-time {
   display: inline-block;
   margin-right: 5px;
 }
@@ -179,21 +180,6 @@
 .h5{
   text-align: center;
 }
-/* تنسيق الأزرار الخاصة بـ Next و Prev */
-button.btn-light {
-  background-color: #f8f9fa;
-  color: #c9ef97;
-  border: 1px solid #c9ef97;
-}
-button.btn-light:hover {
-  background-color: #c9ef97;
-  color: white;
-}
-/* محاذاة الأزرار */
-button + button {
-  margin-left: 10px;
-}
-
 select {
   background-color: #f8f9fa; /* لون خلفية فاتح */
   color: #212529; /* لون النص داكن */
@@ -205,190 +191,35 @@ select {
 }
 
 select option {
-  background-color: #ffffff; 
-  color: #212529;
+  background-color: #ffffff; /* لون خلفية الخيارات */
+  color: #212529; /* لون النص */
 }
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-/* Calender.css */
 
-/* Container styling */
-/* .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 15px;
-} */
-
-/* Calendar styling */
-.calendar {
-  text-align: center;
+/* Active Day in Calendar */
+.react-calendar__tile--active {
+  background-color: #28a745; /* اللون الأخضر */
+  color: white;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-header h1 {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* Calendar grid for days */
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-}
-
-.day {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  position: relative;
-}
-
-.day-number {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.events {
-  margin-top: 10px;
-}
-
-.event {
-  background-color: #f0f0f0;
-  padding: 5px;
-  border-radius: 4px;
-  margin-bottom: 5px;
-}
-
-.event-name {
-  font-weight: bold;
-}
-
-.event-details {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-}
-
-.event-details .start-time,
-.event-details .end-time {
-  color: #555;
-}
-
-/* Modal styles */
-.modal-dialog {
-  max-width: 500px;
-}
-
-.modal-content {
-  padding: 20px;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-}
-
-textarea {
-  resize: vertical;
-}
-
-/* Make the calendar responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
+  .modal-details {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .modal-details label {
+    margin-bottom: 5px;
+    text-align: left;
+  }
+
+  .calendar header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .calendar-grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns for tablets and mobile */
-  }
-
-  header {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .day-number {
-    font-size: 16px;
-  }
-
-  .events {
-    margin-top: 5px;
-  }
-
-  .event-name {
-    font-size: 14px;
-  }
-
-  .event-details {
-    font-size: 12px;
-  }
-
-  .modal-dialog {
-    width: 100%;
-  }
-
-  .modal-header, .modal-footer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .modal-footer {
-    margin-top: 15px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
-
-@media (max-width: 400px) {
-  .btns{
-    display: flex;
-  }
-  .btn btn-light{
-    justify-content: space-between;
-    align-items: center;
-  }
-  .calendar-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for small mobile screens */
-  }
-
-  header h1 {
-    font-size: 20px;
-  }
-
-  .button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-
-  .modal-header h5 {
-    font-size: 16px;
-  }
-
-  input, select, textarea {
-    padding: 6px;
-  }
-}
-
-

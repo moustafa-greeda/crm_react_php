@@ -16,8 +16,12 @@ const Messages = () => {
   const chatWindowRef = useRef(null);
 
   const userId = localStorage.getItem("userId");
-  const adminId = "78";
+  const adminId = "109";
+  // const activu = localStorage.getItem("activeUser");
+  const role = localStorage.getItem("role");
   const isAdmin = localStorage.getItem("role") === "admin";
+
+  // Clear active user
 
   // Fetch users (Admin only)
   const getUsers = async () => {
@@ -43,6 +47,8 @@ const Messages = () => {
           `http://localhost/backend/Chat/get_messages.php?user_id=${activeUserId}`
         );
         const data = await response.json();
+        // console.log("11");
+        
         setMessages(data);
         scrollToBottom();
       } catch (error) {
@@ -75,54 +81,55 @@ const Messages = () => {
   };
 
   // Send a new message
-  const handleSendMessage = async () => {
-    if (newMessage.trim() === "" && !file) return;
 
+  // إرسال رسالة
+  const handleSendMessage = async () => {
+    if (newMessage.trim() === "") {
+      console.error("Message cannot be empty.");
+      return;
+    }
+
+    const senderId = userId;
     const receiverId = isAdmin ? activeUser?.id : adminId;
 
-    if (receiverId === userId) {
-      console.error("Sender and receiver cannot be the same.");
+    if (!senderId || !receiverId) {
+      console.error("Sender or receiver ID is missing.");
       return;
     }
 
     const newMessageObject = {
-      sender_id: userId,
+      sender_id: senderId,
       receiver_id: receiverId,
       message: newMessage,
       created_at: new Date().toISOString(),
       message_id: Date.now(),
-      is_deleted: false,
-      file: file ? file.name : null // Include file name in the message object
     };
 
-    // Update UI immediately for better user experience
     setMessages((prevMessages) => [...prevMessages, newMessageObject]);
     setNewMessage("");
-    setFile(null); // Reset the file input
     scrollToBottom();
 
-    // Create FormData to send file and message
-    const formData = new FormData();
-    formData.append("sender_id", userId);
-    formData.append("receiver_id", receiverId);
-    formData.append("message", newMessage);
-    if (file) formData.append("file", file);
-
-    // Send to the backend
     try {
       const response = await fetch(
         "http://localhost/backend/Chat/send_message.php",
         {
           method: "POST",
-          body: formData
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sender_id: senderId,
+            receiver_id: receiverId,
+            message: newMessage,
+          }),
         }
       );
 
       const data = await response.json();
+
       if (data.status === "success") {
-        fetchMessages(activeUser.id);
+        console.log("Message sent successfully.");
+        fetchMessages(activeUser?.id);
       } else {
-        console.error("Failed to send message:", data);
+        console.error("Failed to send message:", data.message);
       }
     } catch (error) {
       console.error("Error sending message:", error);
@@ -138,6 +145,7 @@ const Messages = () => {
 
   // Handle user selection (Admin only)
   const handleUserSelection = (user) => {
+
     setActiveUser(user);
     localStorage.setItem("activeUser", JSON.stringify(user));
     fetchMessages(user.id);
@@ -158,17 +166,31 @@ const Messages = () => {
   useEffect(() => {
     scrollToBottom();
     getUsers();
-    fetchMessages(userId);
+    if (role === "user") {
+      fetchMessages(userId);
+    }
+    if (activeUser) {
+      fetchMessages(activeUser.id);
+    }
 
     if (!userId) {
       console.error("User not logged in");
       return;
     }
 
-    // Only fetch messages for activeUser if they are not the admin (ID: 78)
-    if (activeUser && activeUser.id !== adminId) {
-      fetchMessages(activeUser.id);
-    }
+    const handleBeforeUnload = () => {
+      localStorage.clear();
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("role", role);
+      // setActiveUser(activu);
+      localStorage.setItem("activeUser", userId );
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [userId, activeUser]);
 
   // Check if there's no active user or chat selected
@@ -179,10 +201,7 @@ const Messages = () => {
     <div className="messages-container">
       {isAdmin && (
         <div className="message-list">
-          <div className="tw-flex tw-items-center tw-gap-2 mb-3">
-            <Users className='tw-size-6' />
-            <h3 className="tw-font-semibold">Conversations</h3>
-          </div>
+          <h3>Conversations</h3>
           {users.length > 0 ? (
             users.map((user) => (
               <div
@@ -207,7 +226,7 @@ const Messages = () => {
       )}
 
       <div className="chat-window">
-        {isNoChatSelected ? (
+        {isNoChatSelected && isAdmin ? (
           <NoChatSelected />
         ) : (
           <>
@@ -222,9 +241,7 @@ const Messages = () => {
                 messages.map((msg) => {
                   const isUserMessage =
                     msg.sender_id.toString() === userId.toString();
-                 
-                    return (
-                    
+                  return (
                     <div
                       key={msg.message_id}
                       className={`message-bubble ${
@@ -252,7 +269,6 @@ const Messages = () => {
                         </button>
                       )}
                     </div>
-
                   );
                 })
               ) : (

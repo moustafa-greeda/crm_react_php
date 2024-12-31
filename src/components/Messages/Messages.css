@@ -3,7 +3,7 @@
   --text-light: #aaa; /* النصوص الخفيفة */
   --border-color: #ddd; /* اللون الرمادي للحدود */
   --message-left-bg: #e5e5e5; /* خلفية الرسائل المرسلة من الشخص الآخر */
-  --message-right-bg: #25d366; /* خلفية الرسائل المرسلة من المستخدم */
+  --message-right-bg: var(--main-color); /* خلفية الرسائل المرسلة من المستخدم */
   --message-text-color: white; /* لون النص في الرسائل المرسلة */
   --message-time-color: #999; /* لون وقت الرسالة */
   --button-hover: #128c7e; /* اللون عند التمرير فوق الأزرار */

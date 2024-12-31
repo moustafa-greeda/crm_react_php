@@ -1,4 +1,3 @@
-// filepath: /c:/Users/kelenton/Desktop/cmr/crm_react_php/src/components/contract/contract.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -42,7 +41,6 @@ const Contracts = () => {
 
   const getUserName = (userId) => {
     const user = users.find((user) => user.id === userId);
-
     return user ? user.name : "Unknown";
   };
 
@@ -147,51 +145,53 @@ const Contracts = () => {
   };
 
   return (
-    <div>
+    <div className="container mt-4" >
       <h2>Contracts</h2>
 
       <h3>Existing Contracts</h3>
-      <table className="table table-bordered text-center">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Contract Name</th>
-            <th scope="col">Customer Name</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {contracts.map((contract, index) => (
-            <tr key={contract.id}>
-              <th scope="row">{index + 1}</th>
-              <td>{contract.contract_name}</td>
-              <td>{getUserName(contract.user_id)}</td>
-              <td>
-                <div className="d-flex justify-content-center">
-                  <button
-                    onClick={() => handleDownloadFile(contract.contract_file)}
-                    className="btn btn-secondary me-2"
-                  >
-                    Open File
-                  </button>
-                  <button
-                    onClick={() => handleEditContract(contract)}
-                    className="btn btn-primary me-2"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeleteContract(contract.id)}
-                    className="btn btn-danger"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
+      <div className="table-responsive">
+        <table className="table table-bordered text-center">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Contract Name</th>
+              <th scope="col">Customer Name</th>
+              <th scope="col">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {contracts.map((contract, index) => (
+              <tr key={contract.id}>
+                <th scope="row">{index + 1}</th>
+                <td>{contract.contract_name}</td>
+                <td>{getUserName(contract.user_id)}</td>
+                <td>
+                  <div className="d-flex justify-content-center flex-wrap">
+                    <button
+                      onClick={() => handleDownloadFile(contract.contract_file)}
+                      className="btn btn-secondary me-2 mb-2"
+                    >
+                      Open File
+                    </button>
+                    <button
+                      onClick={() => handleEditContract(contract)}
+                      className="btn btn-primary me-2 mb-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteContract(contract.id)}
+                      className="btn btn-danger mb-2"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {isContractModalOpen && (
         <div
@@ -200,7 +200,7 @@ const Contracts = () => {
           aria-labelledby="contractModalLabel"
           aria-hidden="false"
         >
-          <div className="modal-dialog">
+          <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="contractModalLabel">
@@ -224,7 +224,7 @@ const Contracts = () => {
                   <div className="mb-3">
                     <label
                       htmlFor="contract-user-id"
-                      className="col-form-label"
+                      className="form-label"
                     >
                       User ID:
                     </label>
@@ -240,7 +240,7 @@ const Contracts = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="contract-name" className="col-form-label">
+                    <label htmlFor="contract-name" className="form-label">
                       Contract Name:
                     </label>
                     <input
@@ -254,7 +254,7 @@ const Contracts = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="contract-file" className="col-form-label">
+                    <label htmlFor="contract-file" className="form-label">
                       Contract File:
                     </label>
                     <input
@@ -267,7 +267,7 @@ const Contracts = () => {
                       required={!editContract}
                     />
                   </div>
-                  <button className="btn btn-primary" type="submit">
+                  <button className="btn btn-primary w-100" type="submit">
                     {editContract ? "Update Contract" : "Add Contract"}
                   </button>
                 </form>
@@ -275,7 +275,7 @@ const Contracts = () => {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-secondary w-100"
                   onClick={() => {
                     setIsContractModalOpen(false);
                     setEditContract(null);

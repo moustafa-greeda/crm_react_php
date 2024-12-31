@@ -47,3 +47,16 @@ color: #000000;
 #typePasswordX::placeholder {
 color: #000000;
 }
+
+
+@media (max-width:700px) {
+  table {
+    display: block;
+    max-width: fit-content;
+    margin: 0 auto;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  }
+  
+  

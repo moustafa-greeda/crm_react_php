@@ -299,6 +299,7 @@ const Users = () => {
             <button
               type="button"
               className="btn btn-primary"
+              style={{ backgroundColor: 'var(--main-color)'}}
               onClick={() => setIsModalOpen(true)}
             >
               Add User
